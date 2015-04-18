@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:faces="http://www.springframework.org/schema/faces"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/faces http://www.springframework.org/schema/faces/spring-faces-2.4.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- Kontekst kontekstu głównego servletu -->
+
+	<import resource="webflow.xml" />
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<!-- Skanowanie po projekcie za benami oznaczonymi adnotacjami -->
+	<context:component-scan base-package="systemy.bankowe.controllers"/>
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<!-- Lokalizacja zasobów (arkuszów stylów, skryptów js itd). -->
+	<mvc:resources location="/" mapping="/resources/**" />
+
+	<!-- Mapuje nazwy na id przepływów: np.	/hotels/booking looks => przepływ o id "hotels/booking"	-->
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+		<property name="flowRegistry" ref="flowRegistry" />
+	</bean>
+
+	<!-- Katalog z widokami dla kontrolerów spring MVC oraz domyślny suffix widoków. -->
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.faces.mvc.JsfView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".xhtml" />
+	</bean>
+
+	<bean class="org.springframework.faces.webflow.JsfFlowHandlerAdapter">
+		<property name="flowExecutor" ref="flowExecutor" />
+	</bean>
+	
+	<!-- 
+		Enable processing of JSF 2 resource requests. For example:
+		/webflow-primefaces-showcase/app/javax.faces.resource/jsf.js?ln=javax.faces
+	-->
+	<faces:resources />
+</beans>

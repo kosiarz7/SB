@@ -1,0 +1,132 @@
+/* Style szablonu */
+
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+	font-family: Arial, sans-serif;
+	background-color: white;
+}
+
+#page {
+	padding-top: 10px;
+}
+
+#header, .bkgColor {
+	background-color: #007A29;
+}
+
+#header {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	color: white;
+}
+
+#header-content {
+	position: relative;
+	height: 128px;
+}
+
+#title {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+#userData {
+	position: absolute;
+	right: 0;
+}
+
+#logout-icon {
+	border: 0; 
+	vertical-align: middle;
+	padding-left: 15px;
+}
+
+#pageSeparator {
+	height: 2px; 
+	width: 100%;
+	background-color: #F87171;
+}
+
+
+#mainMenu {
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 20px;
+}
+
+#mainMenu li {
+	display: inline;
+	padding: 5px;
+	font-size: 22px;
+}
+
+#mainMenu li a {
+	text-decoration: none;
+	color: #666666;
+}
+
+/* Kontener opakowujący jakąkolwiek zawartość na stronie. Wyznacza użytkowy obszar oraz wypośrodkowuje treść. */
+div.content {
+	width: 1000px;
+	margin: auto;
+	height: auto;
+}
+
+/* Pozostałe style */
+
+/* Czcionka */
+.font18p {
+	font-size: 18px !important;
+}
+
+.font20p {
+	font-size: 20px !important;
+}
+
+.font22p {
+	font-size: 22px !important;
+}
+
+.font24p {
+	font-size: 24px !important;
+}
+
+.font26p {
+	font-size: 26px !important;
+}
+
+.font28p {
+	font-size: 28px !important;
+}
+
+.font32p {
+	font-size: 32px !important;
+}
+
+.font36p {
+	font-size: 36px !important;
+}
+
+.font40p {
+	font-size: 40px !important;
+}
+
+.font44p {
+	font-size: 44px !important;
+}
+
+.font48p {
+	font-size: 48px !important;
+}
+
+.font54p {
+	font-size: 54px !important;
+}
+
+.wideSpacing {
+	letter-spacing: 2px;
+}

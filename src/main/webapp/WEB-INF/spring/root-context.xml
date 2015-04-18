@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security.xsd">
+    
+    <!-- Konfiguracja Spring Security -->
+	<security:http auto-config="true">
+		<security:form-login login-page="/app/login" login-processing-url="/app/j_spring_security_check" 
+			default-target-url="/app/mainWindow" always-use-default-target="true" 
+			authentication-failure-url="/app/login?login_error=1" 
+			username-parameter="username" password-parameter="password"/>
+		<security:logout logout-url="/app/logout" logout-success-url="/app/login"/>
+	</security:http>
+	
+	<security:authentication-manager>
+		<security:authentication-provider ref="authenticationProvider" />
+	</security:authentication-manager>
+	
+	<bean id="authenticationProvider" class="systemy.bankowe.security.CustomAuthenticationProvider">
+		<property name="encryptor">
+			<bean class="systemy.bankowe.services.encrypt.SHA512Encryptor"/>
+		</property>
+		<property name="userService" ref="userService"/>
+	</bean>
+
+	<!-- Pozostałe beany -->
+	
+	<!-- Fabryka sesji Hibernate -->
+	<bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+		p:configLocation="classpath:hibernate.cfg.xml"/>
+		
+	<!-- Serwisy -->
+	<bean id="userService" class="systemy.bankowe.services.user.UserService" p:userDao-ref="userDao"/>
+		
+	<!-- DAO -->
+	<bean id="userDao" class="systemy.bankowe.dao.user.UserDao"	p:sessionFactory-ref="hibernateSessionFactory"/>
+		
+	<!-- Wstrzykiwanie loggerów -->
+	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">
+		<constructor-arg name="loggerFactory">
+			<bean class="systemy.bankowe.annotations.CustomLoggerFactory" />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="usernameExtractor" class="systemy.bankowe.common.beans.UsernameExtractorBean" lazy-init="false"/>
+	
+	<bean id="springSecurityContextUtilBean" class="systemy.bankowe.common.beans.SpringSecurityContextUtilBean" 
+		lazy-init="false"/>
+</beans>
