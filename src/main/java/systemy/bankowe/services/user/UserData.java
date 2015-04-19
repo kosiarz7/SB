@@ -23,6 +23,10 @@ public class UserData implements UserDetails {
      */
     private static final long serialVersionUID = -4507510932062523271L;
     /**
+     * Maksymalna liczba prób do zalogowania.
+     */
+    private static final int MAX_LOGIN_ATTEMPTS = 3;
+    /**
      * Prefiks roli użytkownika.
      */
     private static final String ROLE_PREFIX = "ROLE_";
@@ -129,6 +133,25 @@ public class UserData implements UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return true;
+        return userDto.getFailAttempts() < MAX_LOGIN_ATTEMPTS;
+    }
+    
+    /**
+     * Zwraca pozostałą liczbę prób logowania.
+     * 
+     * @return liczba pozostałych prób do zalogowania.
+     */
+    public int getRemainingLoginAttempts() {
+        int remainingAttempts = MAX_LOGIN_ATTEMPTS - userDto.getFailAttempts();
+        return remainingAttempts < 0 ? 0 : remainingAttempts;
+    }
+    
+    /**
+     * Zwraca DTO usera.
+     * 
+     * @return DTO usera.
+     */
+    UserDto getUserDto() {
+        return userDto;
     }
 }

@@ -17,4 +17,10 @@ public interface IUserDao {
      * @return dane użytkownika.
      */
     UserDto loadUserByUserName(final String login);
+    /**
+     * Uaktualnia dane użytkownika.
+     * 
+     * @param userDto dane użytkownika.
+     */
+    void updateUser(final UserDto userDto);
 }

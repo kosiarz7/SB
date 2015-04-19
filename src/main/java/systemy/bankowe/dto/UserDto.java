@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
  * Encja użytkownika.
  * 
@@ -56,21 +58,30 @@ public class UserDto extends AbstractDto implements Serializable {
     @Column(name = "PASSWORD", nullable = false, length = 128)
     private String password;
     /**
+     * Liczba nieudanych prób logowania.
+     */
+    @Column(name = "FAIL_ATTEMPTS", nullable = false)
+    private int failAttempts;
+    /**
      * Uprawnienia użytkownika.
      */
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "USER_ROLES", 
-            joinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, 
-            inverseJoinColumns = { @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID") })
+    @JoinTable(name = "USER_ROLES", joinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID") })
     private List<RoleDto> roles;
-    
-    
+
     /**
      * Konstrutkor.
      */
     public UserDto() {
         id = UNLOADED_ID;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 
     // SETTERY I GETTERY
@@ -120,5 +131,13 @@ public class UserDto extends AbstractDto implements Serializable {
 
     public void setRoles(List<RoleDto> roles) {
         this.roles = roles;
+    }
+
+    public int getFailAttempts() {
+        return failAttempts;
+    }
+
+    public void setFailAttempts(int failAttempts) {
+        this.failAttempts = failAttempts;
     }
 }

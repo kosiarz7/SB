@@ -34,6 +34,26 @@ public class UserService implements IUserService, Serializable {
         }
         return new UserData(userDto);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetFailAttempts(final UserData userData) {
+        UserDto userDto = userData.getUserDto();
+        userDto.setFailAttempts(0);
+        userDao.updateUser(userDto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void incrementFailAttempts(final UserData userData) {
+        UserDto userDto = userData.getUserDto();
+        userDto.setFailAttempts(userDto.getFailAttempts() + 1);
+        userDao.updateUser(userDto);
+    }
 
     /**
      * Ustawia DAO użytkownika.

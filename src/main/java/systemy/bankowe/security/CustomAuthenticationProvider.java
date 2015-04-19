@@ -44,13 +44,27 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
         UserData user = userService.loadUserByLogin(authentication.getName());
+        throwExceptionIfUserIsDisabled(user);
         checkPassword((String) authentication.getCredentials(), user);
+        userService.resetFailAttempts(user);
         LOGGER.info(
                 "authenticate|Do systemu zalogował się użytkownik: {} o uprawnieniach: {}",
                 user.getUsername(),
                 CollectionsUtil.toString(user.getAuthorities().stream().map(a -> a.getAuthority())
                         .collect(Collectors.toList())));
         return new UsernamePasswordAuthenticationToken(user, authentication.getCredentials(), user.getAuthorities());
+    }
+    
+    /**
+     * Sprawdza czy użytkownik jest zablokowany.
+     * 
+     * @param userData dane użytkownika.
+     * @throws BadCredentialsException gdy użytkownik jest zablokowany.
+     */
+    protected void throwExceptionIfUserIsDisabled(final UserData userData) throws BadCredentialsException {
+        if (!userData.isEnabled()) {
+            throw new BadCredentialsException("Konto \"" + userData.getUsername() + "\" jest zablokowane.");
+        }
     }
     
     /**
@@ -72,8 +86,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
         
         if (!currentHash.equalsIgnoreCase(userData.getPassword())) {
+            userService.incrementFailAttempts(userData);
+            throwExceptionIfUserIsDisabled(userData);
             LOGGER.info("checkPassword|Nieudana próba logowania dla użytkownika: {}", userData.getUsername());
-            throw new CustomBadCredentialsException("Podane hasło jest nieprawidłowe.", userData.getUsername());
+            throw new CustomBadCredentialsException("Podane hasło jest nieprawidłowe. Liczba pozostałych prób: "
+                    + userData.getRemainingLoginAttempts(), userData.getUsername());
         }
     }
 

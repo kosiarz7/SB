@@ -69,4 +69,29 @@ public class UserDao extends CommonDao implements IUserDao, Serializable {
         return userDto;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateUser(final UserDto userDto) {
+        LOGGER.debug("updateUser|Uaktualnienie użytkownika: {}", userDto);
+        
+        Session session = openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.beginTransaction();
+            session.update(userDto);
+            tx.commit();
+        }
+        catch (RuntimeException e) {
+            if (null != tx) {
+                tx.rollback();
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+    }
 }

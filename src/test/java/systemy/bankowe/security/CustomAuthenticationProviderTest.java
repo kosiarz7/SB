@@ -86,4 +86,16 @@ public class CustomAuthenticationProviderTest {
         
         // then
     }
+
+    @Test
+    public void shouldThrowBadCredentialsExceptionIfUserIsBlocked() throws Exception {
+        // given
+        exception.expect(BadCredentialsException.class);
+        UserData userData = when(mock(UserData.class).isEnabled()).thenReturn(false).getMock();
+        
+        // when
+        sut.throwExceptionIfUserIsDisabled(userData);
+        
+        // then
+    }
 }
