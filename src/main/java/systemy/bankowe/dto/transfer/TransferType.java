@@ -1,4 +1,4 @@
-package systemy.bankowe.dao.transfer;
+package systemy.bankowe.dto.transfer;
 
 import java.io.Serializable;
 
@@ -9,11 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import systemy.bankowe.dto.AbstractDto;
+
 @Entity
 @Table(name = "typ_przelewu")
-public class TransferType implements Serializable {
+public class TransferType extends AbstractDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_typ_przelewu")

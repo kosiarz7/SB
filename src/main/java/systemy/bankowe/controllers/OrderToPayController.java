@@ -2,7 +2,7 @@ package systemy.bankowe.controllers;
 
 import java.io.Serializable;
 
-import systemy.bankowe.dao.transfer.OrderToPay;
+import systemy.bankowe.dto.transfer.OrderToPay;
 
 public class OrderToPayController  implements Serializable{
 

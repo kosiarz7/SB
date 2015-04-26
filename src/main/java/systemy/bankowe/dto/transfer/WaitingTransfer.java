@@ -1,4 +1,4 @@
-package systemy.bankowe.dao.transfer;
+package systemy.bankowe.dto.transfer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,6 +15,7 @@ import javax.persistence.Table;
 public class WaitingTransfer extends OutcomingTransfer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_przelew_oczekujacy")

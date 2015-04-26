@@ -1,4 +1,4 @@
-package systemy.bankowe.dao.transfer;
+package systemy.bankowe.dto.transfer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,9 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import systemy.bankowe.dto.AbstractDto;
+
 @Entity
 @Table(name = "upowaznienie_polecenia_zapl")
-public class OrderToPay implements Serializable {
+public class OrderToPay extends AbstractDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

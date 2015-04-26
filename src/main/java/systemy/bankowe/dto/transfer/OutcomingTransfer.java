@@ -1,4 +1,4 @@
-package systemy.bankowe.dao.transfer;
+package systemy.bankowe.dto.transfer;
 
 import java.io.Serializable;
 
@@ -6,8 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 
+import systemy.bankowe.dto.AbstractDto;
+
 @MappedSuperclass
-public abstract class OutcomingTransfer implements Serializable {
+public abstract class OutcomingTransfer extends AbstractDto implements
+		Serializable {
 
 	private static final long serialVersionUID = 1L;
 

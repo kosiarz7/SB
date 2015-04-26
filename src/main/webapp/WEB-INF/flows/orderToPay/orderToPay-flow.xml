@@ -6,7 +6,7 @@
 	<!-- Zabezpieczenie flow przez Spring Security -->
 	<secured attributes="ROLE_USER"/>
 	
-	<var name="orderToPayVar" class="systemy.bankowe.dao.transfer.OrderToPay"/>
+	<var name="orderToPayVar" class="systemy.bankowe.dto.transfer.OrderToPay"/>
 	<var name="controllerVar" class="systemy.bankowe.controllers.OrderToPayController"/>
 	
 	<view-state id="transfer" />

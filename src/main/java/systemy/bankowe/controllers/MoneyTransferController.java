@@ -2,7 +2,7 @@ package systemy.bankowe.controllers;
 
 import java.io.Serializable;
 
-import systemy.bankowe.dao.transfer.WaitingTransfer;
+import systemy.bankowe.dto.transfer.WaitingTransfer;
 
 public class MoneyTransferController implements Serializable{
 

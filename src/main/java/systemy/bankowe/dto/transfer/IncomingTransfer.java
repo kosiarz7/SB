@@ -1,4 +1,4 @@
-package systemy.bankowe.dao.transfer;
+package systemy.bankowe.dto.transfer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,9 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import systemy.bankowe.dto.AbstractDto;
+
 @Entity
 @Table(name = "przelew_przychodzacy")
-public class IncomingTransfer implements Serializable {
+public class IncomingTransfer extends AbstractDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

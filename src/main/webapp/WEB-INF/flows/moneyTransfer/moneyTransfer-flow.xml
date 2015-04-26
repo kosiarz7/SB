@@ -6,7 +6,7 @@
 	<!-- Zabezpieczenie flow przez Spring Security -->
 	<secured attributes="ROLE_USER"/>
 	
-	<var name="waitingTransferVar" class="systemy.bankowe.dao.transfer.WaitingTransfer"/>
+	<var name="waitingTransferVar" class="systemy.bankowe.dto.transfer.WaitingTransfer"/>
 	<var name="controllerVar" class="systemy.bankowe.controllers.MoneyTransferController"/>
 	
 	<view-state id="transfer" />
