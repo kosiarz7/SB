@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+			<p>
+				<p:message for="accountEmpowered" />
+			</p>
+			<p>
+				<p:message for="fromDate" />
+			</p>
+			<p>
+				<p:message for="toDate" />
+			</p>
+			<p>
+				<p:message for="maxAmount" />
+			</p>
+			<p>
+				Numer rachunku upoważnionego:
+				<p:inputText id="accountEmpowered"
+					value="#{orderToPayVar.accountEmpowered}"
+					label="'Numer rachunku upoważnionego'" />
+			</p>
+			<p>
+				Od kiedy:
+				<p:inputText id="fromDate" value="#{orderToPayVar.fromDate}"
+					label="'Od kiedy'" />
+			</p>
+			<p>
+				Do kiedy:
+				<p:inputText id="toDate" value="#{orderToPayVar.toDate}"
+					label="'Tytuł'" />
+			</p>
+			<p>
+				Maksymalna kwota:
+				<p:inputText id="maxAmount" value="#{orderToPayVar.maxAmount}"
+					label="'Maksymalna kwota'" />
+			</p>
+			
+
+			<p:commandButton action="orderToPay" value="Dodaj" ajax="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
+

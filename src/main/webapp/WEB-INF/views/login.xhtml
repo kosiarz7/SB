@@ -8,29 +8,35 @@
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 	<ui:define name="pageContent">
-		<div class="bkgColor" style="display: table; margin: 0 auto; border: 1px solid #F87171; padding: 25px; margin-top: 100px; border-radius: 25px; color: white;">
+		<div class="bkgColor"
+			style="display: table; margin: 0 auto; border: 1px solid #F87171; padding: 25px; margin-top: 100px; border-radius: 25px; color: white;">
 			<h1>Logowanie</h1>
-	        <c:if test="#{not empty param.login_error}">
-	            <div class="error">
-	                Logowanie zakończone porażką.<br/>
-	                <span style="font-weight: bold; color: #BC0A1C;">#{sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}</span>
-	            </div>
-	        </c:if>
-	        <form name="f" action="${request.contextPath}/app/j_spring_security_check" method="post">
-	            <p>
-	                Użytkownik: <br />
-	                <c:if test="${not empty param.login_error}">
-	                    <c:set var="username" value="#{usernameExtractor.extractUsername(sessionScope.SPRING_SECURITY_LAST_EXCEPTION)}" />
-	                </c:if>
-	                <input type="text" id="username" name="username" value="#{username}" />
-	            </p>
-	            <p>
-	                Hasło: <br /> <input type="password" id="password" name="password" />
-	            </p>
-	            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-	            <input name="submit" type="submit" value="Login" />
-	        </form>
-        </div>
+			<c:if test="#{not empty param.login_error}">
+				<div class="error">
+					Logowanie zakończone porażką.<br /> <span
+						style="font-weight: bold; color: #BC0A1C;">#{sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}</span>
+				</div>
+			</c:if>
+			<form name="f"
+				action="${request.contextPath}/app/j_spring_security_check"
+				method="post">
+				<p>
+					Użytkownik: <br />
+					<c:if test="${not empty param.login_error}">
+						<c:set var="username"
+							value="#{usernameExtractor.extractUsername(sessionScope.SPRING_SECURITY_LAST_EXCEPTION)}" />
+					</c:if>
+					<input type="text" id="username" name="username"
+						value="#{username}" />
+				</p>
+				<p>
+					Hasło: <br /> <input type="password" id="password" name="password" />
+				</p>
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" /> <input name="submit" type="submit"
+					value="Login" />
+			</form>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

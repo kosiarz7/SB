@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+			<p>
+				<p:message for="targetAccountNumber" />
+			</p>
+			<p>
+				<p:message for="targetName" />
+			</p>
+			<p>
+				<p:message for="title" />
+			</p>
+			<p>
+				<p:message for="address" />
+			</p>
+			<p>
+				<p:message for="amount" />
+			</p>
+			<p>
+				Numer rachunku docelowego:
+				<p:inputText id="targetAccountNumber"
+					value="#{waitingTransferVar.targetAccountNumber}"
+					label="'Numer rachunku docelowego'" />
+			</p>
+			<p>
+				Nazwa odbiorcy:
+				<p:inputText id="targetName" value="#{waitingTransferVar.targetName}"
+					label="'Nazwa odbiorcy'" />
+			</p>
+			<p>
+				Tytuł:
+				<p:inputText id="title" value="#{waitingTransferVar.title}"
+					label="'Tytuł'" />
+			</p>
+			<p>
+				Adres:
+				<p:inputText id="address" value="#{waitingTransferVar.address}"
+					label="'Adres'" />
+			</p>
+			<p>
+				Kwota:
+				<p:inputText id="amount" value="#{waitingTransferVar.amount}"
+					label="'Kwota'" />
+			</p>
+
+			<p:commandButton action="moneyTransfer" value="Dodaj" ajax="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
+

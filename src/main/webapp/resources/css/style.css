@@ -1,5 +1,4 @@
 /* Style szablonu */
-
 body {
 	margin: 0;
 	padding: 0;
@@ -39,34 +38,15 @@ body {
 }
 
 #logout-icon {
-	border: 0; 
+	border: 0;
 	vertical-align: middle;
 	padding-left: 15px;
 }
 
 #pageSeparator {
-	height: 2px; 
+	height: 2px;
 	width: 100%;
 	background-color: #F87171;
-}
-
-
-#mainMenu {
-	list-style-type: none;
-    margin: 0;
-    padding: 0;
-    padding-bottom: 20px;
-}
-
-#mainMenu li {
-	display: inline;
-	padding: 5px;
-	font-size: 22px;
-}
-
-#mainMenu li a {
-	text-decoration: none;
-	color: #666666;
 }
 
 /* Kontener opakowujący jakąkolwiek zawartość na stronie. Wyznacza użytkowy obszar oraz wypośrodkowuje treść. */
@@ -129,4 +109,84 @@ div.content {
 
 .wideSpacing {
 	letter-spacing: 2px;
+}
+
+/* wygląd głównego elementu - ol */
+ol.mainMenu {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	background-color: #FFF;
+	font-size: 18px;
+	height: 2em;
+	line-height: 2em;
+	text-align: center;
+}
+
+/* wygląd wszystkich elementów - a - znajdujących się w elemencie - ol */
+ol.mainMenu a {
+	display: block;
+	text-decoration: none;
+	color: #000;
+	padding: 0 5px;
+}
+
+/* wygląd elementów - li - wszystkich dzieci elementu - ol */
+ol.mainMenu>li {
+	float: left;
+	width: 150px;
+	margin-left: 1px;
+	background-color: #FFFFFF;
+	height: 2em;
+}
+
+/* wygląd elementu - li - pierwszego dziecka elementu - ol */
+ol.mainMenu>li:first-child {
+	margin-left: 0;
+}
+
+/* wygląd elementów - li - wszystkich dzieci elementu - ol - po najechaniu kursorem myszki na element - li */
+ol.mainMenu>li:hover {
+	background-color: #EEE;
+}
+
+/* wygląd elementu - a - dziecka elementu - li - będącego dzieckiem elementu - ol - po najechaniu kursorem myszki na element - li */
+ol.mainMenu>li:hover>a {
+	color: #09C;
+}
+
+/* wygląd elementu - ul - dziecka elementu - li - będącego dzieckiem elementu - ol - po najechaniu kursorem myszki na element - li */
+ol.mainMenu>li:hover>ul {
+	display: block;
+}
+
+/* ------------------------CZĘŚĆ-ROZWIJANA-MENU------------------------ */
+
+/* wygląd głównych rozwijanych elementów - ul */
+ol.mainMenu>li>ul {
+	display: none;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+/* wygląd elementu - li - w części rozwijanej */
+ol.mainMenu>li>ul>li {
+	position: relative;
+	background-color: #EEE;
+}
+
+/* wygląd elementu - a - w części rozwijanej */
+ol.mainMenu>li>ul>li>a {
+	border-top: 1px solid #FFF;
+}
+
+/* wygląd elementu - li - w części rozwijanej, po najechaniu kursorem myszki na dany element - li */
+ol.mainMenu>li>ul>li:hover {
+	background-color: #DDD;
+}
+
+/* wygląd elementu - a - w części rozwijanej, po najechaniu kursorem myszki na element - li */
+ol.mainMenu>li>ul>li:hover>a {
+	color: #09C;
 }
