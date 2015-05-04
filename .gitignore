@@ -1,6 +1,9 @@
 *~
 /target
+.*
+/**/.*
 .settings
 .project
 .classpath
+deploy.sh
 dependency-reduced-pom.xml
