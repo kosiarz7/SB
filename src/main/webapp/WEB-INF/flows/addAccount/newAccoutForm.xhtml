@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:param name="hide" value="true"/>
+    <ui:define name="pageContent">
+        <h:form>
+			<p:panel id="panel" header="" style="margin: 0 auto; width: 100%; margin-top: 10px;">
+        		<p:messages />
+	        	<h:panelGrid columns="3" cellpadding="5" style="display: table; margin: 0 auto;">
+		        	<p:outputLabel value="Imię:" for="name"/>
+		        	<p:inputText value="${data.name}" id="name" required="true" placeholder="Imię"/>
+		        	<p:message for="name"/>
+		        	
+		        	<p:outputLabel value="Nazwisko:" for="surname"/>
+		        	<p:inputText value="#{data.surname}" id="surname" required="true" placeholder="Nazwisko"/>
+		        	<p:message for="surname"/>
+		        	
+		        	<p:outputLabel value="Hasło:" for="password"/>
+		        	<p:password value="#{data.password}" id="password" required="true" placeholder="Hasło"/>
+		        	<p:message for="password"/>
+		        	
+		        	<p:outputLabel value="Potwierdź hasło:" for="cPassword"/>
+		        	<p:password value="#{data.confirmedPassword}" id="cPassword" required="true" placeholder="Potwierdź hasło"/>
+		        	<p:message for="cPassword"/>
+		        	
+		        	<p:outputLabel value="Nazwa konta:" for="accountName"/>
+		        	<p:inputText value="#{data.accountName}" id="accountName" required="true" placeholder="Nazwa konta"/>
+		        	<p:message for="accountName"/>
+		        	
+		        	<p:outputLabel value="Email:" for="mail"/>
+		        	<p:inputText value="#{data.mail}" id="mail" required="true" placeholder="Email"
+		        		onchange="verifyEmails('mail', 'cMail')"/>
+		        	<p:message for="mail"/>
+		        	
+		        	<p:outputLabel value="Potwierdź email:" for="cMail"/>
+		        	<p:inputText value="#{data.confirmedMail}" id="cMail" required="true" placeholder="Potwierdź email"
+		        		onchange="verifyEmails('mail', 'cMail')"/>
+		        	<p:message for="cMail"/>
+		        	
+		        	<p:outputLabel value="Ulica:" for="street"/>
+		        	<p:inputText value="#{data.street}" id="street" required="true" placeholder="Ulica"/>
+		        	<p:message for="street"/>
+		        	
+		        	<p:outputLabel value="Nr domu:" for="streetNo"/>
+		        	<p:inputText value="#{data.streetNo}" id="streetNo" required="true" placeholder="Nr domu"/>
+		        	<p:message for="streetNo"/>
+		        	
+		        	<p:outputLabel value="Kod pocztowy:" for="zipcode"/>
+		        	<p:inputMask mask="99-999" value="#{data.zipcode}" id="zipcode" required="true" placeholder="__-___"/>
+		        	<p:message for="zipcode"/>
+		        	
+		        	<p:outputLabel value="Miasto:" for="city"/>
+		        	<p:inputText value="#{data.city}" id="city" required="true" placeholder="Miasto"/>
+		        	<p:message for="city"/>
+		        	
+		        	<p:outputLabel value="Pesel:" for="pesel"/>
+		        	<p:inputMask mask="99999999999" value="#{data.pesel}" id="pesel" required="true" placeholder="___________"/>
+		        	<p:message for="pesel"/>
+		        	
+		        	<p:outputLabel value="Nr dowodu:" for="idCardNo"/>
+		        	<p:inputMask mask="aaa999999" value="#{data.idCardNo}" id="idCardNo" required="true" placeholder="_________"/>
+		        	<p:message for="idCardNo"/>
+		        	
+		        	<p:outputLabel value="Obywatelstwo:" />
+		        	<p:selectOneMenu id="citizenship" value="#{data.citizenship}" required="true" >
+		        		<f:selectItems value="#{data.citizenships}" var="item" itemValue="#{item}" itemLabel="#{item}"/>
+		        	</p:selectOneMenu>
+		        	<p:message for="citizenship"/>
+		        	
+		        	<p:commandButton action="addAccount" value="Załóż konto" style="margin-top: 25px;" ajax="true" update="@form"
+						onstart="showCurtain()" oncomplete="hideCurtain()"/>
+	        	</h:panelGrid>
+        	</p:panel>
+		</h:form>
+    </ui:define>
+</ui:composition>
+</html>

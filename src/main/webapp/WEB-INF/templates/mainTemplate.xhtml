@@ -9,6 +9,7 @@
     <title>StealingBank</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="#{request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="#{request.contextPath}/resources/js/scripts.js"></script>
 </h:head>
 <h:body>
 	<div id="header">
@@ -51,28 +52,23 @@
             			</p:submenu>
             		</p:menubar>
            		</h:form>
-				<!-- <ol class="mainMenu">
-				    <li><a href="#">Stronga główna</a></li>
-					<li><a href="#">Transakcje</a>
-						<ul>
-							<li><a href="${request.contextPath}/app/moneyTransfer">Przelew</a></li>
-							<li><a href="${request.contextPath}/app/orderToPay">Polecenie zapłaty</a></li>
-							<li><a href="#">Inna transakcja</a></li>
-							<li><a href="#">link - 4</a></li>
-							<li><a href="#">link - 5</a></li>
-						</ul></li>
-					<li><a href="#">Lokaty</a>
-					<ul>
-							<li><a href="${request.contextPath}/app/createDeposit">Załóż lokatę</a></li>
-							<li><a href="#">COS jeszcze </a></li>
-						</ul></li>
-						<li><a href="#">Menu 3</a></li>
-				</ol> -->
+			</c:if>
+			<c:if test="#{not springSecurityContextUtilBean.isUserLoggedIn() and not hide}">
+				<h:form>
+					<p:button value="Załóż konto" href="/app/addAccount"/>
+				</h:form>
 			</c:if>
 			<div id="pageContent" style="padding-top: 10px;">
 				<ui:insert name="pageContent" />
 			</div>
 		</div>
 	</div>
+	
+	<!-- Kurtyna -->
+    <div id="curtain">
+		<div id="curtainContent">
+			<img id="curtainImage" src="#{request.contextPath}/resources/img/ajax-loader1.gif"/>Proszę czekać...
+		</div>
+	</div>    
 </h:body>
 </html>

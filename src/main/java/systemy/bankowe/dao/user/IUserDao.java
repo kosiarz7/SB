@@ -1,5 +1,7 @@
 package systemy.bankowe.dao.user;
 
+import java.util.Optional;
+
 import systemy.bankowe.dto.UserDto;
 
 /**
@@ -23,4 +25,10 @@ public interface IUserDao {
      * @param userDto dane użytkownika.
      */
     void updateUser(final UserDto userDto);
+    /**
+     * Zwraca największy login.
+     * 
+     * @return największy login.
+     */
+    Optional<String> getExtremeLogin();
 }

@@ -24,11 +24,11 @@
 	</security:authentication-manager>
 	
 	<bean id="authenticationProvider" class="systemy.bankowe.security.CustomAuthenticationProvider">
-		<property name="encryptor">
-			<bean class="systemy.bankowe.services.encrypt.SHA512Encryptor"/>
-		</property>
+		<property name="encryptor" ref="encryptor"/>
 		<property name="userService" ref="userService"/>
 	</bean>
+	
+	<bean id="encryptor" class="systemy.bankowe.services.encrypt.SHA512Encryptor"/>
 
 	<!-- Pozostałe beany -->
 	
@@ -42,8 +42,20 @@
 	<bean id="accountNumberService" class="systemy.bankowe.services.accountnumber.AccountNumberService" 
 		lazy-init="false"/>
 		
+	<bean id="loginService" class="systemy.bankowe.services.login.LoginService" p:userDao-ref="userDao"/>
+	
+	<bean id="mailService" class="systemy.bankowe.services.mail.MailService"
+		p:password="stealingbank7"
+		p:sender="stealing.bank@gmail.com"
+		p:port="587"
+		p:smtpHost="smtp.gmail.com"/>
+		
 	<!-- DAO -->
+	<bean id="commonDao" class="systemy.bankowe.dao.CommonDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
 	<bean id="userDao" class="systemy.bankowe.dao.user.UserDao"	p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="roleDao" class="systemy.bankowe.dao.role.RoleDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 		
 	<!-- Wstrzykiwanie loggerów -->
 	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">
