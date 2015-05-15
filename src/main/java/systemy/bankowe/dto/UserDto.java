@@ -97,7 +97,7 @@ public class UserDto extends AbstractDto implements Serializable {
      */
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "uprawnienia_klientow", joinColumns = { @JoinColumn(name = "klient_id", referencedColumnName = "id_klient") }, inverseJoinColumns = { @JoinColumn(name = "uprawnienie_id", referencedColumnName = "id") })
-    private List<RoleDto> roles;
+    private Set<RoleDto> roles;
     /**
      * Obywatelstwo.
      */
@@ -109,7 +109,7 @@ public class UserDto extends AbstractDto implements Serializable {
      */
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "klienci_rachunki", joinColumns = { @JoinColumn(name = "id_klient", referencedColumnName = "id_klient") }, inverseJoinColumns = { @JoinColumn(name = "id_rachunek", referencedColumnName = "id_rachunek") })
-    private Set<AccountDto> accounts;
+    private List<AccountDto> accounts;
 
     /**
      * Konstrutkor.
@@ -167,11 +167,11 @@ public class UserDto extends AbstractDto implements Serializable {
         this.password = password;
     }
 
-    public List<RoleDto> getRoles() {
+    public Set<RoleDto> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<RoleDto> roles) {
+    public void setRoles(Set<RoleDto> roles) {
         this.roles = roles;
     }
 
@@ -239,11 +239,11 @@ public class UserDto extends AbstractDto implements Serializable {
         this.citizenship = citizenship;
     }
 
-    public Set<AccountDto> getAccounts() {
+    public List<AccountDto> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(Set<AccountDto> accounts) {
+    public void setAccounts(List<AccountDto> accounts) {
         this.accounts = accounts;
     }
 }

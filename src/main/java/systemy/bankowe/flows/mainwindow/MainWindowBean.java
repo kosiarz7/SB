@@ -2,10 +2,8 @@ package systemy.bankowe.flows.mainwindow;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.security.SpringSecurityContextUtil;
@@ -29,7 +27,7 @@ public class MainWindowBean implements Serializable {
      */
     public List<AccountStub> getAccounts() {
         Optional<UserData> user = springSecurityUtil.getLoggedInUser();
-        Set<AccountDto> accounts = user.isPresent() ? user.get().getUserDto().getAccounts() : new HashSet<>();
+        List<AccountDto> accounts = user.isPresent() ? user.get().getUserDto().getAccounts() : new ArrayList<>();
         return convertAccounts(accounts);
     }
     
@@ -39,7 +37,7 @@ public class MainWindowBean implements Serializable {
      * @param accounts zbiór obiektów DTO.
      * @return lista obiektów pożądanych na widoku.
      */
-    private List<AccountStub> convertAccounts(Set<AccountDto> accounts) {
+    private List<AccountStub> convertAccounts(List<AccountDto> accounts) {
         List<AccountStub> accountStubs = new ArrayList<>();
         
         for (AccountDto a : accounts) {
