@@ -40,7 +40,7 @@
 	<bean id="userService" class="systemy.bankowe.services.user.UserService" p:userDao-ref="userDao"/>
 	
 	<bean id="accountNumberService" class="systemy.bankowe.services.accountnumber.AccountNumberService" 
-		lazy-init="false"/>
+		lazy-init="false" p:accountDao-ref="accountDao"/>
 		
 	<bean id="loginService" class="systemy.bankowe.services.login.LoginService" p:userDao-ref="userDao"/>
 	
@@ -56,6 +56,8 @@
 	<bean id="userDao" class="systemy.bankowe.dao.user.UserDao"	p:sessionFactory-ref="hibernateSessionFactory"/>
 	
 	<bean id="roleDao" class="systemy.bankowe.dao.role.RoleDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="accountDao" class="systemy.bankowe.dao.account.AccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 		
 	<!-- Wstrzykiwanie loggerów -->
 	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">

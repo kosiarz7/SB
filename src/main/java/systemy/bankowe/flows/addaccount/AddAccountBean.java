@@ -2,6 +2,7 @@ package systemy.bankowe.flows.addaccount;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -163,7 +164,6 @@ public class AddAccountBean implements Serializable {
         }
 
         fillBasicUserData(newUser, newAccountData);
-        fillUserData(newUser, newAccountData);
         fillAccountData(newUser, newAccountData);
         commonUserDao.save(newUser);
         try {
@@ -198,26 +198,26 @@ public class AddAccountBean implements Serializable {
         newUser.setName(newAccountData.getName());
         newUser.setSurname(newAccountData.getSurname());
         newUser.setLogin(loginService.getNewLogin());
+        newUser.setAddress(newAccountData.getStreet() + " " + newAccountData.getStreetNo());
+        newUser.setCitizenship(newAccountData.getSelectedCitizenship());
+        newUser.setCity(newAccountData.getCity());
+        newUser.setEmail(newAccountData.getMail());
+        newUser.setIdCardNumber(formatIdCoardNo(newAccountData.getIdCardNo()));
+        newUser.setPesel(newAccountData.getPesel());
+        newUser.setZipcode(newAccountData.getZipcode());
     }
-
+    
     /**
-     * Wypełnia dane użytkownika.
+     * Formatuje numer dowodu.
      * 
-     * @param newUser nowy użytkownik.
-     * @param newAccountData dane nowego użytkownika.
+     * @param idCardNo nr dowodu.
+     * @return sformatowany nr dowodu.
      */
-    private void fillUserData(final UserDto newUser, final NewAccountData newAccountData) {
-        /*UserDataDto userData = new UserDataDto();
-        userData.setCity(newAccountData.getCity());
-        userData.setEmail(newAccountData.getMail());
-        userData.setStreet(newAccountData.getStreet());
-        userData.setStreetNo(newAccountData.getStreetNo());
-        userData.setTelephoneNo(newAccountData.getTelephoneNo());
-        userData.setZipcode(newAccountData.getZipcode());
-        userData.setUser(newUser);
-        List<UserDataDto> data = new ArrayList<UserDataDto>();
-        data.add(userData);
-        newUser.setUserData(data);*/
+    private String formatIdCoardNo(String idCardNo) {
+        String newIdCardNo = "";
+        newIdCardNo += idCardNo.substring(0, 3).toUpperCase() + "-";
+        newIdCardNo += idCardNo.substring(3);
+        return newIdCardNo;
     }
 
     /**
@@ -231,12 +231,10 @@ public class AddAccountBean implements Serializable {
         account.setName(newAccountData.getAccountName());
         account.setNumber(accountNumberService.createNewAccountNumber());
         account.setSaldo(new Random().nextDouble() * 10_000.0 + 845.123);
-        List<UserDto> users = new ArrayList<>();
-        users.add(newUser);
-        //account.setUsers(users);
-        Set<AccountDto> accounts = new HashSet<>();
+        account.setSetupDate(new Date());
+        List<AccountDto> accounts = new ArrayList<>();
         accounts.add(account);
-        //newUser.setAccounts(accounts);
+        newUser.setAccounts(accounts);
     }
 
     /**
@@ -248,9 +246,9 @@ public class AddAccountBean implements Serializable {
     private void addUserRoles(final UserDto newUser, final NewAccountData newAccountData) throws LackOfRoleException {
         Optional<RoleDto> role = roleDao.getRoleByName(USER_ROLE_NAME);
         if (role.isPresent()) {
-            List<RoleDto> roles = new ArrayList<>();
+            Set<RoleDto> roles = new HashSet<>();
             roles.add(role.get());
-            //newUser.setRoles(roles);
+            newUser.setRoles(roles);
         }
         else {
             throw new LackOfRoleException("Brak uprawnienia o nazwie: " + USER_ROLE_NAME);

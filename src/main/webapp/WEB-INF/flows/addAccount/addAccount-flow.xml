@@ -8,7 +8,20 @@
 		<on-entry>
 			<evaluate expression="controller.setAllCitizenships(data)" />
 		</on-entry>
+		<transition on="addAccount" to="addAccount">
+			<evaluate expression="controller.validateNewAccountData(data)" />
+		</transition>
 	</view-state>
+
+	<action-state id="addAccount">
+		<evaluate expression="controller.addAccount(data)" />
+		<transition on="yes" to="success" />
+		<transition on="no" to="fail" />
+	</action-state>
+
+	<view-state id="success" />
+
+	<view-state id="fail" />
 
 	<bean-import resource="flow-beans.xml" />
 </flow>

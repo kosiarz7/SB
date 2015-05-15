@@ -101,10 +101,25 @@ public class NewAccountData implements Serializable {
      * Lista obywatelstw.
      */
     private List<String> citizenships;
+    
 
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
+    }
+    
+    /**
+     * Zwraca wybrane obywatelstwo.
+     * 
+     * @return wybrane obywatelstwo.
+     */
+    public CitizenshipDto getSelectedCitizenship() {
+        for (CitizenshipDto d : citizenshipsDto) {
+            if (citizenship.equals(d.getCitizenship())) {
+                return d;
+            }
+        }
+        throw new IllegalStateException("Nie wybrano żadnego obywatelstwa");
     }
 
     public String getName() {

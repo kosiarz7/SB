@@ -5,7 +5,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -29,7 +32,14 @@ public class AccountDto implements Serializable {
      * Numer rachunku.
      */
     @Id
-    @Column(name = "id_rachunek", nullable = false, length = 26)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNT_SEQ")
+    @SequenceGenerator(name = "ACCOUNT_SEQ", sequenceName = "ACCOUNT_SEQ", allocationSize = 1)
+    @Column(name = "id_rachunek", nullable = false)
+    private int id;
+    /**
+     * Numer rachunku.
+     */
+    @Column(name = "numer", nullable = false, length = 26)
     private String number;
     /**
      * Nazwa rachunku.

@@ -2,7 +2,9 @@ package systemy.bankowe.services.accountnumber;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Optional;
 
+import systemy.bankowe.dao.account.IAccountDao;
 import systemy.bankowe.util.StringUtil;
 
 /**
@@ -10,7 +12,7 @@ import systemy.bankowe.util.StringUtil;
  * 
  * @author Adam Kopaczewski
  *
- * Copyright © 2015 Adam Kopaczewski
+ *         Copyright © 2015 Adam Kopaczewski
  */
 public class AccountNumberService implements IAccountNumberService, Serializable {
     /**
@@ -25,7 +27,10 @@ public class AccountNumberService implements IAccountNumberService, Serializable
      * Dzielnik.
      */
     private static final BigInteger DIVISOR = new BigInteger("97");
-    
+    /**
+     * DAO dla kont bankowych.
+     */
+    private IAccountDao accountDao;
 
     /**
      * {@inheritDoc}
@@ -41,7 +46,7 @@ public class AccountNumberService implements IAccountNumberService, Serializable
         String numberToValidation = accountNumber.substring(2).concat("2521").concat(accountNumber.substring(0, 2));
         return new BigInteger(numberToValidation).mod(DIVISOR).equals(BigInteger.ONE);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -57,9 +62,20 @@ public class AccountNumberService implements IAccountNumberService, Serializable
      */
     @Override
     public String createNewAccountNumber() {
-       throw new IllegalArgumentException("Not implemented yet.");
+        Optional<String> lastAccountNumber = accountDao.getLastCreatedAccountNumber();
+        String newAccountNumber;
+
+        if (lastAccountNumber.isPresent()) {
+            newAccountNumber = new BigInteger(lastAccountNumber.get().substring(2)).add(BigInteger.ONE).toString();
+            newAccountNumber = addLeadingZeros(newAccountNumber, 24);
+        }
+        else {
+            newAccountNumber = FIRST_ACCOUNT_NUMBER;
+        }
+
+        return calculateControlNumber(newAccountNumber).concat(newAccountNumber);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -70,14 +86,14 @@ public class AccountNumberService implements IAccountNumberService, Serializable
         }
         return accountNumber;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String formatAccountNumber(String accountNumber) {
         String formattedNumber = "";
-        
+
         if (!StringUtil.isEmpty(accountNumber)) {
             for (int i = accountNumber.length() - 4; i >= 0; i -= 4) {
                 formattedNumber = accountNumber.substring(i, i + 4) + " " + formattedNumber;
@@ -88,16 +104,19 @@ public class AccountNumberService implements IAccountNumberService, Serializable
             }
             formattedNumber = formattedNumber.trim();
         }
-        
+
         return formattedNumber;
     }
-    
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String removeWhitespaces(String accountNumber) {
         return StringUtil.removeWhitespaces(accountNumber);
+    }
+
+    public void setAccountDao(IAccountDao accountDao) {
+        this.accountDao = accountDao;
     }
 }
