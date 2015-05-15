@@ -28,4 +28,11 @@ public interface IUserService {
      * @param userData dane użytkownika.
      */
     void incrementFailAttempts(final UserData userData);
+    /**
+     * Dodaje kolejne konto dla zalogowanego użytkownika.
+     * 
+     * @param accountName nazwa konta.
+     * @return true - konto zostało dodane; false - wystąpiły błedy podczas próby dodania konta.
+     */
+    boolean addNextAccount(String accountName);
 }

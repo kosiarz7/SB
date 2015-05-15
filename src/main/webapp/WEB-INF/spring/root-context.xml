@@ -37,7 +37,8 @@
 		p:configLocation="classpath:hibernate.cfg.xml"/>
 		
 	<!-- Serwisy -->
-	<bean id="userService" class="systemy.bankowe.services.user.UserService" p:userDao-ref="userDao"/>
+	<bean id="userService" class="systemy.bankowe.services.user.UserService" p:userDao-ref="userDao"
+		p:springSecurityUtil-ref="springSecurityContextUtilBean" p:accountNumberService-ref="accountNumberService"/>
 	
 	<bean id="accountNumberService" class="systemy.bankowe.services.accountnumber.AccountNumberService" 
 		lazy-init="false" p:accountDao-ref="accountDao"/>

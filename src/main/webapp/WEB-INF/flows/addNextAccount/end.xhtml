@@ -4,18 +4,11 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:my="http://java.sun.com/jsf/composite/components">
+	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:param name="hide" value="true"/>
     <ui:define name="pageContent">
-        <h:form>
-       		<p:menubar id="mainWindowMenuBar" style="margin-bottom: 10px;">
-       			<p:menuitem value="Otwórz nowe konto" url="/app/addNextAccount"/>
-       		</p:menubar>
-			<ui:repeat var="item" value="#{accounts}">
-				<my:account accountStub="#{item}" />
-			</ui:repeat>
-		</h:form>
+        <p>Nowe konto zostało dodane.</p>
     </ui:define>
 </ui:composition>
 </html>

@@ -2,6 +2,7 @@ package systemy.bankowe.dao.user;
 
 import java.util.Optional;
 
+import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
 
 /**
@@ -31,4 +32,11 @@ public interface IUserDao {
      * @return największy login.
      */
     Optional<String> getExtremeLogin();
+    /**
+     * Dodaje konto użytkownikowi.
+     * 
+     * @param userDto użytkownik.
+     * @param accountDto konto.
+     */
+    void addAccount(final UserDto userDto, final AccountDto accountDto);
 }

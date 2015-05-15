@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 
 import systemy.bankowe.annotations.InjectLogger;
 import systemy.bankowe.dao.HibernateUtil;
+import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
 
 /**
@@ -136,5 +137,31 @@ public class UserDao extends HibernateUtil implements IUserDao, Serializable {
         }
 
         return login;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addAccount(final UserDto userDto, final AccountDto accountDto) {
+        LOGGER.debug("addAccount|Próba dodania konta: {} do użytkownika: {}", accountDto, userDto);
+        
+        Session session = openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.refresh(userDto);
+            userDto.getAccounts().add(accountDto);
+            tx.commit();
+        }
+        catch (RuntimeException e) {
+            if (null != tx) {
+                tx.rollback();
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
     }
 }
