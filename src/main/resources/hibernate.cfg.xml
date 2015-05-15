@@ -17,5 +17,7 @@
 		
 		<mapping class="systemy.bankowe.dto.UserDto" />
 		<mapping class="systemy.bankowe.dto.RoleDto" />
+		<mapping class="systemy.bankowe.dto.AccountDto" />
+		<mapping class="systemy.bankowe.dto.CitizenshipDto" />
 	</session-factory>
 </hibernate-configuration>

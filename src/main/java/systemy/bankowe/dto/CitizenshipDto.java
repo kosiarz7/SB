@@ -10,45 +10,38 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * Encja uprawnienia użytkownika.
+ * Encja obywatelstwa.
  * 
  * @author Adam Kopaczewski
  *
  * Copyright © 2015 Adam Kopaczewski
  */
 @Entity
-@Table(name = "uprawnienia")
-public class RoleDto extends AbstractDto implements Serializable {
+@Table(name = "obywatelstwa")
+public class CitizenshipDto implements Serializable {
+
     /**
      * UID.
      */
-    private static final long serialVersionUID = -2828027452403509314L;
+    private static final long serialVersionUID = 4057391334745995512L;
     /**
-     * Id uprawnienia.
+     * ID obywatelstwa.
      */
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_obywatelstwa", nullable = false)
     private int id;
     /**
-     * Nazwa uprawnienia.
+     * Obywatelstwo.
      */
-    @Column(name = "name", nullable = false, length = 50)
-    private String name;
+    @Column(name = "obywatelstwo", nullable = false, length = 64)
+    private String citizenship;
     
-    /**
-     * Konstrutkor.
-     */
-    public RoleDto() {
-        id = UNLOADED_ID;
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
     
-    // SETTRY I GETTERY
-    @Override
+    // GETTERY I SETTERY
     public int getId() {
         return id;
     }
@@ -57,11 +50,15 @@ public class RoleDto extends AbstractDto implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCitizenship() {
+        return citizenship;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCitizenship(String citizenship) {
+        this.citizenship = citizenship;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 }
