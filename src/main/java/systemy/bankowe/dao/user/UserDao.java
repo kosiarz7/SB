@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 
 import systemy.bankowe.annotations.InjectLogger;
-import systemy.bankowe.dao.CommonDao;
+import systemy.bankowe.dao.HibernateUtil;
 import systemy.bankowe.dto.UserDto;
 
 /**
@@ -18,7 +18,7 @@ import systemy.bankowe.dto.UserDto;
  *
  * Copyright © 2015 Adam Kopaczewski
  */
-public class UserDao extends CommonDao implements IUserDao, Serializable {
+public class UserDao extends HibernateUtil implements IUserDao, Serializable {
     /**
      * UID.
      */
