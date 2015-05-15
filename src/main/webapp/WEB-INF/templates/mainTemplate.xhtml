@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>StealingBank</title>
@@ -38,7 +39,19 @@
 	<div id="page">
 		<div class="content">
 			<c:if test="#{springSecurityContextUtilBean.isUserLoggedIn()}">
-				<ol class="mainMenu">
+				<h:form prependId="false">
+            		<p:menubar id="menubar">
+            			<p:menuitem value="Pulpit" url="/app/mainWindow"/>
+            			<p:submenu label="Transakcje">
+            				<p:menuitem value="Przelew" url="/app/moneyTransfer"/>
+            				<p:menuitem value="Polecenie zapłaty" url="/app/orderToPay"/>
+            			</p:submenu>
+            			<p:submenu label="Lokaty">
+            				<p:menuitem value="Załóż lokatę" url="/app/createDeposit"/>
+            			</p:submenu>
+            		</p:menubar>
+           		</h:form>
+				<!-- <ol class="mainMenu">
 				    <li><a href="#">Stronga główna</a></li>
 					<li><a href="#">Transakcje</a>
 						<ul>
@@ -54,9 +67,9 @@
 							<li><a href="#">COS jeszcze </a></li>
 						</ul></li>
 						<li><a href="#">Menu 3</a></li>
-				</ol>
+				</ol> -->
 			</c:if>
-			<div id="pageContent">
+			<div id="pageContent" style="padding-top: 10px;">
 				<ui:insert name="pageContent" />
 			</div>
 		</div>

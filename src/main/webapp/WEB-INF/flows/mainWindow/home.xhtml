@@ -4,10 +4,15 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
     <ui:define name="pageContent">
-        <h1>To działaaaaaaaaaaaaa!</h1>
+        <h:form>
+			<ui:repeat var="item" value="#{accounts}">
+				<my:account accountStub="#{item}" />
+			</ui:repeat>
+		</h:form>
     </ui:define>
 </ui:composition>
 </html>

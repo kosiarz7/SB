@@ -151,7 +151,7 @@ public class UserData implements UserDetails {
      * 
      * @return DTO usera.
      */
-    UserDto getUserDto() {
+    public UserDto getUserDto() {
         return userDto;
     }
 }

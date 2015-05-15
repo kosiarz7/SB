@@ -38,6 +38,9 @@
 		
 	<!-- Serwisy -->
 	<bean id="userService" class="systemy.bankowe.services.user.UserService" p:userDao-ref="userDao"/>
+	
+	<bean id="accountNumberService" class="systemy.bankowe.services.accountnumber.AccountNumberService" 
+		lazy-init="false"/>
 		
 	<!-- DAO -->
 	<bean id="userDao" class="systemy.bankowe.dao.user.UserDao"	p:sessionFactory-ref="hibernateSessionFactory"/>

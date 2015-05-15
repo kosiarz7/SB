@@ -2,8 +2,11 @@ package systemy.bankowe.security;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
+
+import systemy.bankowe.services.user.UserData;
 
 /**
  * Metody wspomagającę pracę z Spring Security.
@@ -37,4 +40,14 @@ public interface SpringSecurityContextUtil {
      * @return true - tak; false - nie;
      */
     boolean isUserLoggedIn();
+    /**
+     * Wlogowuje bieżącego użytkownika.
+     */
+    void logoutCurrentUser();
+    /**
+     * Zwraca zalogowanego użytkownika.
+     * 
+     * @return zalogowany użytkownik.
+     */
+    Optional<UserData> getLoggedInUser();
 }

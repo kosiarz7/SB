@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui">
+	<cc:interface>
+		<cc:attribute name="accountStub" type="systemy.bankowe.flows.mainwindow.AccountStub"/>
+	</cc:interface>
+	<cc:implementation>
+		<p:panel styleClass="accountPanel">
+			<p>#{cc.attrs.accountStub.name}</p>
+			<p>
+				#{accountNumberService.formatAccountNumber(cc.attrs.accountStub.number)}
+				<span class="right">
+					<h:outputText value="#{cc.attrs.accountStub.saldo}">
+						<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+							locale="pl_PL"/>
+					</h:outputText>
+				</span>
+			</p>
+			<p class="textCenter">
+				<p:commandButton value="Wykonaj przelew" styleClass="accountButtons" 
+					actionListener="#{data.setAccount(cc.attrs.accountStub)}" action="transfer"/>
+				<p:commandButton value="Historia" styleClass="accountButtons"
+					actionListener="#{data.setAccount(cc.attrs.accountStub)}" action="history"/>
+			</p>
+		</p:panel>
+	</cc:implementation>
+</ui:component>

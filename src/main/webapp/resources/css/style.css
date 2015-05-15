@@ -190,3 +190,33 @@ ol.mainMenu>li>ul>li:hover {
 ol.mainMenu>li>ul>li:hover>a {
 	color: #09C;
 }
+
+/* Account panel */
+.accountPanel {
+	background: linear-gradient(#007A29, #8BEBAB);
+	margin-bottom: 20px;
+	border-radius: 25px;
+	border: 2px solid #F87171;
+}
+
+.accountPanel p {
+	color: black;
+}
+
+.accountButtons {
+	font-size: 15px !important;
+	margin-right: 10px;
+	border-radius: 20px;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+.textCenter {
+	text-align: center;	
+}
