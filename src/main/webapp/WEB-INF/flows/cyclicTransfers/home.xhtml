@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+			<p:dataTable rows="10" paginator="true" value="#{controller.getCycleTransfers()}" 
+				var="transfer" emptyMessage="Brak zdefiniowanych stałych zleceń."
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<p:column headerText="Nazwa">
+					<h:outputText value="#{transfer.name}" />
+				</p:column>
+				
+				<p:column headerText="Odbiorca">
+					<h:outputText value="#{transfer.recipient}" />
+				</p:column>
+				
+				<p:column headerText="Kwota">
+					<h:outputText value="#{transfer.amount}" />
+				</p:column>
+				
+				<p:column headerText="Okres">
+					<h:outputFormat value="#{transfer.cycle}" />
+				</p:column>
+				
+				<p:column>
+					<p:commandButton value="Edytuj"/>
+				</p:column>
+				
+				<p:column>
+					<p:commandButton value="Usuń"/>
+				</p:column>
+			</p:dataTable>
+			
+			<p:commandButton value="Dodaj" action="add" immediate="true" ajax="false" style="margin-top: 15px;"/>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
