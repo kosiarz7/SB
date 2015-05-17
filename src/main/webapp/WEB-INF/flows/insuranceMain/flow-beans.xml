@@ -5,5 +5,11 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+
+	<bean id="data" class="systemy.bankowe.flows.insurancemain.InsuranceMainData" scope="flow"/>
+
+    <bean id="controller" class="systemy.bankowe.flows.insurancemain.InsuranceMainBean">
+    	<property name="insuranceTypeDao" ref="commonDao"/>
+    </bean>
 	
 </beans>

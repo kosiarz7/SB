@@ -13,7 +13,7 @@ import systemy.bankowe.dto.AbstractDto;
 
 @Entity
 @Table(name = "typUbezpieczenie")
-public class InsuranceType extends AbstractDto implements Serializable {
+public class InsuranceTypeDto extends AbstractDto implements Serializable {
 
 	/**
 	 * 
@@ -37,11 +37,11 @@ public class InsuranceType extends AbstractDto implements Serializable {
 	@Column(name = "opis_inne")
 	private String other_desc;
 
-	public InsuranceType() {
+	public InsuranceTypeDto() {
 		
 	}
 
-	public InsuranceType(int id, String name, String type, String profit_desc,
+	public InsuranceTypeDto(int id, String name, String type, String profit_desc,
 			String other_desc) {
 		super();
 		this.id = id;

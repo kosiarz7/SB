@@ -10,26 +10,29 @@
 	<ui:define name="pageContent">
 		<h:form>
 			<div class="ui-grid ui-grid-responsive">
-				<div class="ui-grid-row">
+
+				<ui:repeat value="#{insurances}" var="item">
 					<div class="ui-grid-col-4">
-						<p:fieldset legend="AC/OC" style="margin-bottom:15px;">
-							<div class="ui-grid-col-8">
-								<p:graphicImage url="/resources/img/insurances/oc_ac.jpg"
-									style="width: 100%;" />
+						<p:fieldset legend="#{item.name}" style="margin-bottom:15px;">
+							<div class="ui-grid-col-7">
+								<p:graphicImage
+									url="/resources/img/insurances/types/#{item.name}.jpg"
+									style="width: 98%;" />
 							</div>
+							
 							<div class="ui-grid-col-4">
 								<p:button outcome="insuranceDetails" value="Szczegóły"
-									style="width: 100%; margin-bottom: 1%; font-size: 12px">
-									<f:param name="insuranceId" value="1" />
+									style="width: 100%; margin-bottom: 2%; font-size: 12px">
+									<f:param name="insuranceId" value="#{item.id}" />
 								</p:button>
-								<p:button outcome="addInsurance" value="Wypełnij wniosek" 
+								<p:button outcome="addInsurance" value="Wypełnij wniosek"
 									style="width: 100%; font-size: 12px;">
-									<f:param name="insuranceId" value="1" />
+									<f:param name="insuranceId" value="#{item.id}" />
 								</p:button>
 							</div>
 						</p:fieldset>
 					</div>
-				</div>
+				</ui:repeat>
 			</div>
 		</h:form>
 
