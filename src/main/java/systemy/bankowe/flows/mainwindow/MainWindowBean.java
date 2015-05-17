@@ -2,6 +2,7 @@ package systemy.bankowe.flows.mainwindow;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import systemy.bankowe.dto.AccountDto;
+import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.security.SpringSecurityContextUtil;
 import systemy.bankowe.services.accountnumber.IAccountNumberService;
 import systemy.bankowe.services.user.IUserService;
@@ -39,7 +41,7 @@ public class MainWindowBean implements Serializable {
      */
     public List<AccountStub> getAccounts() {
         Optional<UserData> user = springSecurityUtil.getLoggedInUser();
-        List<AccountDto> accounts = user.isPresent() ? user.get().getUserDto().getAccounts() : new ArrayList<>();
+        List<AccountDto> accounts = user.isPresent() ? user.get().getUserDto().getAccounts() : Collections.emptyList();
         return convertAccounts(accounts);
     }
     
@@ -93,6 +95,51 @@ public class MainWindowBean implements Serializable {
         return result;
     }
     
+    /**
+     * Ustawia szczegóły wybranego okna.
+     * 
+     * @param accountStub wybrane konto.
+     * @param accountDetails szczegóły wybranego konta.
+     */
+    public void refreshAccountDetails(final AccountStub accountStub, final AccountDetails accountDetails) {
+        Optional<UserData> user = springSecurityUtil.getLoggedInUser();
+        
+        if (user.isPresent()) {
+            AccountDto selectedAccount = getSelectedAccount(user.get().getUserDto(), accountStub.getNumber());
+            if (null == selectedAccount) {
+                throw new IllegalArgumentException("Użytkownik o loginie: " + user.get().getUserDto().getLogin()
+                        + " nie posiada konta o numerze: " + accountStub.getNumber()); 
+            }
+            else {
+                List<AccountOwnerDetails> owners = new ArrayList<>();
+                for (UserDto u : selectedAccount.getOwners()) {
+                    owners.add(new AccountOwnerDetails().address(u.getAddress()).city(u.getCity()).mail(u.getEmail())
+                            .name(u.getName()).surename(u.getSurname()).zipcode(u.getZipcode()));
+                }
+                accountDetails.amount(selectedAccount.getSaldo()).name(selectedAccount.getName())
+                        .number(selectedAccount.getNumber()).owners(owners);
+            }
+        }
+        else {
+            throw new IllegalStateException("Użytkownik nie jest zalogowany!");
+        }
+    }
+    
+    /**
+     * Zwraca wybrane konto.
+     * 
+     * @param userDto dane użytkownika.
+     * @param accountNumber numer wybranego konta.
+     * @return wybrane konto.
+     */
+    private AccountDto getSelectedAccount(final UserDto userDto, final String accountNumber) {
+        for (AccountDto a : userDto.getAccounts()) {
+            if (accountNumber.equals(a.getNumber())) {
+                return a;
+            }
+        }
+        return null;
+    }
     /**
      * Zamyka żądany rachunek.
      * 

@@ -13,4 +13,5 @@
     	<property name="userService" ref="userService"/>
     </bean>
     
+    <bean id="accountDetails" class="systemy.bankowe.flows.mainwindow.AccountDetails" scope="flow"/>
 </beans>

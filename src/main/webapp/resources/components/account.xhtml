@@ -16,7 +16,9 @@
 					<p>#{cc.attrs.accountStub.name}</p>
 				</div>
 				<div class="right">
-					<p:splitButton value="Szczegóły" style="margin: 0; padding: 0;" >
+					<p:splitButton value="Szczegóły" style="margin: 0; padding: 0;" onstart="showCurtain()"
+						oncomplete="PF('accountDetails').show();hideCurtain();" update="@form"
+						actionListener="#{controller.refreshAccountDetails(cc.attrs.accountStub, accountDetails)}">
 						<p:menuitem value="Dodaj wspówłaściciela" actionListener="#{data.setAccount(cc.attrs.accountStub)}"
 							action="addCoowner" onstart="showCurtain()" oncomplete="hideCurtain()"/>
 						<c:if test="#{cc.attrs.accountStub.coowners}">
