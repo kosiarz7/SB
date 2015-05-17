@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -112,7 +113,7 @@ public class UserDto extends AbstractDto implements Serializable {
     /**
      * Konta użytkownika.
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "klienci_rachunki", joinColumns = { @JoinColumn(name = "id_klient", referencedColumnName = "id_klient") }, inverseJoinColumns = { @JoinColumn(name = "id_rachunek", referencedColumnName = "id_rachunek") })
     private List<AccountDto> accounts;
 

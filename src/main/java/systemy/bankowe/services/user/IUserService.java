@@ -1,6 +1,5 @@
 package systemy.bankowe.services.user;
 
-
 /**
  * Usługi związane z użytkownikiem.
  * 
@@ -35,4 +34,10 @@ public interface IUserService {
      * @return true - konto zostało dodane; false - wystąpiły błedy podczas próby dodania konta.
      */
     boolean addNextAccount(String accountName);
+    /**
+     * Zamyka żądany rachunek.
+     * 
+     * @param accountNumber numer rachunku do zamknięcia.
+     */
+    void closeAccount(final String accountNumber);
 }

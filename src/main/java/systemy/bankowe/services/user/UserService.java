@@ -2,9 +2,15 @@ package systemy.bankowe.services.user;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import systemy.bankowe.dao.CommonDao;
 import systemy.bankowe.dao.user.IUserDao;
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
@@ -25,6 +31,10 @@ public class UserService implements IUserService, Serializable {
      */
     private static final long serialVersionUID = -968298866296529495L;
     /**
+     * Logger.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+    /**
      * DAO dla użytkownika.
      */
     private IUserDao userDao;
@@ -36,6 +46,10 @@ public class UserService implements IUserService, Serializable {
      * Metody wspomagającę pracę z Spring Security.
      */
     private SpringSecurityContextUtil springSecurityUtil;
+    /**
+     * Podstawowe DAO dla kont bankowych.
+     */
+    private CommonDao<AccountDto> accountCommonDao;
 
     /**
      * {@inheritDoc}
@@ -83,11 +97,48 @@ public class UserService implements IUserService, Serializable {
             accountDto.setSaldo(new Random().nextDouble() * 5000.0 + 200.45);
             accountDto.setSetupDate(new Date());
             accountDto.setEnabled(true);
+            Set<UserDto> owners = new HashSet<>();
+            owners.add(user.get().getUserDto());
+            accountDto.setOwners(owners);
             userDao.addAccount(user.get().getUserDto(), accountDto);
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void closeAccount(String accountNumber) {
+        String accountToClose = accountNumberService.removeWhitespaces(accountNumber);
+        Optional<UserData> user = springSecurityUtil.getLoggedInUser();
+
+        if (user.isPresent()) {
+            AccountDto account = null;
+            UserDto userDto = user.get().getUserDto();
+            for (AccountDto a : userDto.getAccounts()) {
+                if (accountToClose.equals(a.getNumber())) {
+                    account = a;
+                }
+            }
+
+            if (null == account) {
+                LOGGER.warn("closeAccount|Użytkownik o loginie: {} nie posiada konta bankowego o numerze: {}",
+                        userDto.getLogin(), accountNumberService.formatAccountNumber(accountToClose));
+                throw new IllegalArgumentException("Uzytkownik nie posiada konta o numerze: " + accountToClose);
+            }
+
+            account.setEnabled(false);
+            accountCommonDao.update(account);
+            
+            LOGGER.debug("closeAccount|Konto {} zostało zamknięte.",
+                    accountNumberService.formatAccountNumber(accountToClose));
+        }
+        else {
+            throw new IllegalStateException("Użytkownik jest niezalogowany!");
+        }
     }
 
     /**
@@ -105,5 +156,9 @@ public class UserService implements IUserService, Serializable {
 
     public void setSpringSecurityUtil(SpringSecurityContextUtil springSecurityUtil) {
         this.springSecurityUtil = springSecurityUtil;
+    }
+
+    public void setAccountCommonDao(CommonDao<AccountDto> accountCommonDao) {
+        this.accountCommonDao = accountCommonDao;
     }
 }

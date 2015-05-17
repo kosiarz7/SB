@@ -10,7 +10,19 @@ public class MainWindowData implements Serializable {
     /**
      * Wybrane konto.
      */
-    private AccountStub account;;
+    private AccountStub account;
+    /**
+     * Numer rachunku, na który mają zostać przelana środki.
+     */
+    private String accountNumber;
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
     public AccountStub getAccount() {
         return account;

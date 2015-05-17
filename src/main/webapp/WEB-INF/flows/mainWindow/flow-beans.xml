@@ -9,6 +9,8 @@
 
     <bean id="controller" class="systemy.bankowe.flows.mainwindow.MainWindowBean">
     	<property name="springSecurityUtil" ref="springSecurityContextUtilBean"/>
+    	<property name="accountNumberService" ref="accountNumberService"/>
+    	<property name="userService" ref="userService"/>
     </bean>
     
 </beans>

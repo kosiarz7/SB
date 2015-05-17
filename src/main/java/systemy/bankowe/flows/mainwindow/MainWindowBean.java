@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.security.SpringSecurityContextUtil;
+import systemy.bankowe.services.accountnumber.IAccountNumberService;
+import systemy.bankowe.services.user.IUserService;
 import systemy.bankowe.services.user.UserData;
 
 public class MainWindowBean implements Serializable {
-
     /**
      * UID.
      */
@@ -19,6 +23,14 @@ public class MainWindowBean implements Serializable {
      * Metody wspomagającę pracę z Spring Security.
      */
     private SpringSecurityContextUtil springSecurityUtil;
+    /**
+     * Serwis dla użytkownika.
+     */
+    private IUserService userService;
+    /**
+     * Serwis dla kont bankowych.
+     */
+    private IAccountNumberService accountNumberService;
     
     /**
      * Pobiera informacje o kontach należących do zalogowanego użytkownika.
@@ -41,7 +53,8 @@ public class MainWindowBean implements Serializable {
         List<AccountStub> accountStubs = new ArrayList<>();
         
         for (AccountDto a : accounts) {
-            accountStubs.add(new AccountStub().name(a.getName()).saldo(a.getSaldo()).number(a.getNumber()));
+            accountStubs.add(new AccountStub().name(a.getName()).saldo(a.getSaldo()).number(a.getNumber())
+                    .coowners(a.getOwners().size() > 1));
         }
         
         return accountStubs;
@@ -62,8 +75,43 @@ public class MainWindowBean implements Serializable {
         
         return accountNumber;
     }
+    
+    /**
+     * Sprawdza czy podany numer rachunku bankowego jets poprawny.
+     * 
+     * @param data dane.
+     * @return true - nr rachunku jest poprawny; false = numer rachunku jest niepoprawny.
+     */
+    public boolean isAccountNumberValid(final MainWindowData data) {
+        boolean result = accountNumberService.isValid(accountNumberService.removeWhitespaces(data.getAccountNumber()));
+        if (!result) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Podano nieprawidłowy numer rachunku bankowego.",
+                            "Podano nieprawidłowy numer rachunku bankowego."));
+        }
+        return result;
+    }
+    
+    /**
+     * Zamyka żądany rachunek.
+     * 
+     * @param data dane.
+     */
+    public void deleteAccount(final MainWindowData data) {
+        // TODO dodać operację przelewu
+        userService.closeAccount(data.getAccount().getNumber());
+    }
 
     public void setSpringSecurityUtil(SpringSecurityContextUtil springSecurityUtil) {
         this.springSecurityUtil = springSecurityUtil;
+    }
+    
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
+    }
+
+    public void setAccountNumberService(IAccountNumberService accountNumberService) {
+        this.accountNumberService = accountNumberService;
     }
 }
