@@ -47,6 +47,7 @@ CREATE TABLE uprawnienia_klientow (
 CREATE TABLE rachunki (
   	id_rachunek VARCHAR2(26) PRIMARY KEY,
   	nazwa VARCHAR(255) NOT NULL,
+  	numer INTEGER NOT NULL,
   	saldo DECIMAL(*, 5) NOT NULL ,
   	data_zalozenia DATE NOT NULL
 );

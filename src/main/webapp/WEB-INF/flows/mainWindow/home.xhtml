@@ -16,6 +16,30 @@
 			<ui:repeat var="item" value="#{accounts}">
 				<my:account accountStub="#{item}" />
 			</ui:repeat>
+			
+			<p:dialog id="accountDetailsDialog" header="Szczegóły" widgetVar="accountDetails" modal="true">
+				<p>
+		    		<h:outputText value="#{accountDetails.name}" />
+		    	</p>
+		    	<p>
+					#{accountNumberService.formatAccountNumber(accountDetails.number)}
+					<span class="right" style="margin-left: 100px;">
+						<h:outputText value="#{accountDetails.amount}">
+							<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+								locale="pl_PL"/>
+						</h:outputText>
+					</span>
+				</p>
+				<p>
+					Właściciele:
+					<p:dataList value="#{accountDetails.owners}" var="owner" type="definition">
+				        <p style="margin-left: 10px;">#{owner.name} #{owner.surename}<br/>
+				        #{owner.address}<br/>
+				        #{owner.zipcode} #{owner.city}<br/>
+				        #{owner.mail}</p>
+				    </p:dataList>
+				</p>
+			</p:dialog>
 		</h:form>
     </ui:define>
 </ui:composition>

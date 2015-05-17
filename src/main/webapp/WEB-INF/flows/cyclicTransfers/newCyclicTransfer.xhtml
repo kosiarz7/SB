@@ -39,10 +39,13 @@
 		        	<p:message for="amount"/>
 		        	
 		        	<p:outputLabel value="Wykonuj przelew co:" for="period"/>
-		        	<p:selectBooleanButton id="period" value="#{data.period}" onLabel="miesiąc" offLabel="tydzień" />
+		        	<p:selectBooleanButton id="period" value="#{data.period}" onLabel="miesiąc" offLabel="tydzień" 
+		        		valueChangeListener="#{data.periodChanged}">
+		        		<p:ajax event="valueChange" process="@this" update="@([id$='dayLabel']) @([id$='day'])" />
+		        	</p:selectBooleanButton>
 		        	<p:message for="period"/>
 		        	
-		        	<p:outputLabel value="Dzień #{data.dayLabel}:"/>
+		        	<p:outputLabel value="Dzień #{data.dayLabel}:" id="dayLabel"/>
 		        	<p:selectOneMenu value="#{data.day}" id="day">
 		        		<f:selectItems value="#{data.availabelDays}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
 		        	</p:selectOneMenu>

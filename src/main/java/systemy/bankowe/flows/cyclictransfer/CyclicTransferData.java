@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.event.ValueChangeEvent;
+
 /**
  * Dane przelewu cyklicznego.
  * 
@@ -69,7 +71,7 @@ public class CyclicTransferData implements Serializable {
     /**
      * Etykieta dnia przelewu.
      */
-    private String dayLabel;
+    private String dayLabel = "miesiąca";
     /**
      * Dzień przelewu.
      */
@@ -77,7 +79,21 @@ public class CyclicTransferData implements Serializable {
     /**
      * Dostępne dni do przelewu.
      */
-    private List<String> availabelDays;
+    private List<String> availabelDays = DAY_OF_WEEK;
+    
+    
+    public void periodChanged(ValueChangeEvent event) {
+        boolean newValue = (boolean) event.getNewValue();
+        if (newValue) {
+            availabelDays = DAY_OF_MONTH;
+            dayLabel = "miesiąca";
+        }
+        else {
+            availabelDays = DAY_OF_WEEK;
+            dayLabel = "tygodnia";
+        }
+    }
+    
 
     public String getName() {
         return name;

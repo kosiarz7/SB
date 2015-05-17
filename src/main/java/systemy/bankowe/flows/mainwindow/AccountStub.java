@@ -20,6 +20,10 @@ public class AccountStub implements Serializable {
      * Nazwa konta.
      */
     private String name;
+    /**
+     * Czy konto posiada wspówłaścicieli?
+     */
+    private boolean coowners;
 
     
     public AccountStub saldo(double saldo) {
@@ -34,6 +38,11 @@ public class AccountStub implements Serializable {
 
     public AccountStub name(String name) {
         this.name = name;
+        return this;
+    }
+    
+    public AccountStub coowners(boolean coowners) {
+        this.coowners = coowners;
         return this;
     }
     
@@ -60,5 +69,13 @@ public class AccountStub implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isCoowners() {
+        return coowners;
+    }
+
+    public void setCoowners(boolean coowners) {
+        this.coowners = coowners;
     }
 }

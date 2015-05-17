@@ -18,6 +18,9 @@
 
 	<!-- Skanowanie po projekcie za benami oznaczonymi adnotacjami -->
 	<context:component-scan base-package="systemy.bankowe.controllers"/>
+	<context:component-scan base-package="systemy.bankowe.dao.deposit"/>
+	<context:component-scan base-package="systemy.bankowe.services.deposit"/>
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
 

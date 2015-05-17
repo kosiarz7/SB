@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" start-state="createDeposit"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<!-- Zabezpieczenie flow przez Spring Security -->
+	<secured attributes="ROLE_USER"/>
+	
+	<var name="deposit" class="systemy.bankowe.dto.deposit.Lokaty"/>
+	<var name="controller" class="systemy.bankowe.controllers.DepositController"/>
+	<!--
+	<on-start>
+		<evaluate expression="depositService.createDeposit(currentUser.name)" result="flowScope.deposit" />
+	</on-start> -->
+	
+	<view-state id="createDeposit">
+		<transition on="select3monthDeposit" to="deposit3month"/>
+	</view-state>
+	
+	<view-state id="deposit3month">
+		<transition on="submit3month" to="checkConditions3month"/>
+		<transition on="cancel" to="depositCancelled"/>
+	</view-state>
+	
+	<action-state id="checkConditions3month">
+		<evaluate expression="controller.createDeposit3Month(deposit)"/>
+		<transition on="yes" to="depositCreated" />
+        <transition on="no" to="rejected" />
+	</action-state>
+	
+	<end-state id="depositCreated" view="createDepositEnd"/>
+	<end-state id="rejected" view="createDepositEnd"/>
+	<end-state id="depositCancelled"/>
+</flow>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+        <ui:define name="pageContent">
+
+            <h:head>
+
+                <title>Nowa lokata</title>
+                
+            </h:head>
+            <body>
+               <h3>Lokata 3 miesięczna</h3>
+               
+               <h:form>
+               	 			<label for="date">Data założenia lokaty</label>
+                                <h:inputText id="date" class="form-control" value="#{deposit.dataZalozenia}" required="true">
+                                    <f:convertDateTime pattern="yyyy-MM-dd"/> 
+                                </h:inputText>
+                                <h:message id="m1" for="date" style="color:red"/> <p></p>
+                   			<div class="form-group">
+                                <label for="wartoscStartowa">Wartość lokaty</label>
+                                <h:inputText id="wartoscStartowa" class="form-control" value="#{deposit.wartoscStartowa}" required="true" />
+                                <h:message id="m2" for="wartoscStartowa" style="color:red"/> <p></p>
+                            </div>
+                                
+               	 		<p:commandButton action="submit3month" value="Załóż" update="@form"/>
+               	 		<p:commandButton action="cancel" class="btn btn-primary"  value="Anuluj" immediate="true"/>
+               </h:form>
+  			</body>
+    </ui:define>
+</ui:composition>
+    
+    
+</html>
