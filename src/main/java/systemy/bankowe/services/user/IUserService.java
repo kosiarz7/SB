@@ -1,5 +1,7 @@
 package systemy.bankowe.services.user;
 
+import systemy.bankowe.dto.UserDto;
+
 
 /**
  * Usługi związane z użytkownikiem.
@@ -28,4 +30,7 @@ public interface IUserService {
      * @param userData dane użytkownika.
      */
     void incrementFailAttempts(final UserData userData);
+    
+    
+    UserDto loginAccount();
 }

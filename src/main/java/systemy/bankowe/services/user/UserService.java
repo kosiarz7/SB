@@ -2,6 +2,10 @@ package systemy.bankowe.services.user;
 
 import java.io.Serializable;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+
 import systemy.bankowe.dao.user.IUserDao;
 import systemy.bankowe.dto.UserDto;
 
@@ -63,4 +67,5 @@ public class UserService implements IUserService, Serializable {
     public void setUserDao(final IUserDao userDao) {
         this.userDao = userDao;
     }
+    
 }
