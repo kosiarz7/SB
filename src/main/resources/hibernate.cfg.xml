@@ -8,8 +8,8 @@
 		<!-- Database connection settings -->
 		<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
 		<property name="connection.url">jdbc:oracle:thin:@//192.168.56.101:1521/orcl</property>
-		<property name="connection.username">darek</property>
-		<property name="connection.password">password</property>
+		<property name="connection.username">SB</property>
+		<property name="connection.password">sb</property>
 		
 		<property name="dialect">org.hibernate.dialect.OracleDialect</property>
 		<property name="show_sql">true</property>
@@ -17,17 +17,13 @@
 		
 		<mapping class="systemy.bankowe.dto.UserDto" />
 		<mapping class="systemy.bankowe.dto.RoleDto" />
-		<mapping class="systemy.bankowe.dto.deposit.Deposit" />
-		<mapping class="systemy.bankowe.dto.deposit.DepositCondition" />
-		<mapping class="systemy.bankowe.dto.deposit.DepositIncrements" />
-		<mapping class="systemy.bankowe.dto.deposit.DepositType" />
-		<mapping class="systemy.bankowe.dto.deposit.DepositVariablePercent" />
-		<mapping class="systemy.bankowe.dto.deposit.Klienci" />
 		<mapping class="systemy.bankowe.dto.deposit.KlientLokaty" />
 		<mapping class="systemy.bankowe.dto.deposit.LokataOdsetki" />
 		<mapping class="systemy.bankowe.dto.deposit.LokataTyp" />
 		<mapping class="systemy.bankowe.dto.deposit.Lokaty" />
 		<mapping class="systemy.bankowe.dto.deposit.LokatyWarunki" />
 		<mapping class="systemy.bankowe.dto.deposit.OprocentowanieLokata" />
+		<mapping class="systemy.bankowe.dto.AccountDto" />
+		<mapping class="systemy.bankowe.dto.CitizenshipDto" />
 	</session-factory>
 </hibernate-configuration>

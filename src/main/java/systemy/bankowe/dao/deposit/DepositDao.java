@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import systemy.bankowe.dao.CommonDao;
-import systemy.bankowe.dto.deposit.Deposit;
 import systemy.bankowe.dto.deposit.Lokaty;
 
 @Repository
@@ -44,12 +43,6 @@ public class DepositDao extends CommonDao implements IDepositDao, Serializable {
             session.close();
         }
 		//sessionFactory.getCurrentSession().save(deposit);
-	}
-
-	@Override
-	public List<Deposit> getAllDepositsForUser(String username) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

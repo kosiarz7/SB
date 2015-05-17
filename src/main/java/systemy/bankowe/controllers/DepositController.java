@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 
-import systemy.bankowe.dto.deposit.Deposit;
 import systemy.bankowe.dto.deposit.Lokaty;
 import systemy.bankowe.services.deposit.DepositService;
 import systemy.bankowe.services.deposit.IDepositService;

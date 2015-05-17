@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import systemy.bankowe.dao.deposit.DepositDao;
-import systemy.bankowe.dto.deposit.Deposit;
 import systemy.bankowe.dto.deposit.Lokaty;
 
 @Service

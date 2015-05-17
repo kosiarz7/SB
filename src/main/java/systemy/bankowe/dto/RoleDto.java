@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Encja uprawnienia użytkownika.
@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * Copyright © 2015 Adam Kopaczewski
  */
 @Entity
-@Table(name = "ROLES")
+@Table(name = "uprawnienia")
 public class RoleDto extends AbstractDto implements Serializable {
     /**
      * UID.
@@ -27,13 +27,12 @@ public class RoleDto extends AbstractDto implements Serializable {
      * Id uprawnienia.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "id", nullable = false)
     private int id;
     /**
      * Nazwa uprawnienia.
      */
-    @Column(name = "NAME", nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
     
     /**
@@ -43,6 +42,11 @@ public class RoleDto extends AbstractDto implements Serializable {
         id = UNLOADED_ID;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+    
     // SETTRY I GETTERY
     @Override
     public int getId() {

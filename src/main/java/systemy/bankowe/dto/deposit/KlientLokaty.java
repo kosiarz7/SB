@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import systemy.bankowe.dto.UserDto;
+
 
 /**
  *
@@ -40,7 +42,7 @@ public class KlientLokaty implements Serializable {
     private Lokaty idLokata;
     @JoinColumn(name = "ID_KLIENT", referencedColumnName = "ID_KLIENT")
     @ManyToOne
-    private Klienci idKlient;
+    private UserDto idKlient;
 
     public KlientLokaty() {
     }
@@ -65,11 +67,11 @@ public class KlientLokaty implements Serializable {
         this.idLokata = idLokata;
     }
 
-    public Klienci getIdKlient() {
+    public UserDto getIdKlient() {
         return idKlient;
     }
 
-    public void setIdKlient(Klienci idKlient) {
+    public void setIdKlient(UserDto idKlient) {
         this.idKlient = idKlient;
     }
 

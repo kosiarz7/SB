@@ -49,6 +49,32 @@ body {
 	background-color: #F87171;
 }
 
+/* Kurtyna */ 
+#curtain {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	background: rgba(51,51,51,0.5);
+	z-index: 99999;
+	display: none;
+}
+
+#curtainContent {
+	background-color: white; 
+	padding: 10px;
+	display: inline-block;
+	border-radius: 15px;
+}
+
+#curtainImage {
+	width: auto;
+	height: auto;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
 /* Kontener opakowujący jakąkolwiek zawartość na stronie. Wyznacza użytkowy obszar oraz wypośrodkowuje treść. */
 div.content {
 	width: 1000px;
@@ -189,4 +215,34 @@ ol.mainMenu>li>ul>li:hover {
 /* wygląd elementu - a - w części rozwijanej, po najechaniu kursorem myszki na element - li */
 ol.mainMenu>li>ul>li:hover>a {
 	color: #09C;
+}
+
+/* Account panel */
+.accountPanel {
+	background: linear-gradient(#007A29, #8BEBAB);
+	margin-bottom: 20px;
+	border-radius: 25px;
+	border: 2px solid #F87171;
+}
+
+.accountPanel p {
+	color: black;
+}
+
+.accountButtons {
+	font-size: 15px !important;
+	margin-right: 10px;
+	border-radius: 20px;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+.textCenter {
+	text-align: center;	
 }

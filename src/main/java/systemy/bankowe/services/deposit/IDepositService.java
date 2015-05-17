@@ -1,6 +1,5 @@
 package systemy.bankowe.services.deposit;
 
-import systemy.bankowe.dto.deposit.Deposit;
 import systemy.bankowe.dto.deposit.Lokaty;
 
 public interface IDepositService {

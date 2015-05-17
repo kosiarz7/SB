@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="data" class="systemy.bankowe.flows.addaccount.NewAccountData" scope="flow"/>
+	
+	<bean id="controller" class="systemy.bankowe.flows.addaccount.AddAccountBean">
+    	<property name="encryptor" ref="encryptor" />
+    	<property name="accountNumberService" ref="accountNumberService" />
+    	<property name="loginService" ref="loginService" />
+    	<property name="roleDao" ref="roleDao" />
+    	<property name="mailService" ref="mailService" />
+    	<property name="commonUserDao" ref="commonDao"/>
+    	<property name="citizenshipDao" ref="commonDao"/>
+    </bean>
+    
+    <bean id="citizenshipConverter" class="systemy.bankowe.flows.addaccount.CitizenshipConverter"></bean>
+</beans>

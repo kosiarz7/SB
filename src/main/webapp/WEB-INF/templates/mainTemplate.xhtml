@@ -2,19 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>StealingBank</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="#{request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="#{request.contextPath}/resources/js/scripts.js"></script>
 </h:head>
 <h:body>
 	<div id="header">
 		<div id="header-content" class="content">
 			<div id="title">
-				<img src="#{request.contextPath}/resources/img/logo.png" width="600"
-					height="128" />
+				<a href="#{request.contextPath}/app/mainWindow"><img src="#{request.contextPath}/resources/img/logo.png" width="600"
+					height="128" /></a>
 			</div>
 			<div id="userData">
 				<c:if test="#{springSecurityContextUtilBean.isUserLoggedIn()}">
@@ -38,29 +40,35 @@
 	<div id="page">
 		<div class="content">
 			<c:if test="#{springSecurityContextUtilBean.isUserLoggedIn()}">
-				<ol class="mainMenu">
-				    <li><a href="#">Stronga główna</a></li>
-					<li><a href="#">Transakcje</a>
-						<ul>
-							<li><a href="${request.contextPath}/app/moneyTransfer">Przelew</a></li>
-							<li><a href="${request.contextPath}/app/orderToPay">Polecenie zapłaty</a></li>
-							<li><a href="#">Inna transakcja</a></li>
-							<li><a href="#">link - 4</a></li>
-							<li><a href="#">link - 5</a></li>
-						</ul></li>
-					<li><a href="#">Lokaty</a>
-					<ul>
-							<li><a href="${request.contextPath}/app/deposit">Załóż lokatę</a></li>
-							<li><a href="#">Moje lokaty</a></li>
-							<li><a href="#">Kalkulator zysków</a></li>
-						</ul></li>
-						<li><a href="#">Menu 3</a></li>
-				</ol>
+				<h:form prependId="false">
+            		<p:menubar id="menubar">
+            			<p:menuitem value="Pulpit" url="/app/mainWindow"/>
+            			<p:submenu label="Transakcje">
+            				<p:menuitem value="Przelew" url="/app/moneyTransfer"/>
+            				<p:menuitem value="Polecenie zapłaty" url="/app/orderToPay"/>
+            			</p:submenu>
+            			<p:submenu label="Lokaty">
+            				<p:menuitem value="Załóż lokatę" url="/app/deposit"/>
+            			</p:submenu>
+            		</p:menubar>
+           		</h:form>
 			</c:if>
-			<div id="pageContent">
+			<c:if test="#{not springSecurityContextUtilBean.isUserLoggedIn() and not hide}">
+				<h:form>
+					<p:button value="Załóż konto" href="/app/addAccount"/>
+				</h:form>
+			</c:if>
+			<div id="pageContent" style="padding-top: 10px;">
 				<ui:insert name="pageContent" />
 			</div>
 		</div>
 	</div>
+	
+	<!-- Kurtyna -->
+    <div id="curtain">
+		<div id="curtainContent">
+			<img id="curtainImage" src="#{request.contextPath}/resources/img/ajax-loader1.gif"/>Proszę czekać...
+		</div>
+	</div>    
 </h:body>
 </html>
