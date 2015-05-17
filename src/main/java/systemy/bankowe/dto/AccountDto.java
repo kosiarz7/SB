@@ -2,12 +2,15 @@ package systemy.bankowe.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -23,7 +26,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Entity
 @Table(name = "rachunki")
 public class AccountDto implements Serializable {
-
     /**
      * UID.
      */
@@ -56,12 +58,22 @@ public class AccountDto implements Serializable {
      */
     @Column(name = "data_zalozenia")
     private Date setupDate;
+    /**
+     * Czy konto jest aktywne?
+     */
+    @Column(name = "enabled")
+    private boolean enabled;
+    /**
+     * Właściciele konta.
+     */
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "accounts")
+    private Set<UserDto> owners;
 
-    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+
     
     // GETTERY I SETTERY
     public String getNumber() {
@@ -94,5 +106,29 @@ public class AccountDto implements Serializable {
 
     public void setSetupDate(Date setupDate) {
         this.setupDate = setupDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<UserDto> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(Set<UserDto> owners) {
+        this.owners = owners;
     }
 }

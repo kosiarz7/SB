@@ -149,4 +149,32 @@ public class CommonDao<T> extends HibernateUtil implements Serializable {
         
         return entities;
     }
+    
+    /**
+     * Odświeżenie encji.
+     * 
+     * @param entity encja do odświeżenia.
+     */
+    public void refresh(T entity) {
+        LOGGER.debug("refresh|Próba odświeżenia encji: {}", entity);
+        Session session = openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.beginTransaction();
+            session.refresh(entity);
+            tx.commit();
+        }
+        catch (RuntimeException e) {
+            if (null != tx) {
+                tx.rollback();
+            }
+            LOGGER.error("refresh|Wystąpił błąd podczas próby odświeżenia encji: {}", entity, e);
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        LOGGER.debug("refresh|Odświeżenie encji: {} zakończył się powodzeniem.", entity);
+    }
 }

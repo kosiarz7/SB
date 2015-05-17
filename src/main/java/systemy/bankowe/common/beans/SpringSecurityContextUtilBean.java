@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import systemy.bankowe.dao.CommonDao;
+import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.security.SpringSecurityContextUtil;
 import systemy.bankowe.services.user.UserData;
 
@@ -27,6 +29,10 @@ public class SpringSecurityContextUtilBean implements Serializable, SpringSecuri
      * UID.
      */
     private static final long serialVersionUID = -1707242397470945906L;
+    /**
+     * Podstawowe DAO dla użytkownika.
+     */
+    private CommonDao<UserDto> commonUserDao;
 
     /**
      * {@inheritDoc}
@@ -98,10 +104,19 @@ public class SpringSecurityContextUtilBean implements Serializable, SpringSecuri
             Object principal = auth.getPrincipal();
     
             if (principal instanceof UserData) {
-                user = Optional.of((UserData) principal);
+                UserData userData = (UserData) principal;
+                UserDto userDto = userData.getUserDto();
+                commonUserDao.refresh(userDto);
+                userDto.setAccounts(userDto.getAccounts().stream().filter(a -> a.isEnabled())
+                        .collect(Collectors.toList()));
+                user = Optional.of(userData);
             }
         }
 
         return user;
+    }
+
+    public void setCommonUserDao(CommonDao<UserDto> commonUserDao) {
+        this.commonUserDao = commonUserDao;
     }
 }

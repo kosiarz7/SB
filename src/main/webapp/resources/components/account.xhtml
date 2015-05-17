@@ -2,6 +2,7 @@
 <ui:component xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:cc="http://java.sun.com/jsf/composite"
 	xmlns:p="http://primefaces.org/ui">
@@ -10,22 +11,44 @@
 	</cc:interface>
 	<cc:implementation>
 		<p:panel styleClass="accountPanel">
-			<p>#{cc.attrs.accountStub.name}</p>
-			<p>
-				#{accountNumberService.formatAccountNumber(cc.attrs.accountStub.number)}
-				<span class="right">
-					<h:outputText value="#{cc.attrs.accountStub.saldo}">
-						<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
-							locale="pl_PL"/>
-					</h:outputText>
-				</span>
-			</p>
-			<p class="textCenter">
-				<p:commandButton value="Wykonaj przelew" styleClass="accountButtons" 
-					actionListener="#{data.setAccount(cc.attrs.accountStub)}" action="transfer"/>
-				<p:commandButton value="Historia" styleClass="accountButtons"
-					actionListener="#{data.setAccount(cc.attrs.accountStub)}" action="history"/>
-			</p>
+			<div style="overflow: auto;">
+				<div class="left">
+					<p>#{cc.attrs.accountStub.name}</p>
+				</div>
+				<div class="right">
+					<p:splitButton value="Szczegóły" style="margin: 0; padding: 0;" onstart="showCurtain()"
+						oncomplete="PF('accountDetails').show();hideCurtain();" update="@form"
+						actionListener="#{controller.refreshAccountDetails(cc.attrs.accountStub, accountDetails)}">
+						<p:menuitem value="Dodaj wspówłaściciela" actionListener="#{data.setAccount(cc.attrs.accountStub)}"
+							action="addCoowner" onstart="showCurtain()" oncomplete="hideCurtain()"/>
+						<c:if test="#{cc.attrs.accountStub.coowners}">
+				        	<p:menuitem value="Zrezygnuj" action="resign" onstart="showCurtain()" oncomplete="hideCurtain()"
+				        		actionListener="#{data.setAccount(cc.attrs.accountStub)}"/>
+				        </c:if>
+				        <c:if test="#{not cc.attrs.accountStub.coowners}">
+				        	<p:menuitem value="Zamknij rachunek" action="delete" onstart="showCurtain()" oncomplete="hideCurtain()"
+				        		actionListener="#{data.setAccount(cc.attrs.accountStub)}"/>
+				        </c:if>>
+				    </p:splitButton>
+				</div>
+			</div>
+			<div style="clear: both;">
+				<p>
+					#{accountNumberService.formatAccountNumber(cc.attrs.accountStub.number)}
+					<span class="right">
+						<h:outputText value="#{cc.attrs.accountStub.saldo}">
+							<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+								locale="pl_PL"/>
+						</h:outputText>
+					</span>
+				</p>
+				<p class="textCenter">
+					<p:commandButton value="Wykonaj przelew" styleClass="accountButtons" 
+						actionListener="#{data.setAccount(cc.attrs.accountStub)}" action="transfer"/>
+					<p:commandButton value="Historia" styleClass="accountButtons"
+						actionListener="#{data.setAccount(cc.attrs.accountStub)}" action="history"/>
+				</p>
+			</div>
 		</p:panel>
 	</cc:implementation>
 </ui:component>

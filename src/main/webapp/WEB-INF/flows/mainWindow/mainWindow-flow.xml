@@ -11,9 +11,23 @@
 		<on-entry>
 			<evaluate expression="controller.getAccounts()" result="viewScope.accounts" />
 		</on-entry>
+		<transition on="delete" to="delete"/>
 		<transition on="transfer" to="home" />
 		<transition on="history" to="home" />
+		<transition on="addCoowner" to="home" />
+		<transition on="resign" to="home" />
 	</view-state>
+	
+	<view-state id="delete" >
+		<transition on="delete" to="deleteAccount">
+			<evaluate expression="controller.isAccountNumberValid(data)" />
+		</transition>
+	</view-state>
+	
+	<action-state id="deleteAccount">
+		<evaluate expression="controller.deleteAccount(data)" />
+		<transition to="home" />
+	</action-state>
 
 	<bean-import resource="flow-beans.xml" />
 </flow>

@@ -4,6 +4,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
 	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
+	<!-- Zabezpieczenie flow przez Spring Security -->
+	<secured attributes="ROLE_USER"/>
+
 	<view-state id="home">
 		<transition on="add" to="newCyclicTransfer"/>
 	</view-state>

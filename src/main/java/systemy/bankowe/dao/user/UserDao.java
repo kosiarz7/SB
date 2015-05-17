@@ -150,8 +150,8 @@ public class UserDao extends HibernateUtil implements IUserDao, Serializable {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.refresh(userDto);
             userDto.getAccounts().add(accountDto);
+            session.update(userDto);
             tx.commit();
         }
         catch (RuntimeException e) {
