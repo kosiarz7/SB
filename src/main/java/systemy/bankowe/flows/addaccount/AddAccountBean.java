@@ -232,6 +232,7 @@ public class AddAccountBean implements Serializable {
         account.setNumber(accountNumberService.createNewAccountNumber());
         account.setSaldo(new Random().nextDouble() * 10_000.0 + 845.123);
         account.setSetupDate(new Date());
+        account.setEnabled(true);
         List<AccountDto> accounts = new ArrayList<>();
         accounts.add(account);
         newUser.setAccounts(accounts);

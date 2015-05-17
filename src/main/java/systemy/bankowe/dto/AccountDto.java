@@ -56,13 +56,17 @@ public class AccountDto implements Serializable {
      */
     @Column(name = "data_zalozenia")
     private Date setupDate;
+    /**
+     * Czy konto jest aktywne?
+     */
+    @Column(name = "enabled")
+    private boolean enabled;
 
-    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
-    
+
     // GETTERY I SETTERY
     public String getNumber() {
         return number;
@@ -94,5 +98,21 @@ public class AccountDto implements Serializable {
 
     public void setSetupDate(Date setupDate) {
         this.setupDate = setupDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

@@ -82,6 +82,7 @@ public class UserService implements IUserService, Serializable {
             accountDto.setName(accountName);
             accountDto.setSaldo(new Random().nextDouble() * 5000.0 + 200.45);
             accountDto.setSetupDate(new Date());
+            accountDto.setEnabled(true);
             userDao.addAccount(user.get().getUserDto(), accountDto);
             return true;
         }
