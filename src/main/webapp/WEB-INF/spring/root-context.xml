@@ -84,6 +84,8 @@
 	
 	<bean id="accountDao" class="systemy.bankowe.dao.account.AccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 		
+	<bean id="InsuranceTypeDao" class="systemy.bankowe.dao.insurance.InsuranceTypeDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+		
 	<!-- Wstrzykiwanie loggerów -->
 	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">
 		<constructor-arg name="loggerFactory">

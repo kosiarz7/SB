@@ -6,11 +6,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="data" class="systemy.bankowe.flows.insurancemain.InsuranceMainData" scope="flow"/>
+	<bean id="data" class="systemy.bankowe.flows.insuranceadd.InsuranceAddData" scope="flow"/>
 	
-
-    <bean id="mainInsuranceController" class="systemy.bankowe.flows.insurancemain.InsuranceMainBean">
-    	<property name="insuranceTypeDao" ref="commonDao"/>
+	<bean id="addInsuranceController" class="systemy.bankowe.flows.insuranceadd.InsuranceAddBean">
+    	<property name="insuranceTypeDao" ref="InsuranceTypeDao" />
     </bean>
 	
 </beans>

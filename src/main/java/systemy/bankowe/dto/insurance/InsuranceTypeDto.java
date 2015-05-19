@@ -1,4 +1,4 @@
-package systemy.bankowe.dto.insurances;
+package systemy.bankowe.dto.insurance;
 
 import java.io.Serializable;
 
