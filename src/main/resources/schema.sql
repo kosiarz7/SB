@@ -56,3 +56,17 @@ CREATE TABLE uprawnienia_klientow (
     CONSTRAINT uprawnienia_kli_00_klient_fk FOREIGN KEY (klient_id) REFERENCES klienci(id_klient),
     CONSTRAINT uprawnienia_kli_00_upraw_fk FOREIGN KEY (uprawnienie_id) REFERENCES uprawnienia(id)
 );
+
+-- Ubezpieczenia
+
+CREATE TABLE typUbezpieczenie
+(
+	id_typUbezpieczenie integer  NOT NULL,
+  nazwa varchar2(50)  NOT NULL,
+  typ varchar2(50)  NOT NULL,
+	opis_korzysci varchar2(255)  NOT NULL,
+  opis_inne varchar2(255) NOT NULL,
+	CONSTRAINT typUbezpieczenie_pk PRIMARY KEY (id_typUbezpieczenie)
+) ;
+
+
