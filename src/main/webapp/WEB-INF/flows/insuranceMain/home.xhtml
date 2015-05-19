@@ -11,7 +11,7 @@
 		<h:form>
 			<div class="ui-grid ui-grid-responsive">
 
-				<ui:repeat value="#{insurances}" var="item">
+				<ui:repeat value="#{insuranceTypes}" var="item">
 					<div class="ui-grid-col-4">
 						<p:fieldset legend="#{item.name}" style="margin-bottom:15px;">
 							<div class="ui-grid-col-7">
@@ -21,14 +21,29 @@
 							</div>
 							
 							<div class="ui-grid-col-4">
-								<p:button outcome="insuranceDetails" value="Szczegóły"
-									style="width: 100%; margin-bottom: 2%; font-size: 12px">
-									<f:param name="insuranceId" value="#{item.id}" />
-								</p:button>
-								<p:button outcome="addInsurance" value="Wypełnij wniosek"
-									style="width: 100%; font-size: 12px;">
-									<f:param name="insuranceId" value="#{item.id}" />
-								</p:button>
+								<p:commandButton id="detailsBtn" value="Szczegóły" type="button"
+									style="width: 100%; margin-bottom: 5%; font-size: 12px">
+								</p:commandButton>
+								
+    							<p:overlayPanel id="detailsPanel" for="detailsBtn" hideEffect="fade" dynamic="true" style="width:600px">
+      					        	<div class="ui-grid-col-6" style="padding-right: 1%; padding-bottom: 2%;">
+      					        		<div class="ui-grid-row">
+      					        			<span style="padding-bottom: 2%; font-weight: bold;">Korzyści: </span>
+      					        		</div>
+      					        		<h:outputText value="#{item.profit_desc}" style="font-size: 13px;"/>
+      					        	</div>
+      					        	<div class="ui-grid-col-6" style="padding-left: 1%; padding-bottom: 2%;">
+      					        		<div class="ui-grid-row">
+      					        			<span style="padding-bottom: 2%; font-weight: bold;">Inne: </span>
+      					        		</div>
+      					        		<h:outputText value="#{item.other_desc}" style="font-size: 13px;"/>
+      					        	</div>
+    							</p:overlayPanel>
+								
+								<p:commandButton action="newInsurance" value="Wypełnij wniosek"
+									style="width: 100%; font-size: 12px;">						
+									<f:param name="typeId" value="#{item.id}" />
+								</p:commandButton>
 							</div>
 						</p:fieldset>
 					</div>

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import systemy.bankowe.dao.CommonDao;
-import systemy.bankowe.dto.insurances.InsuranceTypeDto;
+import systemy.bankowe.dto.insurance.InsuranceTypeDto;
 
 public class InsuranceMainBean implements Serializable {
 
