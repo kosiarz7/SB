@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
+import systemy.bankowe.dto.deposit.DepositDto;
 
 /**
  * Operacje na bazie zwiÄ…zane z uÅ¼ytkownikiem.
@@ -39,4 +40,11 @@ public interface IUserDao {
      * @param accountDto konto.
      */
     void addAccount(final UserDto userDto, final AccountDto accountDto);
+    /**
+     * Dodaje lokate u¿ytkownikowi.
+     * 
+     * @param userDto u¿ytkownik.
+     * @param deposit lokata.
+     */
+    void addDeposit(final UserDto userDto, final DepositDto deposit);
 }

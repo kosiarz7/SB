@@ -21,6 +21,8 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import systemy.bankowe.dto.deposit.DepositDto;
+
 /**
  * Encja u≈ºytkownika.
  * 
@@ -117,6 +119,13 @@ public class UserDto extends AbstractDto implements Serializable {
     @JoinTable(name = "klienci_rachunki", joinColumns = { @JoinColumn(name = "id_klient", referencedColumnName = "id_klient") }, inverseJoinColumns = { @JoinColumn(name = "id_rachunek", referencedColumnName = "id_rachunek") })
     private List<AccountDto> accounts;
 
+    /**
+     * Lokaty uøytkownika.
+     */
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "klient_lokaty", joinColumns = { @JoinColumn(name = "id_klient", referencedColumnName = "id_klient") }, inverseJoinColumns = { @JoinColumn(name = "id_lokata", referencedColumnName = "id_lokata") })
+    private Set<DepositDto> deposits;
+    
     /**
      * Konstrutkor.
      */
@@ -252,4 +261,12 @@ public class UserDto extends AbstractDto implements Serializable {
     public void setAccounts(List<AccountDto> accounts) {
         this.accounts = accounts;
     }
+
+	public Set<DepositDto> getDeposits() {
+		return deposits;
+	}
+
+	public void setDeposits(Set<DepositDto> deposits) {
+		this.deposits = deposits;
+	}
 }

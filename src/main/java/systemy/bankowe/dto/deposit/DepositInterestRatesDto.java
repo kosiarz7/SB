@@ -23,13 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "OPROCENTOWANIE_LOKATA")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "OprocentowanieLokata.findAll", query = "SELECT o FROM OprocentowanieLokata o"),
-    @NamedQuery(name = "OprocentowanieLokata.findByIdOproclokata", query = "SELECT o FROM OprocentowanieLokata o WHERE o.idOproclokata = :idOproclokata"),
-    @NamedQuery(name = "OprocentowanieLokata.findByAktualneOprocentowanie", query = "SELECT o FROM OprocentowanieLokata o WHERE o.aktualneOprocentowanie = :aktualneOprocentowanie"),
-    @NamedQuery(name = "OprocentowanieLokata.findByDataAktualizacji", query = "SELECT o FROM OprocentowanieLokata o WHERE o.dataAktualizacji = :dataAktualizacji")})
-public class OprocentowanieLokata implements Serializable {
+public class DepositInterestRatesDto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -44,12 +38,12 @@ public class OprocentowanieLokata implements Serializable {
     private Date dataAktualizacji;
     @JoinColumn(name = "ID_TYPLOKATA", referencedColumnName = "ID_TYPLOKATA")
     @ManyToOne
-    private LokataTyp idTyplokata;
+    private DepositTypeDto idTyplokata;
 
-    public OprocentowanieLokata() {
+    public DepositInterestRatesDto() {
     }
 
-    public OprocentowanieLokata(Long idOproclokata) {
+    public DepositInterestRatesDto(Long idOproclokata) {
         this.idOproclokata = idOproclokata;
     }
 
@@ -77,38 +71,12 @@ public class OprocentowanieLokata implements Serializable {
         this.dataAktualizacji = dataAktualizacji;
     }
 
-    public LokataTyp getIdTyplokata() {
+    public DepositTypeDto getIdTyplokata() {
         return idTyplokata;
     }
 
-    public void setIdTyplokata(LokataTyp idTyplokata) {
+    public void setIdTyplokata(DepositTypeDto idTyplokata) {
         this.idTyplokata = idTyplokata;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idOproclokata != null ? idOproclokata.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OprocentowanieLokata)) {
-            return false;
-        }
-        OprocentowanieLokata other = (OprocentowanieLokata) object;
-        if ((this.idOproclokata == null && other.idOproclokata != null) || (this.idOproclokata != null && !this.idOproclokata.equals(other.idOproclokata))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "gospodarka.elektroniczna.dto.sib.OprocentowanieLokata[ idOproclokata=" + idOproclokata + " ]";
-    }
-    
 }
 

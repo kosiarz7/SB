@@ -1,5 +1,8 @@
 package systemy.bankowe.services.user;
 
+import systemy.bankowe.dto.UserDto;
+import systemy.bankowe.dto.deposit.DepositDto;
+
 /**
  * UsÅ‚ugi zwiÄ…zane z uÅ¼ytkownikiem.
  * 
@@ -40,4 +43,15 @@ public interface IUserService {
      * @param accountNumber numer rachunku do zamkniÄ™cia.
      */
     void closeAccount(final String accountNumber);
+    /**
+     * Dodaje kolejn¹ lokatê dla zalogowanego u¿ytkownika.
+     * 
+     * @param deposit lokata.
+     * @return true - lokata zosta³a dodana; false - wyst¹pi³ b³¹d podczas zaka³adania lokaty.
+     */
+    boolean addNextDeposit(DepositDto deposit);
+    /**
+     * Zwraca aktualnie zalogowanego u¿ytkownika
+     */
+    UserDto getLoggedAccount();
 }

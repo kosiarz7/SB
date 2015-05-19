@@ -20,7 +20,26 @@
             <body>
                <h3>Dostępne lokaty</h3>
                <h:form>
-               	 <p:commandButton action="select3monthDeposit" value="Lokata 3 miesięczna"/>
+               			<p>
+               	 			<p:commandButton action="selectDeposit" value="Lokata 3 miesięczna">
+								<f:param name="depositTypeId" value="0" />
+							</p:commandButton>
+							</p>
+							<p>
+							<p:commandButton action="selectDeposit" value="Lokata 6 miesięczna">
+								<f:param name="depositTypeId" value="1" />
+							</p:commandButton>
+							</p>
+							<p>
+							<p:commandButton action="selectDeposit" value="Lokata 12 miesięczna">
+								<f:param name="depositTypeId" value="2" />
+							</p:commandButton>
+							</p>
+							<p>
+							<p:commandButton action="selectDeposit" value="Lokata 24 miesięczna">
+								<f:param name="depositTypeId" value="3" />
+							</p:commandButton>
+							</p>
                </h:form>
   			</body>
     </ui:define>

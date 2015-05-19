@@ -23,13 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "LOKATA_ODSETKI")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "LokataOdsetki.findAll", query = "SELECT l FROM LokataOdsetki l"),
-    @NamedQuery(name = "LokataOdsetki.findByIdLokataodsetki", query = "SELECT l FROM LokataOdsetki l WHERE l.idLokataodsetki = :idLokataodsetki"),
-    @NamedQuery(name = "LokataOdsetki.findByDataDoliczenia", query = "SELECT l FROM LokataOdsetki l WHERE l.dataDoliczenia = :dataDoliczenia"),
-    @NamedQuery(name = "LokataOdsetki.findByKwotaDoliczona", query = "SELECT l FROM LokataOdsetki l WHERE l.kwotaDoliczona = :kwotaDoliczona")})
-public class LokataOdsetki implements Serializable {
+public class DepositInterestDto implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -46,16 +40,16 @@ public class LokataOdsetki implements Serializable {
     private BigDecimal kwotaDoliczona;
     @JoinColumn(name = "ID_LOKATA", referencedColumnName = "ID_LOKATA")
     @ManyToOne
-    private Lokaty idLokata;
+    private DepositDto idLokata;
 
-    public LokataOdsetki() {
+    public DepositInterestDto() {
     }
 
-    public LokataOdsetki(BigDecimal idLokataodsetki) {
+    public DepositInterestDto(BigDecimal idLokataodsetki) {
         this.idLokataodsetki = idLokataodsetki;
     }
 
-    public LokataOdsetki(BigDecimal idLokataodsetki, Date dataDoliczenia) {
+    public DepositInterestDto(BigDecimal idLokataodsetki, Date dataDoliczenia) {
         this.idLokataodsetki = idLokataodsetki;
         this.dataDoliczenia = dataDoliczenia;
     }
@@ -84,37 +78,12 @@ public class LokataOdsetki implements Serializable {
         this.kwotaDoliczona = kwotaDoliczona;
     }
 
-    public Lokaty getIdLokata() {
+    public DepositDto getIdLokata() {
         return idLokata;
     }
 
-    public void setIdLokata(Lokaty idLokata) {
+    public void setIdLokata(DepositDto idLokata) {
         this.idLokata = idLokata;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idLokataodsetki != null ? idLokataodsetki.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LokataOdsetki)) {
-            return false;
-        }
-        LokataOdsetki other = (LokataOdsetki) object;
-        if ((this.idLokataodsetki == null && other.idLokataodsetki != null) || (this.idLokataodsetki != null && !this.idLokataodsetki.equals(other.idLokataodsetki))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "gospodarka.elektroniczna.dto.sib.LokataOdsetki[ idLokataodsetki=" + idLokataodsetki + " ]";
     }
     
 }

@@ -3,10 +3,16 @@ package systemy.bankowe.dto.deposit;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -24,17 +30,45 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "LOKATA_TYP")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "LokataTyp.findAll", query = "SELECT l FROM LokataTyp l"),
-    @NamedQuery(name = "LokataTyp.findByIdTyplokata", query = "SELECT l FROM LokataTyp l WHERE l.idTyplokata = :idTyplokata"),
-    @NamedQuery(name = "LokataTyp.findByNazwaLokaty", query = "SELECT l FROM LokataTyp l WHERE l.nazwaLokaty = :nazwaLokaty"),
-    @NamedQuery(name = "LokataTyp.findByStopaProcentowa", query = "SELECT l FROM LokataTyp l WHERE l.stopaProcentowa = :stopaProcentowa"),
-    @NamedQuery(name = "LokataTyp.findByOkresNsp", query = "SELECT l FROM LokataTyp l WHERE l.okresNsp = :okresNsp"),
-    @NamedQuery(name = "LokataTyp.findByOkresKapitalizacji", query = "SELECT l FROM LokataTyp l WHERE l.okresKapitalizacji = :okresKapitalizacji"),
-    @NamedQuery(name = "LokataTyp.findByRodzajKapitalizacji", query = "SELECT l FROM LokataTyp l WHERE l.rodzajKapitalizacji = :rodzajKapitalizacji"),
-    @NamedQuery(name = "LokataTyp.findByRodzajOprocentowania", query = "SELECT l FROM LokataTyp l WHERE l.rodzajOprocentowania = :rodzajOprocentowania"),
-    @NamedQuery(name = "LokataTyp.findByWaluta", query = "SELECT l FROM LokataTyp l WHERE l.waluta = :waluta")})
-public class LokataTyp implements Serializable {
+    @NamedQuery(name = "DepositTypeDto.findAll", query = "SELECT l FROM DepositTypeDto l"),
+    @NamedQuery(name = "DepositTypeDto.findByIdTyplokata", query = "SELECT l FROM DepositTypeDto l WHERE l.idTyplokata = :idTyplokata")})
+public class DepositTypeDto implements Serializable {
+	
     private static final long serialVersionUID = 1L;
+    
+    /*@Id
+    @NotNull
+    @Column(name = "ID_TYPLOKATA")
+    private Long idTyplokata;
+    
+    @NotNull
+    @Size(min = 1, max = 30)
+    @Column(name = "NAZWA_LOKATY")
+    private String nazwaLokaty;
+
+    @NotNull
+    @Column(name = "STOPA_PROCENTOWA")
+    private double stopaProcentowa;
+
+    @NotNull
+    @Column(name = "OKRES_NSP")
+    private short okresNsp;
+
+    @NotNull
+    @Column(name = "OKRES_KAPITALIZACJI")
+    private short okresKapitalizacji;
+
+    @NotNull
+    @Column(name = "RODZAJ_KAPITALIZACJI")
+    private Character rodzajKapitalizacji;
+  
+    @NotNull
+    @Column(name = "RODZAJ_OPROCENTOWANIA")
+    private Character rodzajOprocentowania;
+    
+    @Size(max = 4)
+    @Column(name = "WALUTA")
+    private String waluta;*/
     @Id
     @Basic(optional = false)
     @NotNull
@@ -49,7 +83,7 @@ public class LokataTyp implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "STOPA_PROCENTOWA")
-    private BigDecimal stopaProcentowa;
+    private double stopaProcentowa;
     @Basic(optional = false)
     @NotNull
     @Column(name = "OKRES_NSP")
@@ -69,19 +103,25 @@ public class LokataTyp implements Serializable {
     @Size(max = 4)
     @Column(name = "WALUTA")
     private String waluta;
+    
     @OneToMany(mappedBy = "idTyplokata")
-    private Collection<Lokaty> lokatyCollection;
+    private List<DepositDto> lokatyCollection;
+    
     @OneToMany(mappedBy = "idTyplokata")
-    private Collection<OprocentowanieLokata> oprocentowanieLokataCollection;
+    private Set<DepositInterestRatesDto> oprocentowanieLokataCollection;
+    
+    @JoinColumn(name = "ID_WARUNKILOKATA")
+    @ManyToOne
+    private DepositConditionsDto depositConditionsDto;
 
-    public LokataTyp() {
+    public DepositTypeDto() {
     }
 
-    public LokataTyp(Long idTyplokata) {
+    public DepositTypeDto(Long idTyplokata) {
         this.idTyplokata = idTyplokata;
     }
 
-    public LokataTyp(Long idTyplokata, String nazwaLokaty, BigDecimal stopaProcentowa, short okresNsp, short okresKapitalizacji, Character rodzajKapitalizacji, Character rodzajOprocentowania) {
+    public DepositTypeDto(Long idTyplokata, String nazwaLokaty, double stopaProcentowa, short okresNsp, short okresKapitalizacji, Character rodzajKapitalizacji, Character rodzajOprocentowania) {
         this.idTyplokata = idTyplokata;
         this.nazwaLokaty = nazwaLokaty;
         this.stopaProcentowa = stopaProcentowa;
@@ -107,11 +147,11 @@ public class LokataTyp implements Serializable {
         this.nazwaLokaty = nazwaLokaty;
     }
 
-    public BigDecimal getStopaProcentowa() {
+    public double getStopaProcentowa() {
         return stopaProcentowa;
     }
 
-    public void setStopaProcentowa(BigDecimal stopaProcentowa) {
+    public void setStopaProcentowa(double stopaProcentowa) {
         this.stopaProcentowa = stopaProcentowa;
     }
 
@@ -156,47 +196,30 @@ public class LokataTyp implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Lokaty> getLokatyCollection() {
+    public Collection<DepositDto> getLokatyCollection() {
         return lokatyCollection;
     }
 
-    public void setLokatyCollection(Collection<Lokaty> lokatyCollection) {
+    public void setLokatyCollection(List<DepositDto> lokatyCollection) {
         this.lokatyCollection = lokatyCollection;
     }
 
     @XmlTransient
-    public Collection<OprocentowanieLokata> getOprocentowanieLokataCollection() {
+    public Collection<DepositInterestRatesDto> getOprocentowanieLokataCollection() {
         return oprocentowanieLokataCollection;
     }
 
-    public void setOprocentowanieLokataCollection(Collection<OprocentowanieLokata> oprocentowanieLokataCollection) {
+    public void setOprocentowanieLokataCollection(Set<DepositInterestRatesDto> oprocentowanieLokataCollection) {
         this.oprocentowanieLokataCollection = oprocentowanieLokataCollection;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idTyplokata != null ? idTyplokata.hashCode() : 0);
-        return hash;
-    }
+	public DepositConditionsDto getDepositConditionsDto() {
+		return depositConditionsDto;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LokataTyp)) {
-            return false;
-        }
-        LokataTyp other = (LokataTyp) object;
-        if ((this.idTyplokata == null && other.idTyplokata != null) || (this.idTyplokata != null && !this.idTyplokata.equals(other.idTyplokata))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "gospodarka.elektroniczna.dto.sib.LokataTyp[ idTyplokata=" + idTyplokata + " ]";
-    }
+	public void setDepositConditionsDto(DepositConditionsDto depositConditionsDto) {
+		this.depositConditionsDto = depositConditionsDto;
+	}
     
 }
 

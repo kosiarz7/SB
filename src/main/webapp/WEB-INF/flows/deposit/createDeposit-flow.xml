@@ -7,29 +7,39 @@
 	<!-- Zabezpieczenie flow przez Spring Security -->
 	<secured attributes="ROLE_USER"/>
 	
-	<var name="deposit" class="systemy.bankowe.dto.deposit.Lokaty"/>
-	<var name="controller" class="systemy.bankowe.controllers.DepositController"/>
+	<var name="deposit" class="systemy.bankowe.dto.deposit.DepositDto"/>
+	<var name="depositType" class="systemy.bankowe.dto.deposit.DepositTypeDto"/>
 	<!--
 	<on-start>
 		<evaluate expression="depositService.createDeposit(currentUser.name)" result="flowScope.deposit" />
 	</on-start> -->
 	
 	<view-state id="createDeposit">
-		<transition on="select3monthDeposit" to="deposit3month"/>
+		<transition on="selectDeposit" to="deposit3month">
+			<set name="flowScope.depositTypeIdKey" value="requestParameters.depositTypeId" />
+		</transition>
 	</view-state>
 	
 	<view-state id="deposit3month">
-		<transition on="submit3month" to="checkConditions3month"/>
+		<on-entry>
+			<evaluate expression="depositController.getDepositType(depositTypeIdKey)" result="flowScope.depositType"/>
+		</on-entry>
+		<transition on="submit3month" to="checkConditions3month">
+			<evaluate expression="depositController.validateNewDepositData(deposit,depositType)"></evaluate>
+		</transition>
 		<transition on="cancel" to="depositCancelled"/>
 	</view-state>
 	
 	<action-state id="checkConditions3month">
-		<evaluate expression="controller.createDeposit3Month(deposit)"/>
-		<transition on="yes" to="depositCreated" />
+		<evaluate expression="depositController.createDeposit3Month(deposit,depositType)"/>
+		<transition on="yes" to="createDepositEnd" />
         <transition on="no" to="rejected" />
 	</action-state>
 	
-	<end-state id="depositCreated" view="createDepositEnd"/>
-	<end-state id="rejected" view="createDepositEnd"/>
+	<view-state id="createDepositEnd"/>
+	
+	<end-state id="rejected"/>
 	<end-state id="depositCancelled"/>
+	
+	<bean-import resource="flow-beans.xml" />
 </flow>

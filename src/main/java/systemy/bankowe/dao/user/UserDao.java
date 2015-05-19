@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import systemy.bankowe.annotations.InjectLogger;
 import systemy.bankowe.dao.HibernateUtil;
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
+import systemy.bankowe.dto.deposit.DepositDto;
 
 /**
  * DAO dla uÅ¼ytkownika.
@@ -151,6 +153,29 @@ public class UserDao extends HibernateUtil implements IUserDao, Serializable {
         try {
             tx = session.beginTransaction();
             userDto.getAccounts().add(accountDto);
+            session.update(userDto);
+            tx.commit();
+        }
+        catch (RuntimeException e) {
+            if (null != tx) {
+                tx.rollback();
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+    }
+    
+    @Override
+    public void addDeposit(final UserDto userDto, final DepositDto deposit) {
+        LOGGER.debug("addDeposit|Próba dodania lokaty: {} do u¿ytkownika: {}", deposit, userDto);
+        
+        Session session = openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            userDto.getDeposits().add(deposit);
             session.update(userDto);
             tx.commit();
         }

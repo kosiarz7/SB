@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import systemy.bankowe.dao.CommonDao;
 import systemy.bankowe.dao.user.IUserDao;
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
+import systemy.bankowe.dto.deposit.DepositDto;
 import systemy.bankowe.security.SpringSecurityContextUtil;
 import systemy.bankowe.services.accountnumber.IAccountNumberService;
 
@@ -162,4 +165,28 @@ public class UserService implements IUserService, Serializable {
     public void setAccountCommonDao(CommonDao<AccountDto> accountCommonDao) {
         this.accountCommonDao = accountCommonDao;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+	public boolean addNextDeposit(DepositDto deposit) {
+		UserDto user = getLoggedAccount();
+		Set<UserDto> owners = new HashSet<>();
+		owners.add(user);
+		deposit.setOwners(owners);
+		userDao.addDeposit(user, deposit);
+		return true;
+	}
+
+    /**
+     * {@inheritDoc}
+     */
+	@Override
+	public UserDto getLoggedAccount() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+     	String name = auth.getName();
+     	UserDto user = userDao.loadUserByUserName(name);
+		return user;
+	}
 }
