@@ -1,75 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:c="http://www.springframework.org/schema/c"
-	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/security
-    http://www.springframework.org/schema/security/spring-security.xsd">
-    
-    <!-- Konfiguracja Spring Security -->
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+	<!-- Konfiguracja Spring Security -->
 	<security:http auto-config="true">
-		<security:form-login login-page="/app/login" login-processing-url="/app/j_spring_security_check" 
-			default-target-url="/app/mainWindow" always-use-default-target="true" 
-			authentication-failure-url="/app/login?login_error=1" 
-			username-parameter="username" password-parameter="password"/>
-		<security:logout logout-url="/app/logout" logout-success-url="/app/login"/>
+		<security:form-login login-page="/app/login"
+			login-processing-url="/app/j_spring_security_check"
+			default-target-url="/app/mainWindow" always-use-default-target="true"
+			authentication-failure-url="/app/login?login_error=1"
+			username-parameter="username" password-parameter="password" />
+		<security:logout logout-url="/app/logout"
+			logout-success-url="/app/login" />
 	</security:http>
-	
 	<security:authentication-manager>
-		<security:authentication-provider ref="authenticationProvider" />
+		<security:authentication-provider
+			ref="authenticationProvider" />
 	</security:authentication-manager>
-	
 	<bean id="authenticationProvider" class="systemy.bankowe.security.CustomAuthenticationProvider">
-		<property name="encryptor" ref="encryptor"/>
-		<property name="userService" ref="userService"/>
+		<property name="encryptor" ref="encryptor" />
+		<property name="userService" ref="userService" />
 	</bean>
-	
-	<bean id="encryptor" class="systemy.bankowe.services.encrypt.SHA512Encryptor"/>
-
+	<bean id="encryptor" class="systemy.bankowe.services.encrypt.SHA512Encryptor" />
 	<!-- Pozostałe beany -->
-	
 	<!-- Fabryka sesji Hibernate -->
-	<bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-		p:configLocation="classpath:hibernate.cfg.xml"/>
-		
+	<bean id="hibernateSessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+		p:configLocation="classpath:hibernate.cfg.xml" />
 	<!-- Serwisy -->
-	<bean id="userService" class="systemy.bankowe.services.user.UserService" p:userDao-ref="userDao"
-		p:springSecurityUtil-ref="springSecurityContextUtilBean" p:accountNumberService-ref="accountNumberService"
-		p:accountCommonDao-ref="commonDao"/>
-	
-	<bean id="accountNumberService" class="systemy.bankowe.services.accountnumber.AccountNumberService" 
-		lazy-init="false" p:accountDao-ref="accountDao"/>
-		
-	<bean id="loginService" class="systemy.bankowe.services.login.LoginService" p:userDao-ref="userDao"/>
-	
+	<bean id="userService" class="systemy.bankowe.services.user.UserService"
+		p:userDao-ref="userDao" p:springSecurityUtil-ref="springSecurityContextUtilBean"
+		p:accountNumberService-ref="accountNumberService"
+		p:accountCommonDao-ref="commonDao" />
+	<bean id="accountNumberService"
+		class="systemy.bankowe.services.accountnumber.AccountNumberService"
+		lazy-init="false" p:accountDao-ref="accountDao" />
+	<bean id="loginService" class="systemy.bankowe.services.login.LoginService"
+		p:userDao-ref="userDao" />
 	<bean id="mailService" class="systemy.bankowe.services.mail.MailService"
-		p:password="stealingbank7"
-		p:sender="stealing.bank@gmail.com"
-		p:port="587"
-		p:smtpHost="smtp.gmail.com"/>
-		
+		p:password="stealingbank7" p:sender="stealing.bank@gmail.com" p:port="587"
+		p:smtpHost="smtp.gmail.com" />
 	<!-- DAO -->
-	<bean id="commonDao" class="systemy.bankowe.dao.CommonDao" p:sessionFactory-ref="hibernateSessionFactory"/>
-	
-	<bean id="userDao" class="systemy.bankowe.dao.user.UserDao"	p:sessionFactory-ref="hibernateSessionFactory"/>
-	
-	<bean id="roleDao" class="systemy.bankowe.dao.role.RoleDao" p:sessionFactory-ref="hibernateSessionFactory"/>
-	
-	<bean id="accountDao" class="systemy.bankowe.dao.account.AccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
-		
+	<bean id="commonDao" class="systemy.bankowe.dao.CommonDao"
+		p:sessionFactory-ref="hibernateSessionFactory" />
+	<bean id="userDao" class="systemy.bankowe.dao.user.UserDao"
+		p:sessionFactory-ref="hibernateSessionFactory" />
+	<bean id="roleDao" class="systemy.bankowe.dao.role.RoleDao"
+		p:sessionFactory-ref="hibernateSessionFactory" />
+	<bean id="accountDao" class="systemy.bankowe.dao.account.AccountDao"
+		p:sessionFactory-ref="hibernateSessionFactory" />
 	<!-- Wstrzykiwanie loggerów -->
 	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">
 		<constructor-arg name="loggerFactory">
 			<bean class="systemy.bankowe.annotations.CustomLoggerFactory" />
 		</constructor-arg>
 	</bean>
-	
-	<bean id="usernameExtractor" class="systemy.bankowe.common.beans.UsernameExtractorBean" lazy-init="false"/>
-	
-	<bean id="springSecurityContextUtilBean" class="systemy.bankowe.common.beans.SpringSecurityContextUtilBean" 
-		lazy-init="false" p:commonUserDao-ref="commonDao"/>
+	<bean id="usernameExtractor" class="systemy.bankowe.common.beans.UsernameExtractorBean"
+		lazy-init="false" />
+	<bean id="springSecurityContextUtilBean"
+		class="systemy.bankowe.common.beans.SpringSecurityContextUtilBean"
+		lazy-init="false" p:commonUserDao-ref="commonDao" />
 </beans>

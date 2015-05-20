@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" start-state="depositCalculator"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<!-- Zabezpieczenie flow przez Spring Security -->
+	<secured attributes="ROLE_USER"/>
+	
+	<var name="deposit" class="systemy.bankowe.dto.deposit.DepositDto"/>
+	<var name="depositType" class="systemy.bankowe.dto.deposit.DepositTypeDto"/>
+	
+	<view-state id="depositCalculator">
+		<on-entry>
+			<evaluate expression="depositController.getListOfDepositTypes()" result="flowScope.depositTypes"></evaluate>
+		</on-entry>
+		<transition on="countDepositValue" to="calculatedDeposit">
+			<evaluate expression="depositController.countDepositValue(deposit)" result="flowScope.deposit"></evaluate>
+		</transition>
+	</view-state>
+	
+	<view-state id="calculatedDeposit"/>
+	
+	<bean-import resource="flow-beans.xml" />
+</flow>

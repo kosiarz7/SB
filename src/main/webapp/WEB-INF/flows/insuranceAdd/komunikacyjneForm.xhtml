@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+	<h:form>
+    <p:growl id="growl" sticky="true" showDetail="true"/>
+    <p:progressBar value="25" labelTemplate="Kalkulator AC/OC" displayOnly="true" style="margin-bottom: 1%; margin-top: 1%;"/>
+    <p:wizard>
+        <p:tab id="dane_pojazdu" title="Kalkulator AC/OC">
+            <p:accordionPanel>
+            <p:tab title="Wybór modelu">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    
+                    <h:outputText value="Marka: *" />
+                    <p:inputText value="" required="true" label="Marka"/>
+ 
+                    <h:outputText value="Model: *" />
+                    <p:inputText value="" required="true" label="Model"/>
+ 
+                    <h:outputText value="Rok produkcji: *" />
+                    <p:inputText value="" required="true" label="Rok produkcji"/>
+ 
+ 					<h:outputText value="Wartość samochodu: *" />
+                    <p:inputText value="" required="true" label="Wartość"/>
+                 
+                </h:panelGrid>
+           </p:tab>
+               <p:tab title="Dane samochodu">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    
+                </h:panelGrid>
+           </p:tab>
+  
+    		<p:tab title="Właściciele">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    
+                </h:panelGrid>
+           </p:tab>
+           
+             <p:tab title="Dodatkowi kierowcy">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    
+                </h:panelGrid>
+           </p:tab>
+           
+             <p:tab title="Dane kierowcy">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    
+                </h:panelGrid>
+           </p:tab>
+            
+              <p:tab title="Dane adresowe">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    
+                </h:panelGrid>
+           </p:tab>
+           
+             <p:tab title="Nowe ubezpieczenie">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    
+                </h:panelGrid>
+           </p:tab>
+           
+            </p:accordionPanel>
+        </p:tab>
+ 
+        <p:tab id="address" title="Twoja oferta">
+          
+        </p:tab>
+ 
+        <p:tab id="contact" title="Podsumowanie">
+            
+        </p:tab>
+ 
+        <p:tab id="confirm" title="Płatność">
+           
+        </p:tab>
+    </p:wizard>
+ 
+</h:form>
+	
+	</ui:define>
+</ui:composition>
+</html>

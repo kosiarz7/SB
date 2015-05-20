@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" start-state="insuranceAdd"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<!-- Zabezpieczenie flow przez Spring Security -->
+	<secured attributes="ROLE_USER" />
+
+	<on-start>
+    	<set name="flowScope.typeId" value="requestParameters.typeId" type="java.lang.String" />
+	</on-start>
+
+	<action-state id="insuranceAdd">
+		<evaluate expression="addInsuranceController.evaluateType(typeId)" />
+		<transition on="komunikacyjne" to="komunikacyjneForm" />
+		<transition on="zdrowotne" to="zdrowotneForm" />
+		<transition on="nieruchomości" to="nieruchomosciForm" />
+		<transition on="karty" to="kartyForm" />
+		<transition on="kredytu" to="kredytuForm" />
+	</action-state>
+	
+	<view-state id="komunikacyjneForm" >
+		
+	</view-state>
+	
+	<view-state id="zdrowotneForm" >
+		
+	</view-state>
+	
+	<view-state id="nieruchomosciForm" >
+		
+	</view-state>
+	
+	<view-state id="kartyForm" >
+		
+	</view-state>
+	
+	<view-state id="kredytuForm" >
+		
+	</view-state>
+	
+	<bean-import resource="flow-beans.xml" />
+</flow>

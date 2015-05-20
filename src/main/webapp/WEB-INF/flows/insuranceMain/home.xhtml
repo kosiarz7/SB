@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+			<div class="ui-grid ui-grid-responsive">
+
+				<ui:repeat value="#{insuranceTypes}" var="item">
+					<div class="ui-grid-col-4">
+						<p:fieldset legend="#{item.name}" style="margin-bottom:15px;">
+							<div class="ui-grid-col-7">
+								<p:graphicImage
+									url="/resources/img/insurances/types/#{item.name}.jpg"
+									style="width: 98%;" />
+							</div>
+							
+							<div class="ui-grid-col-4">
+								<p:commandButton id="detailsBtn" value="Szczegóły" type="button"
+									style="width: 100%; margin-bottom: 5%; font-size: 12px">
+								</p:commandButton>
+								
+    							<p:overlayPanel id="detailsPanel" for="detailsBtn" hideEffect="fade" dynamic="true" style="width:600px">
+      					        	<div class="ui-grid-col-6" style="padding-right: 1%; padding-bottom: 2%;">
+      					        		<div class="ui-grid-row">
+      					        			<span style="padding-bottom: 2%; font-weight: bold;">Korzyści: </span>
+      					        		</div>
+      					        		<h:outputText value="#{item.profit_desc}" style="font-size: 13px;"/>
+      					        	</div>
+      					        	<div class="ui-grid-col-6" style="padding-left: 1%; padding-bottom: 2%;">
+      					        		<div class="ui-grid-row">
+      					        			<span style="padding-bottom: 2%; font-weight: bold;">Inne: </span>
+      					        		</div>
+      					        		<h:outputText value="#{item.other_desc}" style="font-size: 13px;"/>
+      					        	</div>
+    							</p:overlayPanel>
+								
+								<p:commandButton action="newInsurance" value="Wypełnij wniosek"
+									style="width: 100%; font-size: 12px;">						
+									<f:param name="typeId" value="#{item.id}" />
+								</p:commandButton>
+							</div>
+						</p:fieldset>
+					</div>
+				</ui:repeat>
+			</div>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
