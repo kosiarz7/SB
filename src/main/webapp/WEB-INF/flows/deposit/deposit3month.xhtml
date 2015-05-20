@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -23,28 +22,27 @@
 			<h3>Lokata #{depositType.nazwaLokaty}</h3>
 
 			<h:form>
-				<!-- <label for="date">Data rozpoczęcia lokaty</label><br/>
-        		<p:calendar id="date" value="#{deposit.dataZalozenia}"/>
- 
-				<h:message id="m1" for="date" style="color:red" />
-				<p></p> -->
+
 				<p:messages />
-				<label for="wartoscStartowa">Wartość lokaty</label><br/>
-				<h:inputText id="wartoscStartowa" class="form-control" value="#{deposit.wartoscStartowa}" required="true" />
+				<label for="wartoscStartowa">Wartość lokaty</label>
+				<br />
+				<h:inputText id="wartoscStartowa" class="form-control"
+					value="#{deposit.wartoscStartowa}" required="true" />
 				<h:message id="m2" for="wartoscStartowa" style="color:red" />
 				<p></p>
 
 				<h4>Lokata szczegółowe informacje</h4>
 				<p:panelGrid columns="2">
-					
+
 					<h:outputText value="Stopa Procentowa:" />
 					<h:outputText value="#{depositType.stopaProcentowa} %" />
-					
+
 					<h:outputText value="Czas trwania:" />
-					<h:outputText value="#{depositType.depositConditionsDto.okresMin} dni" />
+					<h:outputText
+						value="#{depositType.depositConditionsDto.okresMin} dni" />
 
 					<h:outputText value="Nominalna stopa procentowa:" />
-					<h:outputText value="#{depositType.okresNsp}" /> 
+					<h:outputText value="#{depositType.okresNsp}" />
 
 					<h:outputText value="Okres kapitalizacji:" />
 					<h:outputText value="#{depositType.okresKapitalizacji} dni" />
@@ -64,70 +62,25 @@
 					<c:if test="${fn:contains(depositType.rodzajOprocentowania, 'N')}">
 						<h:outputText value="Stałe" />
 					</c:if>
-					
+
 					<h:outputText value="Waluta" />
 					<h:outputText value="#{depositType.waluta}" />
 				</p:panelGrid>
-				
-					<h4>Lokata warunki</h4>
-				<p:panelGrid columns="2">	
+
+				<h4>Lokata warunki</h4>
+				<p:panelGrid columns="2">
 					<h:outputText value="Kwota minimalna" />
 					<h:outputText value="#{depositType.depositConditionsDto.kwotaMin}" />
-					
+
 					<h:outputText value="Kwota maksymalna" />
 					<h:outputText value="#{depositType.depositConditionsDto.kwotaMax}" />
 				</p:panelGrid>
-				<br/>
+				<br />
 				<p:commandButton action="submit3month" value="Załóż" update="@form" />
-				<p:commandButton action="cancel" class="btn btn-primary" value="Anuluj" immediate="true" />
+				<p:commandButton action="cancel" class="btn btn-primary"
+					value="Anuluj" immediate="true" />
 			</h:form>
 		</body>
 	</ui:define>
 </ui:composition>
-
-
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
-
-    <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
-        <ui:define name="pageContent">
-
-            <h:head>
-
-                <title>Nowa lokata</title>
-                
-            </h:head>
-            <body>
-               <h3>Lokata 3 miesięczna</h3>
-               
-               <h:form>
-               	 			<label for="date">Data założenia lokaty</label>
-                                <h:inputText id="date" class="form-control" value="#{deposit.dataZalozenia}" required="true">
-                                    <f:convertDateTime pattern="yyyy-MM-dd"/> 
-                                </h:inputText>
-                                <h:message id="m1" for="date" style="color:red"/> <p></p>
-                   			<div class="form-group">
-                                <label for="wartoscStartowa">Wartość lokaty</label>
-                                <h:inputText id="wartoscStartowa" class="form-control" value="#{deposit.wartoscStartowa}" required="true" />
-                                <h:message id="m2" for="wartoscStartowa" style="color:red"/> <p></p>
-                            </div>
-                                
-               	 		<p:commandButton action="submit3month" value="Załóż" update="@form"/>
-               	 		<p:commandButton action="cancel" class="btn btn-primary"  value="Anuluj" immediate="true"/>
-               </h:form>
-  			</body>
-    </ui:define>
-</ui:composition>
-    
-    
->>>>>>> branch 'master' of https://github.com/kosiarz7/SB
 </html>

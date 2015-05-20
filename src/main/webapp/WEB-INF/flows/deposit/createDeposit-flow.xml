@@ -9,6 +9,10 @@
 	
 	<var name="deposit" class="systemy.bankowe.dto.deposit.DepositDto"/>
 	<var name="depositType" class="systemy.bankowe.dto.deposit.DepositTypeDto"/>
+	<!--
+	<on-start>
+		<evaluate expression="depositService.createDeposit(currentUser.name)" result="flowScope.deposit" />
+	</on-start> -->
 	
 	<view-state id="createDeposit">
 		<transition on="selectDeposit" to="deposit3month">
