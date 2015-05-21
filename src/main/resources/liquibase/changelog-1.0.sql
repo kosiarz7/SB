@@ -45,7 +45,7 @@ CREATE TABLE klienci_rachunki (
   id_rachunek INT  NOT NULL,
   CONSTRAINT klienci_rachunki_fk_klient FOREIGN KEY (id_klient) REFERENCES klienci(id_klient),
   CONSTRAINT klienci_rachunki_fk_rachunek FOREIGN KEY (id_rachunek) REFERENCES rachunki(id_rachunek)
-); 
+);
 
 CREATE TABLE uprawnienia (
     id INTEGER NOT NULL,
@@ -59,6 +59,101 @@ CREATE TABLE uprawnienia_klientow (
     CONSTRAINT uprawnienia_kli_00_klient_fk FOREIGN KEY (klient_id) REFERENCES klienci(id_klient),
     CONSTRAINT uprawnienia_kli_00_upraw_fk FOREIGN KEY (uprawnienie_id) REFERENCES uprawnienia(id)
 );
+
+-- Przelewy
+CREATE TABLE upowaznienie_polecenia_zapl
+(
+  id_upowaznienie INT PRIMARY KEY,
+  nazwa VARCHAR2(32) NOT NULL,
+  nr_rachunku_upowaznionego VARCHAR2(26) NOT NULL,
+  od_kiedy DATE NOT NULL,
+  do_kiedy DATE NOT NULL,
+  maksymalna_kwota DECIMAL(*, 5),
+  id_klient INT NOT NULL,
+  id_rachunek INT NOT NULL,
+  CONSTRAINT upowaznienie_fk_id_klient FOREIGN KEY (id_klient) REFERENCES klienci(id_klient),
+  CONSTRAINT upowaznienie_fk_id_rachunek FOREIGN KEY (id_rachunek) REFERENCES rachunki(id_rachunek),
+  CONSTRAINT upowaznienie_maksymalna_kwota CHECK (maksymalna_kwota > 0)
+);
+
+-- nie wiem jak sprawdzac date: przyszla data, do_kiedy > od_kiedy 
+
+CREATE TABLE typ_przelewu
+(
+  id_typ_przelewu INT PRIMARY KEY,
+  nazwa_typu VARCHAR2(64) NOT NULL
+);
+
+CREATE TABLE przelew_wych_oczekujacy
+(
+  id_przelew_oczekujacy INT PRIMARY KEY,
+  nr_rachunku_docelowego VARCHAR2(26) NOT NULL,
+  nazwa_odbiorcy VARCHAR(128) NOT NULL,
+  tytul VARCHAR2(64) NOT NULL,
+  adres VARCHAR2(64) NOT NULL,
+  kwota DECIMAL(*, 5) NOT NULL,
+  data_przyjecia_do_realizacji DATE DEFAULT SYSDATE,
+  data_realizacji DATE DEFAULT SYSDATE,
+  id_typ_przelewu INT NOT NULL,
+  id_klient_zrodlo INT NOT NULL,
+  id_rachunku_zrodla INT NOT NULL,
+  CONSTRAINT przelew_wych_o_fk_id_klient FOREIGN KEY (id_klient_zrodlo) REFERENCES klienci(id_klient),
+  CONSTRAINT przelew_wych_o_id_rachunek FOREIGN KEY (id_rachunku_zrodla) REFERENCES rachunki(id_rachunek),
+  CONSTRAINT przelew_wych_o_fk_typ FOREIGN KEY (id_typ_przelewu) REFERENCES typ_przelewu(id_typ_przelewu)
+);
+
+CREATE TABLE przelew_niezrealizowany
+(
+  id_niezrealizowany INT PRIMARY KEY,
+  nr_rachunku_docelowego VARCHAR2(26) NOT NULL,
+  nazwa_odbiorcy VARCHAR(128) NOT NULL,
+  tytul VARCHAR2(64) NOT NULL,
+  adres VARCHAR2(64) NOT NULL,
+  kwota DECIMAL(*, 5) NOT NULL,
+  data_przyjecia_do_realizacji DATE DEFAULT SYSDATE,
+  data_realizacji DATE DEFAULT SYSDATE,
+  id_typ_przelewu INT NOT NULL,
+  id_klient_zrodlo INT NOT NULL,
+  id_rachunku_zrodla INT NOT NULL,
+  error INT NOT NULL,
+  CONSTRAINT niezrealizowany_fk_id_klient FOREIGN KEY (id_klient_zrodlo) REFERENCES klienci(id_klient),
+  CONSTRAINT niezrealizowany_id_rachunek FOREIGN KEY (id_rachunku_zrodla) REFERENCES rachunki(id_rachunek),
+  CONSTRAINT niezrealizowany_fk_typ FOREIGN KEY (id_typ_przelewu) REFERENCES typ_przelewu(id_typ_przelewu)
+);
+
+CREATE TABLE przelew_wych_zrealizowany
+(
+  id_przelew_zrealizowany INT PRIMARY KEY,
+  nr_rachunku_docelowego VARCHAR2(26) NOT NULL,
+  nazwa_odbiorcy VARCHAR(128) NOT NULL,
+  tytul VARCHAR2(64) NOT NULL,
+  adres VARCHAR2(64) NOT NULL,
+  kwota DECIMAL(*, 5) NOT NULL,
+  data_przyjecia_do_realizacji DATE,
+  data_realizacji DATE,
+  id_typ_przelewu INT NOT NULL,
+  id_klient_zrodlo INT NOT NULL,
+  id_rachunku_zrodla INT NOT NULL,
+  CONSTRAINT przelew_w_z_fk_id_klient FOREIGN KEY (id_klient_zrodlo) REFERENCES klienci(id_klient),
+  CONSTRAINT przelew_w_z_id_rachunek FOREIGN KEY (id_rachunku_zrodla) REFERENCES rachunki(id_rachunek),
+  CONSTRAINT przelew_w_z_fk_typ FOREIGN KEY (id_typ_przelewu) REFERENCES typ_przelewu(id_typ_przelewu)
+);
+
+CREATE TABLE przelew_przychodzacy
+(
+  id_przelew_przychodzacy INT PRIMARY KEY,
+  nr_rachunku_wysylajacego VARCHAR2(26) NOT NULL,
+  nazwa_odbiorcy VARCHAR(128) NOT NULL,
+  tutul  VARCHAR2(64) NOT NULL,
+  adress VARCHAR2(64) NOT NULL,
+  kwota DECIMAL(*,5) NOT NULL,
+  id_rachunek_docelowy INT NOT NULL,
+  id_typ_przelewu INT NOT NULL,
+  data_realizacji DATE NOT NULL,
+  CONSTRAINT przelew_p_fk_rach_doc FOREIGN KEY (id_rachunek_docelowy) REFERENCES rachunki(id_rachunek),
+  CONSTRAINT przelew_p_fk_typ FOREIGN KEY (id_typ_przelewu) REFERENCES typ_przelewu(id_typ_przelewu)
+);
+
 
 INSERT INTO obywatelstwa(id_obywatelstwa, obywatelstwo) VALUES (1, 'polskie');
 COMMIT;

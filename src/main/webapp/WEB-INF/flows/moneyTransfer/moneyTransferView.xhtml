@@ -24,20 +24,36 @@
 				<p:message for="amount" />
 			</p>
 			<p>
+				<p:message for="realizationDate" />
+			</p>
+<p>
+				<p:message for="senderAccountNumber" />
+			</p>
+			<p>
+				<p:selectOneMenu id="senderAccountNumber" value="#{waitingTransferVar.senderAccountNumber}"
+					required="true">
+					<f:selectItems value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}" var="item"
+						itemValue="#{item}" itemLabel="#{item}" />
+				</p:selectOneMenu>
+			</p>
+			<p>
 				Numer rachunku docelowego:
 				<p:inputText id="targetAccountNumber"
 					value="#{waitingTransferVar.targetAccountNumber}"
-					label="'Numer rachunku docelowego'" />
+					label="'Numer rachunku docelowego'" required="true"
+					placeholder="__ ____ ____ ____ ____ ____ ____" maxlength="26"
+					onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" />
 			</p>
 			<p>
 				Nazwa odbiorcy:
-				<p:inputText id="targetName" value="#{waitingTransferVar.targetName}"
-					label="'Nazwa odbiorcy'" />
+				<p:inputText id="targetName"
+					value="#{waitingTransferVar.targetName}" label="'Nazwa odbiorcy'"
+					required="true" />
 			</p>
 			<p>
 				Tytuł:
 				<p:inputText id="title" value="#{waitingTransferVar.title}"
-					label="'Tytuł'" />
+					label="'Tytuł'" required="true" />
 			</p>
 			<p>
 				Adres:
@@ -47,10 +63,16 @@
 			<p>
 				Kwota:
 				<p:inputText id="amount" value="#{waitingTransferVar.amount}"
-					label="'Kwota'" />
+					label="'Kwota'" required="true" />
 			</p>
-
-			<p:commandButton action="moneyTransfer" value="Dodaj" ajax="false" />
+				Data realizacji
+				<p:calendar id="realizationDate"
+				value="#{waitingTransferVar.realizationDate}" showOn="button"
+				pattern="dd-MM-yyyy" label="'Data powrotu'" placeholder="dd-mm-yyyy"
+				required="true" />
+			<br />
+			<p:commandButton action="moneyTransferState" value="Dodaj"
+				ajax="false" />
 		</h:form>
 	</ui:define>
 </ui:composition>

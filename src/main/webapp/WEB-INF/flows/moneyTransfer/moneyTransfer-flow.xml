@@ -4,21 +4,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
 	<!-- Zabezpieczenie flow przez Spring Security -->
-	<secured attributes="ROLE_USER"/>
-	
-	<var name="waitingTransferVar" class="systemy.bankowe.dto.transfer.WaitingTransfer"/>
-	<var name="controllerVar" class="systemy.bankowe.controllers.MoneyTransferController"/>
-	
-	<view-state id="transfer" />
+	<secured attributes="ROLE_USER" />
+
+	<var name="waitingTransferVar" class="systemy.bankowe.dto.transfer.WaitingTransfer" />
+	<var name="controllerVar" class="systemy.bankowe.flows.money.transfer.MoneyTransferFlow" />
 
 	<view-state id="moneyTransferView">
-		<transition on="moneyTransfer" to="moneyTransfer"/>
+		<transition on="moneyTransferState" to="moneyTransferState" />
 	</view-state>
 
-	<action-state id="moneyTransfer">
-		<evaluate expression="controllerVar.submit(waitingTransferVar)" result="flowScope.status" />
+	<action-state id="moneyTransferState">
+		<evaluate expression="controllerVar.sendMoneyTransfer(waitingTransferVar, hibernateSessionFactory, springSecurityContextUtilBean.getLoggedInUser().get())"
+			result="flowScope.status" />
 		<transition to="moneyTransferEnd" />
 	</action-state>
 
-	<end-state id="moneyTransferEnd" view="moneyTransferEnd.xhtml"/>
+	<view-state id="moneyTransferEnd" />
 </flow>

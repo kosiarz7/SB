@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flow xmlns="http://www.springframework.org/schema/webflow"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" start-state="orderToPayView"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" start-state="orderToPayShowView"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
 	<!-- Zabezpieczenie flow przez Spring Security -->
 	<secured attributes="ROLE_USER"/>
 	
-	<var name="orderToPayVar" class="systemy.bankowe.dto.transfer.OrderToPay"/>
 	<var name="controllerVar" class="systemy.bankowe.flows.money.transfer.OrderToPayFlow"/>
 	
-	<view-state id="transfer" />
-
-	<view-state id="orderToPayView">
-		<transition on="orderToPay" to="orderToPay"/>
+	<on-start>
+		<evaluate expression="controllerVar.getOrderToPays(springSecurityContextUtilBean.getLoggedInUser().get())"
+			result="flowScope.orderToPays" />
+	</on-start>
+	
+	<view-state id="orderToPayShowView">
+		<transition on="orderToPayShow" to="orderToPayShow"/>
 	</view-state>
-
-	<action-state id="orderToPay">
+<!-- 
+	<action-state id="Show">
 		<evaluate expression="controllerVar.submit(orderToPayVar)" result="flowScope.status" />
 		<transition to="orderToPayEnd" />
 	</action-state>
 
 		<view-state id="orderToPayEnd" />
+		 -->
 </flow>

@@ -20,5 +20,10 @@
 		<mapping class="systemy.bankowe.dto.AccountDto" />
 		<mapping class="systemy.bankowe.dto.CitizenshipDto" />
 		<mapping class="systemy.bankowe.dto.insurance.InsuranceTypeDto" />
+		<mapping class="systemy.bankowe.dto.transfer.WaitingTransfer" />
+		<mapping class="systemy.bankowe.dto.transfer.TransferType" />
+		<mapping class="systemy.bankowe.dto.transfer.OrderToPay" />
+		<mapping class="systemy.bankowe.dto.transfer.RealizedTransfer" />
+		
 	</session-factory>
 </hibernate-configuration>
