@@ -57,7 +57,8 @@
 	<!-- Fabryka sesji Hibernate -->
 	<bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
 		p:configLocation="classpath:hibernate.cfg.xml"
-		p:dataSource-ref="dataSource"/>
+		p:dataSource-ref="dataSource"
+		p:packagesToScan="systemy.bankowe.dto"/>
 		
 	<!-- Serwisy -->
 	<bean id="userService" class="systemy.bankowe.services.user.UserService" p:userDao-ref="userDao"
