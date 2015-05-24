@@ -9,36 +9,28 @@
 	
 	<var name="deposit" class="systemy.bankowe.dto.deposit.DepositDto"/>
 	<var name="depositType" class="systemy.bankowe.dto.deposit.DepositTypeDto"/>
-	<!--
-	<on-start>
-		<evaluate expression="depositService.createDeposit(currentUser.name)" result="flowScope.deposit" />
-	</on-start> -->
 	
 	<view-state id="createDeposit">
-		<transition on="selectDeposit" to="deposit3month">
+		<transition on="selectDeposit" to="depositForm">
 			<set name="flowScope.depositTypeIdKey" value="requestParameters.depositTypeId" />
 		</transition>
 	</view-state>
 	
-	<view-state id="deposit3month">
+	<view-state id="depositForm">
 		<on-entry>
 			<evaluate expression="depositController.getDepositType(depositTypeIdKey)" result="flowScope.depositType"/>
+			<evaluate expression="depositController.getListOfAccounts()" result="flowScope.accounts"/>
+			<set name="flowScope.accountSourceId" value="0" type="integer"/>
+			<set name="flowScope.accountDestinationId" value="0" type="integer"/>
 		</on-entry>
-		<transition on="submit3month" to="checkConditions3month">
-			<evaluate expression="depositController.validateNewDepositData(deposit,depositType)"></evaluate>
+		<transition on="submitForm" to="createDepositEnd">
+			<evaluate expression="depositController.validateNewDepositData(deposit,depositType,accountSourceId,accountDestinationId)"/>
 		</transition>
 		<transition on="cancel" to="depositCancelled"/>
 	</view-state>
 	
-	<action-state id="checkConditions3month">
-		<evaluate expression="depositController.createDeposit3Month(deposit,depositType)"/>
-		<transition on="yes" to="createDepositEnd" />
-        <transition on="no" to="rejected" />
-	</action-state>
-	
 	<view-state id="createDepositEnd"/>
 	
-	<end-state id="rejected"/>
 	<end-state id="depositCancelled"/>
 	
 	<bean-import resource="flow-beans.xml" />

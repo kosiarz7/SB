@@ -13,10 +13,11 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import systemy.bankowe.dao.CommonDao;
+import systemy.bankowe.dto.AccountDto;
+import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.dto.deposit.DepositConditionsDto;
 import systemy.bankowe.dto.deposit.DepositDto;
 import systemy.bankowe.dto.deposit.DepositTypeDto;
-import systemy.bankowe.flows.addaccount.NewAccountData;
 import systemy.bankowe.services.deposit.DepositService;
 import systemy.bankowe.services.user.UserService;
 
@@ -25,11 +26,7 @@ public class DepositBean implements Serializable{
 		@Autowired private DepositService depositService;
 		@Autowired private UserService userService;
 		
-		private CommonDao<DepositDto> depositDao;
 		private CommonDao<DepositTypeDto> depositTypeDao;
-		private CommonDao<DepositConditionsDto> depositConditionsDao;
-		
-		
 		private static final long serialVersionUID = 1L;
 
 		public void submit(String name){
@@ -64,8 +61,9 @@ public class DepositBean implements Serializable{
 			return deposits;
 		}
 		
-		public boolean createDeposit3Month(DepositDto deposit,DepositTypeDto depositType){
+		public boolean createDeposit(DepositDto deposit,DepositTypeDto depositType, AccountDto sourceAccount, AccountDto destinationAccount){
 	     	
+			deposit.setAccountDto(destinationAccount);
 			deposit.setOkresTrwania(depositType.getDepositConditionsDto().getOkresMin());
 			
 			Calendar cal = Calendar.getInstance();
@@ -76,13 +74,33 @@ public class DepositBean implements Serializable{
 		
 			deposit.setStatusLokaty("otwarta");
 
-			userService.addNextDeposit(deposit); 
+			userService.addNextDeposit(deposit,sourceAccount);
 			return true;
 			
 		}
 		
-		 public boolean validateNewDepositData(final DepositDto deposit,final DepositTypeDto depositType) {
-	        boolean result = true;
+		 public boolean validateNewDepositData(final DepositDto deposit,final DepositTypeDto depositType,int accountSourceId,int accountDestinationId) {
+	        
+			boolean result = true;
+	        List<AccountDto> accountsList = getListOfAccounts();
+	        AccountDto sourceAccount = new AccountDto();
+	        AccountDto destinationAccount = new AccountDto();
+	        
+	        for(AccountDto account:accountsList){
+	        	if(account.getId() == accountSourceId ){
+	        		sourceAccount = account;
+	        	} 
+	        	if (account.getId() == accountDestinationId){
+	        		destinationAccount = account;
+	        	}
+	        }
+	        
+	        if (deposit.getWartoscStartowa() > sourceAccount.getSaldo()) {
+	            FacesContext.getCurrentInstance().addMessage(
+	                    null,
+	                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wystarczaj¹cych œrodków na wskazanym koncie", "Brak wystarczaj¹cych œrodków na wskazanym koncie"));
+	            result = false;
+	        }
 	        
 	        if (deposit.getWartoscStartowa() > depositType.getDepositConditionsDto().getKwotaMax()) {
 	            FacesContext.getCurrentInstance().addMessage(
@@ -97,6 +115,8 @@ public class DepositBean implements Serializable{
 	                    		"Podana kwota jest ni¿sza ni¿ ustalone minimum dla tego typu lokaty"));
 	            result = false;
 	        }
+	        if(result != false)
+	        	result = createDeposit(deposit, depositType,sourceAccount,destinationAccount);
 	        
 	        return result;
 	    }
@@ -109,7 +129,8 @@ public class DepositBean implements Serializable{
 					if(deposit.getIdLokata() == id){
 						deposit.setStatusLokaty("nieaktywna");
 						deposit.setDataZakonczenia(new Date());
-						depositDao.update(deposit);
+						deposit.setWartoscObecna(deposit.getWartoscStartowa());
+						userService.closeDeposit(deposit);		
 					}
 				}
 		 }
@@ -138,16 +159,20 @@ public class DepositBean implements Serializable{
 			return deposit;
 		 }
 		 
-		 public void setDepositDao(CommonDao<DepositDto> depositDao) {
-				this.depositDao = depositDao;
-			}
+		
+		public List<AccountDto> getListOfAccounts(){
+			UserDto user = userService.getLoggedAccount();
+			return user.getAccounts();
+		}
+		
+		public void setDepositDao(CommonDao<DepositDto> depositDao) {
+		}
 		 
 		public void setDepositTypeDao(CommonDao<DepositTypeDto> depositTypeDao) {
 			this.depositTypeDao = depositTypeDao;
 		}
 		
 		public void setDepositConditionsDao(CommonDao<DepositConditionsDto> depositConditionsDao) {
-			this.depositConditionsDao = depositConditionsDao;
 		}
 
 }

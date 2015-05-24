@@ -11,10 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import systemy.bankowe.dto.deposit.DepositDto;
 
 /**
  * Encja konta bankowego.
@@ -68,6 +71,9 @@ public class AccountDto implements Serializable {
      */
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "accounts")
     private Set<UserDto> owners;
+    
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "accountDto")
+    private Set<DepositDto> deposits;
 
     @Override
     public String toString() {
@@ -131,4 +137,14 @@ public class AccountDto implements Serializable {
     public void setOwners(Set<UserDto> owners) {
         this.owners = owners;
     }
+
+
+	public Set<DepositDto> getDeposits() {
+		return deposits;
+	}
+
+
+	public void setDeposits(Set<DepositDto> deposits) {
+		this.deposits = deposits;
+	}
 }

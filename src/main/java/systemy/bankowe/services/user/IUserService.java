@@ -1,5 +1,6 @@
 package systemy.bankowe.services.user;
 
+import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.dto.deposit.DepositDto;
 
@@ -49,9 +50,13 @@ public interface IUserService {
      * @param deposit lokata.
      * @return true - lokata zosta³a dodana; false - wyst¹pi³ b³¹d podczas zaka³adania lokaty.
      */
-    boolean addNextDeposit(DepositDto deposit);
+    boolean addNextDeposit(DepositDto deposit,AccountDto sourceAccount);
     /**
      * Zwraca aktualnie zalogowanego u¿ytkownika
      */
     UserDto getLoggedAccount();
+    /**
+     *Zamyka podan¹ lokatê
+     */
+    void closeDeposit(DepositDto deposit);
 }

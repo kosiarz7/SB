@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import systemy.bankowe.dao.user.UserDao;
+import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.dto.deposit.DepositDto;
 import systemy.bankowe.dto.deposit.DepositTypeDto;

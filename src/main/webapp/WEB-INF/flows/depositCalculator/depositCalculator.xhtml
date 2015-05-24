@@ -25,9 +25,6 @@
         <h:panelGrid columns="4" cellpadding="5">
          <h:outputLabel for="txt3" value="Wybierz typ lokaty: *" />
             <h:selectOneMenu id="txt3" value="#{deposit.idLokata}" required="true" label="Text 3">
-	            <!--  <c:forEach var="type" items="${depositTypes}">
-				    <f:selectItem itemLabel="${type.nazwaLokaty}" itemValue="${type}" />	    
-				</c:forEach>-->
 				<f:selectItems value="${depositTypes}" var="type" itemLabel="${type.nazwaLokaty}" itemValue="${type.idTyplokata}" />
             </h:selectOneMenu>
             <p:message for="txt3" />

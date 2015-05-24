@@ -3,6 +3,7 @@ package systemy.bankowe.services.user;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import systemy.bankowe.dao.CommonDao;
 import systemy.bankowe.dao.user.IUserDao;
+import systemy.bankowe.dao.user.UserDao;
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.dto.deposit.DepositDto;
@@ -54,6 +56,12 @@ public class UserService implements IUserService, Serializable {
      * Podstawowe DAO dla kont bankowych.
      */
     private CommonDao<AccountDto> accountCommonDao;
+    /**
+     * Podstawowe DAO dla lokat bankowych.
+     */
+    private CommonDao<DepositDto> depositCommonDao;
+    
+    
 
     /**
      * {@inheritDoc}
@@ -170,11 +178,20 @@ public class UserService implements IUserService, Serializable {
      * {@inheritDoc}
      */
     @Override
-	public boolean addNextDeposit(DepositDto deposit) {
+	public boolean addNextDeposit(DepositDto deposit,AccountDto sourceAccount) {
 		UserDto user = getLoggedAccount();
 		Set<UserDto> owners = new HashSet<>();
 		owners.add(user);
 		deposit.setOwners(owners);
+		
+		List<AccountDto> accountsList = user.getAccounts();
+		for(AccountDto account:accountsList){
+			if(account.getId() == sourceAccount.getId()){
+				account.setSaldo(sourceAccount.getSaldo() - deposit.getWartoscStartowa());
+				break;
+			}
+		}
+		
 		userDao.addDeposit(user, deposit);
 		return true;
 	}
@@ -189,4 +206,20 @@ public class UserService implements IUserService, Serializable {
      	UserDto user = userDao.loadUserByUserName(name);
 		return user;
 	}
+
+	@Override
+	public void closeDeposit(DepositDto deposit) {
+		UserDto user = getLoggedAccount();
+		List<AccountDto> accountsList = user.getAccounts();
+		for(AccountDto account:accountsList){
+			if(account.getId() == deposit.getAccountDto().getId()){
+				account.setSaldo(account.getSaldo() + deposit.getWartoscObecna());
+				break;
+			}
+		}
+		userDao.updateUser(user);
+		//depositCommonDao.update(deposit);
+	}
+	
+	
 }

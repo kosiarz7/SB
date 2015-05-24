@@ -36,7 +36,7 @@ public class DepositTypeDto implements Serializable {
 	
     private static final long serialVersionUID = 1L;
     
-    /*@Id
+    @Id
     @NotNull
     @Column(name = "ID_TYPLOKATA")
     private Long idTyplokata;
@@ -66,40 +66,6 @@ public class DepositTypeDto implements Serializable {
     @Column(name = "RODZAJ_OPROCENTOWANIA")
     private Character rodzajOprocentowania;
     
-    @Size(max = 4)
-    @Column(name = "WALUTA")
-    private String waluta;*/
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_TYPLOKATA")
-    private Long idTyplokata;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "NAZWA_LOKATY")
-    private String nazwaLokaty;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "STOPA_PROCENTOWA")
-    private double stopaProcentowa;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "OKRES_NSP")
-    private short okresNsp;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "OKRES_KAPITALIZACJI")
-    private short okresKapitalizacji;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "RODZAJ_KAPITALIZACJI")
-    private Character rodzajKapitalizacji;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "RODZAJ_OPROCENTOWANIA")
-    private Character rodzajOprocentowania;
     @Size(max = 4)
     @Column(name = "WALUTA")
     private String waluta;

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,6 +30,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
 
 /**
@@ -75,6 +77,13 @@ public class DepositDto implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "STATUS_LOKATY")
     private String statusLokaty;
+    
+    @Column(name = "odnawialny")
+    private boolean odnawialny;
+    
+    @ManyToOne
+    @JoinColumn(name ="id_rachunekDocelowy", referencedColumnName = "id_rachunek")
+    private AccountDto accountDto;
 
     @JoinColumn(name = "ID_TYPLOKATA", referencedColumnName = "ID_TYPLOKATA")
     @ManyToOne
@@ -181,6 +190,22 @@ public class DepositDto implements Serializable {
 
 	public void setOwners(Set<UserDto> owners) {
 		this.owners = owners;
+	}
+
+	public boolean isOdnawialny() {
+		return odnawialny;
+	}
+
+	public void setOdnawialny(boolean odnawialny) {
+		this.odnawialny = odnawialny;
+	}
+
+	public AccountDto getAccountDto() {
+		return accountDto;
+	}
+
+	public void setAccountDto(AccountDto accountDto) {
+		this.accountDto = accountDto;
 	}
     
 }

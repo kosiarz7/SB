@@ -20,17 +20,28 @@
 		</h:head>
 		<body>
 			<h3>Lokata #{depositType.nazwaLokaty}</h3>
-
+			<c:set var="source" scope="application" />
+			<c:set var="destination"  scope="application"  />
 			<h:form>
 
 				<p:messages />
+				
 				<label for="wartoscStartowa">Wartość lokaty</label>
 				<br />
-				<h:inputText id="wartoscStartowa" class="form-control"
-					value="#{deposit.wartoscStartowa}" required="true" />
+				<h:inputText id="wartoscStartowa" class="form-control" value="#{deposit.wartoscStartowa}" required="true" />
 				<h:message id="m2" for="wartoscStartowa" style="color:red" />
-				<p></p>
-
+				<p/>
+				
+				<h:outputLabel for="accountSource" value="Wybierz rachunek źródłowy: " />
+            <h:selectOneMenu id="accountSource" value="#{accountSourceId}" required="true" >
+				<f:selectItems value="${accounts}" var="account" itemLabel="${account.name}" itemValue="${account.id}" />
+            </h:selectOneMenu>
+            
+            <h:outputLabel for="accountDestination" value="Po zamknięciu lokaty przelej środki na rachunek: " />
+             <h:selectOneMenu id="accountDestination" value="#{accountDestinationId}" required="true">
+				<f:selectItems value="${accounts}" var="account" itemLabel="${account.name}" itemValue="${account.id}" />
+            </h:selectOneMenu>
+	
 				<h4>Lokata szczegółowe informacje</h4>
 				<p:panelGrid columns="2">
 
@@ -38,8 +49,7 @@
 					<h:outputText value="#{depositType.stopaProcentowa} %" />
 
 					<h:outputText value="Czas trwania:" />
-					<h:outputText
-						value="#{depositType.depositConditionsDto.okresMin} dni" />
+					<h:outputText value="#{depositType.depositConditionsDto.okresMin} dni" />
 
 					<h:outputText value="Nominalna stopa procentowa:" />
 					<h:outputText value="#{depositType.okresNsp}" />
@@ -76,7 +86,7 @@
 					<h:outputText value="#{depositType.depositConditionsDto.kwotaMax}" />
 				</p:panelGrid>
 				<br />
-				<p:commandButton action="submit3month" value="Załóż" update="@form" />
+				<p:commandButton action="submitForm" value="Załóż" update="@form" />
 				<p:commandButton action="cancel" class="btn btn-primary"
 					value="Anuluj" immediate="true" />
 			</h:form>
