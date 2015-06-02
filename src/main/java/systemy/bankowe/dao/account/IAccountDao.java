@@ -1,8 +1,10 @@
 package systemy.bankowe.dao.account;
 
+import java.util.List;
 import java.util.Optional;
 
 import systemy.bankowe.dto.AccountDto;
+import systemy.bankowe.dto.UserDto;
 
 /**
  * DAO dal konta bankowego.
@@ -25,4 +27,11 @@ public interface IAccountDao {
      * @return obiekt konta.
      */
     AccountDto getAccountByNumber(String accountNumber);
+    /**
+     * Pobiera listę kont użytkownika.
+     * 
+     * @param userDto DTO użytkownika.
+     * @return lista kont użytkownika.
+     */
+    List<AccountDto> getUserAccounts(final UserDto userDto);
 }

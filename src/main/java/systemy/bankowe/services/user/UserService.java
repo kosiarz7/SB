@@ -3,15 +3,16 @@ package systemy.bankowe.services.user;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
-import org.springframework.security.core.userdetails.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import systemy.bankowe.dao.CommonDao;
+import systemy.bankowe.dao.account.IAccountDao;
 import systemy.bankowe.dao.user.IUserDao;
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
@@ -51,6 +52,10 @@ public class UserService implements IUserService, Serializable {
      * Podstawowe DAO dla kont bankowych.
      */
     private CommonDao<AccountDto> accountCommonDao;
+    /**
+     * DAO dla kont.
+     */
+    private IAccountDao accountDao;
 
     /**
      * {@inheritDoc}
@@ -141,6 +146,14 @@ public class UserService implements IUserService, Serializable {
             throw new IllegalStateException("Użytkownik jest niezalogowany!");
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<AccountDto> getUserAccounts(final UserData userData) {
+        return accountDao.getUserAccounts(userData.getUserDto());
+    }
 
     /**
      * Ustawia DAO użytkownika.
@@ -161,5 +174,9 @@ public class UserService implements IUserService, Serializable {
 
     public void setAccountCommonDao(CommonDao<AccountDto> accountCommonDao) {
         this.accountCommonDao = accountCommonDao;
+    }
+    
+    public void setAccountDao(IAccountDao accountDao) {
+        this.accountDao = accountDao;
     }
 }

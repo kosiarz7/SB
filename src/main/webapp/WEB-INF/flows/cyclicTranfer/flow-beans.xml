@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="data" class="systemy.bankowe.flows.cyclictransfer.CyclicTransferDataBean" scope="flow"/>
+    
+    <bean id="controller" class="systemy.bankowe.flows.cyclictransfer.CyclicTransferBean">
+    	<property name="accountNumberService" ref="accountNumberService" />
+    	<property name="commonDao" ref="commonDao" />
+    	<property name="userUtil" ref="springSecurityContextUtilBean" />
+    	<property name="userService" ref="userService" />
+    	<property name="accountDao" ref="accountDao"/>
+    </bean>
+</beans>
