@@ -11,7 +11,8 @@
         <h:form>
        		<p:menubar id="mainWindowMenuBar" style="margin-bottom: 10px;">
        			<p:menuitem value="Otwórz nowe konto" url="/app/addNextAccount"/>
-       			<p:menuitem value="Zlecenia stałe" url="/app/cyclicTransfers"/>
+       			<p:menuitem value="Zlecenia stałe" url="/app/cyclicTranfer"/>
+       			<p:menuitem value="Odbiorcy zdefiniowani" url="/app/definedRecipients"/>
        		</p:menubar>
 			<ui:repeat var="item" value="#{accounts}">
 				<my:account accountStub="#{item}" />

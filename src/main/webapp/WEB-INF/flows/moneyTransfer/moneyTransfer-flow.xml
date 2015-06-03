@@ -5,9 +5,15 @@
 
 	<!-- Zabezpieczenie flow przez Spring Security -->
 	<secured attributes="ROLE_USER" />
-
+	
 	<var name="waitingTransferVar" class="systemy.bankowe.dto.transfer.WaitingTransfer" />
 	<var name="controllerVar" class="systemy.bankowe.flows.money.transfer.MoneyTransferFlow" />
+	
+	<input name="targetAccountNumber" type="java.lang.String" required="false"/>
+	
+	<on-start>
+		<evaluate expression="controllerVar.init(springSecurityContextUtilBean, targetAccountNumber, waitingTransferVar)" />
+	</on-start>
 
 	<view-state id="moneyTransferView">
 		<transition on="moneyTransferState" to="moneyTransferState" />

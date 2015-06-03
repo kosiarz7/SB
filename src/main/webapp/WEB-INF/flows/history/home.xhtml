@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+    <ui:define name="pageContent">
+    	<h:form>
+    		<p:accordionPanel multiple="true" activeIndex="0,1,2">
+    			<p:tab title="Wykres">
+    				<p:chart type="line" model="#{data.saldoChart}" style="height:300px;" />
+    			</p:tab>
+    			
+    			<p:tab title="Podsumowanie">
+	    			<h:panelGrid columns="2" cellpadding="5" style="display: table; margin: 0 auto;">
+						<h:outputText value="Początkowy stan konta:" styleClass="bold"/>
+						<h:outputText value="#{data.beginSaldo}">
+							<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+								locale="pl_PL"/>
+						</h:outputText>
+						
+						<h:outputText value="Końcowy stan konta:" styleClass="bold"/>
+						<h:outputText value="#{data.endSaldo}">
+							<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+								locale="pl_PL"/>
+						</h:outputText>
+						
+						<h:outputText value="Suma uznań:" styleClass="bold"/>
+						<h:outputText value="#{data.credits}">
+							<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+								locale="pl_PL"/>
+						</h:outputText>
+						
+						<h:outputText value="Suma obciążęń:" styleClass="bold"/>
+						<h:outputText value="#{data.debits}">
+							<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+								locale="pl_PL"/>
+						</h:outputText>
+						
+						<h:outputText value="Saldo:" styleClass="bold"/>
+						<h:outputText value="#{data.saldo}" style="color: #{data.saldo lt 0 ? 'red' : 'green'}">
+							<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+								locale="pl_PL"/>
+						</h:outputText>
+						
+						<p:commandButton value="PDF" ajax="true" icon="ui-icon-document"  
+							onclick="PrimeFaces.monitorDownload(start, stop)" process="@this"
+							onstart="showCurtain()" oncomplete="hideCurtain()">
+                    		<p:fileDownload value="#{controller.getSummaryPdf(data)}" />  
+                		</p:commandButton>
+					</h:panelGrid>
+    			</p:tab>
+    			
+    			<p:tab title="Wyszukaj">
+    				<p:messages />
+		        	<h:panelGrid columns="3" cellpadding="5" style="display: table; margin: 0 auto;">
+			        	<p:outputLabel value="Od:" for="from"/>
+			        	<p:calendar id="from" value="#{data.from}" showOn="button" required="true" pattern="dd-MM-yyyy"/>
+			        	<p:message for="from"/>
+			        	
+			        	<p:outputLabel value="Do:" for="to"/>
+			        	<p:calendar id="to" value="#{data.to}" showOn="button" required="true" pattern="dd-MM-yyyy"/>
+			        	<p:message for="to"/>
+			        	
+			        	<p:commandButton action="search" value="Szukaj" style="margin-top: 25px;" ajax="true" 
+			        			onstart="showCurtain()" oncomplete="hideCurtain()"/>
+		        	</h:panelGrid>
+    			</p:tab>
+    			
+    			<p:tab title="Szczegóły">
+    				<ui:repeat var="item" value="#{data.transferData}">
+						<my:transfer transferData="#{item}" />
+					</ui:repeat>
+    			</p:tab>
+    		</p:accordionPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

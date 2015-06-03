@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:param name="hide" value="true"/>
+    <ui:define name="pageContent">
+        <h:form>
+        	<p:panel id="panel" header="" style="margin: 0 auto; width: 100%; margin-top: 10px;">
+        		<p:messages />
+	        	<h:panelGrid columns="3" cellpadding="5" style="display: table; margin: 0 auto;">
+		        	<p:outputLabel value="Nazwa odbiorcy:" for="name"/>
+		        	<p:inputText value="${data.name}" id="name" required="true" placeholder="Nazwa odbiorcy"/>
+		        	<p:message for="name"/>
+		        	
+		        	<p:outputLabel value="Na rachunek:" for="accountNumber"/>
+		        	<p:inputText value="#{data.accountNumber}" id="accountNumber" required="true" placeholder="Numer rachunku"/>
+		        	<p:message for="accountNumber"/>
+		        	
+		        	<p:outputLabel value="Ulica:" for="street"/>
+		        	<p:inputText value="#{data.street}" id="street" required="true" placeholder="Ulica"/>
+		        	<p:message for="street"/>
+		        	
+		        	<p:outputLabel value="Nr domu:" for="streetNo"/>
+		        	<p:inputText value="#{data.streetNo}" id="streetNo" required="true" placeholder="Nr domu"/>
+		        	<p:message for="streetNo"/>
+		        	
+		        	<p:outputLabel value="Kod pocztowy:" for="zipcode"/>
+		        	<p:inputMask mask="99-999" value="#{data.zipcode}" id="zipcode" required="true" placeholder="__-___"/>
+		        	<p:message for="zipcode"/>
+		        	
+		        	<p:outputLabel value="Miasto:" for="city"/>
+		        	<p:inputText value="#{data.city}" id="city" required="true" placeholder="Miasto"/>
+		        	<p:message for="city"/>
+		        	
+		        	<c:if test="#{not data.editMode}">
+			        	<p:commandButton action="addRecipient" value="Dodaj odbiorcę" style="margin-top: 25px;" ajax="true" update="@form"
+							onstart="showCurtain()" oncomplete="hideCurtain()"/>
+					</c:if>
+					<c:if test="#{data.editMode}">
+						<p:commandButton action="saveChanges" value="Zapisz zmiany" style="margin-top: 25px;" ajax="true" update="@form"
+							onstart="showCurtain()" oncomplete="hideCurtain()"/>
+					</c:if>
+	        	</h:panelGrid>
+        	</p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
