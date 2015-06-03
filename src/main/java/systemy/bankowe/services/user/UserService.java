@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,6 +154,22 @@ public class UserService implements IUserService, Serializable {
     @Override
     public List<AccountDto> getUserAccounts(final UserData userData) {
         return accountDao.getUserAccounts(userData.getUserDto());
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getSaldo(UserData userData, String accoutNumber) {
+        List<AccountDto> accounts = getUserAccounts(userData).stream().filter(a -> accoutNumber.equals(a.getNumber()))
+                .collect(Collectors.toList());
+        if (null != accounts && !accounts.isEmpty()) {
+            return accounts.get(0).getSaldo();
+        }
+        else {
+            LOGGER.error("getSaldo|Użytkownik: {} nie posiada konta o numerze: {}", userData, accoutNumber);
+            throw new IllegalArgumentException("Zalogowany użytkownik nie posiada knota o numerze: " + accoutNumber);
+        }
     }
 
     /**

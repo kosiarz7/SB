@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui">
+	<cc:interface>
+		<cc:attribute name="transferData" type="systemy.bankowe.flows.history.TransferDataBean"/>
+	</cc:interface>
+	<cc:implementation>
+		<p:panel styleClass="transferPanel">
+			<p>
+				#{cc.attrs.transferData.title}
+				<span class="right" style="margin-left: 70px;">
+					<h:outputText value="#{cc.attrs.transferData.saldo}">
+						<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+							locale="pl_PL"/>
+					</h:outputText>
+				</span>
+				<span class="right" style="color: #{cc.attrs.transferData.debit ? 'red' : 'green'}">
+					#{cc.attrs.transferData.debit ? '-' : ''}
+					<h:outputText value="#{cc.attrs.transferData.ammount}">
+						<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+							locale="pl_PL"/>
+					</h:outputText>
+				</span>
+			</p>
+			<p>#{cc.attrs.transferData.accountNumber}</p>
+			<p>
+				<h:outputText value="#{cc.attrs.transferData.date}">
+					<f:convertDateTime type="date" pattern="dd MMMM yyyy"/>
+				</h:outputText>
+			</p>
+			<p>#{cc.attrs.transferData.recipient}</p>
+		</p:panel>
+	</cc:implementation>
+</ui:component>

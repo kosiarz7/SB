@@ -75,6 +75,8 @@
 		p:port="587"
 		p:smtpHost="smtp.gmail.com"/>
 		
+	<bean id="pdfService" class="systemy.bankowe.services.pdf.PdfGeneratorService" />
+		
 	<!-- DAO -->
 	<bean id="commonDao" class="systemy.bankowe.dao.CommonDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 	

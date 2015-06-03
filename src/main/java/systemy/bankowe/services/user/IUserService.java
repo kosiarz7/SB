@@ -51,4 +51,12 @@ public interface IUserService {
      * @return lista kont należących do użytkownika.
      */
     List<AccountDto> getUserAccounts(final UserData userData);
+    /**
+     * Zwraca bieżące saldo na żadanym koncie.
+     * 
+     * @param userData dane zalogowanego użytkownika.
+     * @param accoutNumber numer konta.
+     * @return saldo.
+     */
+    double getSaldo(final UserData userData, final String accoutNumber);
 }
