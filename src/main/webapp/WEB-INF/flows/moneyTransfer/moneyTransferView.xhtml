@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
@@ -49,6 +50,9 @@
 				<p:inputText id="targetName"
 					value="#{waitingTransferVar.targetName}" label="'Nazwa odbiorcy'"
 					required="true" />
+				<a onclick="PF('selectRecipient').show()">
+					<img src="#{request.contextPath}/resources/img/addressBook128x128.png" width="28px" height="28px"/>
+				</a>
 			</p>
 			<p>
 				Tytuł:
@@ -73,6 +77,28 @@
 			<br />
 			<p:commandButton action="moneyTransferState" value="Dodaj"
 				ajax="false" />
+			
+			<p:dialog id="selectRecipientDialog" widgetVar="selectRecipient" modal="true">
+        		<c:if test="#{controllerVar.definedRecipeintsAvailable}">
+					<ui:repeat var="recipient" value="#{controllerVar.recipients}">
+						<div style="margin-bottom: 20px; margin-top: 20px; clear: both; overflow: auto;">
+							<div class="left" style="margin-right: 30px">
+								<span style="font-weight: bold;">#{recipient.name}</span> (<span style="font-style: italic;">#{recipient.city}, #{recipient.street} #{recipient.streetNo}</span>)<br/>
+								#{accountNumberService.formatAccountNumber(recipient.accountNumber)}
+							</div>
+							<div class="right">
+								<p:commandButton value="Wybierz" actionListener="#{controllerVar.selectRecipientListener(recipient, waitingTransferVar)}"
+									ajax="true" process="@this" 
+									update="@([id$=address]) @([id$=targetName]) @([id$=targetAccountNumber])" 
+									onstart="showCurtain()" oncomplete="PF('selectRecipient').hide();hideCurtain()"/>
+							</div>
+						</div>
+					</ui:repeat>
+				</c:if>
+				<c:if test="#{not controllerVar.definedRecipeintsAvailable}">
+					<p style="margin: 20px;">Brak zdefiniowanych odbiorców.</p>
+				</c:if>
+			</p:dialog>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -12,7 +12,7 @@
 			<evaluate expression="controller.getAccounts()" result="viewScope.accounts" />
 		</on-entry>
 		<transition on="delete" to="delete"/>
-		<transition on="transfer" to="home" />
+		<transition on="transfer" to="transfer" />
 		<transition on="history" to="home" />
 		<transition on="addCoowner" to="home" />
 		<transition on="resign" to="home" />
@@ -28,6 +28,8 @@
 		<evaluate expression="controller.deleteAccount(data)" />
 		<transition to="home" />
 	</action-state>
+	
+	<end-state id="transfer" view="externalRedirect:contextRelative:/app/moneyTransfer?targetAccountNumber=#{data.getAccount().getNumber()}"/>
 
 	<bean-import resource="flow-beans.xml" />
 </flow>
