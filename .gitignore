@@ -7,5 +7,3 @@
 .classpath
 deploy.sh
 dependency-reduced-pom.xml
-src/main/resources/jdbc.properties
-src/main/resources/jdbc.properties
