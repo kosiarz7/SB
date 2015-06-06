@@ -8,6 +8,7 @@
     <include file="classpath:liquibase/changelog-2.0.sql"/>
     <include file="classpath:liquibase/changelog-3.0.sql"/>
    	<include file="classpath:liquibase/changelog-4.0.sql"/>
+   	<include file="classpath:liquibase/changelog-5.0.sql"/>
     
     <!-- 
 	<include file="classpath:liquibase/functions_transfer.sql"/>
