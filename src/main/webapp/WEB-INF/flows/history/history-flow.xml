@@ -5,15 +5,24 @@
 	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
 	<!-- Zabezpieczenie flow przez Spring Security -->
-	<secured attributes="ROLE_USER"/>
+	<secured attributes="ROLE_USER" />
+
+	<input name="accountNumber" type="java.lang.String" required="true" />
+
+	<on-start>
+		<evaluate expression="controller.init(data, accountNumber)" />
+	</on-start>
 
 	<view-state id="home">
-		<transition on="add" to="newCyclicTransfer"/>
+		<transition on="search" to="search">
+			<evaluate expression="controller.validateDates(data)" />
+		</transition>
 	</view-state>
 
-	<view-state id="newCyclicTransfer">
-		<transition on="add" to="newCyclicTransfer"/>
-	</view-state>
+	<action-state id="search">
+		<evaluate expression="controller.searchTransfers(data)" />
+		<transition to="home" />
+	</action-state>
 
 	<bean-import resource="flow-beans.xml" />
 </flow>

@@ -13,14 +13,26 @@
 
 		<mapping class="systemy.bankowe.dto.UserDto" />
 		<mapping class="systemy.bankowe.dto.RoleDto" />
+		<mapping class="systemy.bankowe.dto.AccountDto" />
+		<mapping class="systemy.bankowe.dto.CitizenshipDto" />
+		<mapping class="systemy.bankowe.dto.CyclicTransferDto" />
+		<mapping class="systemy.bankowe.dto.DefinedRecipientDto" />
 		<mapping class="systemy.bankowe.dto.deposit.KlientLokaty" />
 		<mapping class="systemy.bankowe.dto.deposit.LokataOdsetki" />
 		<mapping class="systemy.bankowe.dto.deposit.LokataTyp" />
 		<mapping class="systemy.bankowe.dto.deposit.Lokaty" />
 		<mapping class="systemy.bankowe.dto.deposit.LokatyWarunki" />
 		<mapping class="systemy.bankowe.dto.deposit.OprocentowanieLokata" />
+
 		<mapping class="systemy.bankowe.dto.AccountDto" />
 		<mapping class="systemy.bankowe.dto.CitizenshipDto" />
-		<mapping class="systemy.bankowe.dto.insurance.InsuranceTypeDto" /> -->
+		<mapping class="systemy.bankowe.dto.insurance.InsuranceTypeDto" />
+
+		<mapping class="systemy.bankowe.dto.insurance.InsuranceTypeDto" />
+		<mapping class="systemy.bankowe.dto.transfer.WaitingTransfer" />
+		<mapping class="systemy.bankowe.dto.transfer.TransferType" />
+		<mapping class="systemy.bankowe.dto.transfer.OrderToPay" />
+		<mapping class="systemy.bankowe.dto.transfer.RealizedTransfer" />  -->
+
 	</session-factory>
 </hibernate-configuration>

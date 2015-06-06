@@ -12,6 +12,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import systemy.bankowe.dao.CommonDao;
+import systemy.bankowe.dao.cyclictransfer.ICyclicTransferDao;
+import systemy.bankowe.dao.definedrecipients.IDefindeRecipientDao;
+import systemy.bankowe.dto.CyclicTransferDto;
+import systemy.bankowe.dto.DefinedRecipientDto;
 import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.security.SpringSecurityContextUtil;
 import systemy.bankowe.services.user.UserData;
@@ -33,6 +37,10 @@ public class SpringSecurityContextUtilBean implements Serializable, SpringSecuri
      * Podstawowe DAO dla użytkownika.
      */
     private CommonDao<UserDto> commonUserDao;
+
+    private IDefindeRecipientDao definedRecipientDao;
+
+    private ICyclicTransferDao cyclicTransferDao;
 
     /**
      * {@inheritDoc}
@@ -102,7 +110,7 @@ public class SpringSecurityContextUtilBean implements Serializable, SpringSecuri
 
         if (auth != null) {
             Object principal = auth.getPrincipal();
-    
+
             if (principal instanceof UserData) {
                 UserData userData = (UserData) principal;
                 UserDto userDto = userData.getUserDto();
@@ -116,7 +124,43 @@ public class SpringSecurityContextUtilBean implements Serializable, SpringSecuri
         return user;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<DefinedRecipientDto> getAllDefinedRecipients() {
+        Optional<UserData> user = getLoggedInUser();
+        if (user.isPresent()) {
+            return definedRecipientDao.getDefindeRecipients(user.get().getUserDto());
+        }
+        else {
+            throw new IllegalStateException("Użytkownik jest niezalogowany!");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<CyclicTransferDto> getAllCyclicTransfers() {
+        Optional<UserData> user = getLoggedInUser();
+        if (user.isPresent()) {
+            return cyclicTransferDao.getAllCyclicTransfers(user.get().getUserDto());
+        }
+        else {
+            throw new IllegalStateException("Użytkownik jest niezalogowany!");
+        }
+    }
+
     public void setCommonUserDao(CommonDao<UserDto> commonUserDao) {
         this.commonUserDao = commonUserDao;
+    }
+    
+    public void setDefinedRecipientDao(IDefindeRecipientDao definedRecipientDao) {
+        this.definedRecipientDao = definedRecipientDao;
+    }
+
+    public void setCyclicTransferDao(ICyclicTransferDao cyclicTransferDao) {
+        this.cyclicTransferDao = cyclicTransferDao;
     }
 }

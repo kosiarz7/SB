@@ -1,6 +1,7 @@
 package systemy.bankowe.dto.transfer;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,65 +17,89 @@ import systemy.bankowe.dto.AbstractDto;
 @Table(name = "upowaznienie_polecenia_zapl")
 public class OrderToPay extends AbstractDto implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id_przelew_przychodzacy")
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_przelew_przychodzacy")
+    private int id;
 
-	@Column(name = "nr_rachunku_upowaznionego")
-	private String accountEmpowered;
+    @Column(name = "nazwa")
+    private String name;
 
-	private Date fromDate;
+    @Column(name = "nr_rachunku_upowaznionego")
+    private String accountEmpowered;
 
-	private Date toDate;
+    @Column(name = "od_kiedy")
+    private Date fromDate = Calendar.getInstance().getTime();
 
-	private double maxAmount;
+    @Column(name = "do_kiedy")
+    private Date toDate = Calendar.getInstance().getTime();
 
-	// TODO: Rachunek - klient tabela
+    @Column(name = "maksymalna_kwota")
+    private double maxAmount;
 
-	public OrderToPay() {
-	}
+    // TODO: Rachunek - klient tabela
 
-	public int getId() {
-		return id;
-	}
+    public OrderToPay() {
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public OrderToPay(int id, String name, String accountEmpowered, Date fromDate, Date toDate, double maxAmount) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.accountEmpowered = accountEmpowered;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        this.maxAmount = maxAmount;
+    }
 
-	public String getAccountEmpowered() {
-		return accountEmpowered;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setAccountEmpowered(String accountEmpowered) {
-		this.accountEmpowered = accountEmpowered;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public Date getFromDate() {
-		return fromDate;
-	}
+    public String getAccountEmpowered() {
+        return accountEmpowered;
+    }
 
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
-	}
+    public void setAccountEmpowered(String accountEmpowered) {
+        this.accountEmpowered = accountEmpowered;
+    }
 
-	public Date getToDate() {
-		return toDate;
-	}
+    public Date getFromDate() {
+        return fromDate;
+    }
 
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
-	}
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
 
-	public double getMaxAmount() {
-		return maxAmount;
-	}
+    public Date getToDate() {
+        return toDate;
+    }
 
-	public void setMaxAmount(double maxAmount) {
-		this.maxAmount = maxAmount;
-	}
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
+    }
+
+    public double getMaxAmount() {
+        return maxAmount;
+    }
+
+    public void setMaxAmount(double maxAmount) {
+        this.maxAmount = maxAmount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

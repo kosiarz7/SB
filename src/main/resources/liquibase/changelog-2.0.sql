@@ -10,6 +10,9 @@ CREATE TABLE typUbezpieczenie(
 	CONSTRAINT typUbezpieczenie_pk PRIMARY KEY (id_typUbezpieczenie)
 );
 
+INSERT INTO typ_przelewu VALUES(1, 'Przelew jednorazowy');
+INSERT INTO typ_przelewu VALUES(2, 'Polecenie zapłaty');
+
 INSERT INTO typUbezpieczenie (id_typUbezpieczenie, nazwa, typ, opis_korzysci, opis_inne) VALUES (1, 'Ubezpieczenie komunikacyjne', 'komunikacyjne',
 'Przenosisz swoje zniżki za bezszkodową jazdę. Przenosisz zniżki z OC na AC. 5% zniżki przy zakupie ubezpieczenia przez internet. Płacisz niskie, miesięczne raty, o których pamięta za Ciebie bank.',
 'Możesz kupić polisę nawet z 3-miesięcznym wyprzedzeniem. Ubezpieczenie kupujesz przez internet lub telefon, bez wychodzenia z domu.');
