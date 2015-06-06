@@ -9,13 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-@Entity(name = "OPERACJE_KARTA")
+@Entity
+@Table(name = "OPERACJE_KARTA")
 public class CardOperation {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "OPERACJE_KARTA_SEQ")
+    @SequenceGenerator(name = "OPERACJE_KARTA_SEQ", sequenceName = "OPERACJE_KARTA_SEQ", allocationSize = 1)
+	private Integer id;
 	
 	/**
 	 * Rodzaj karty
@@ -42,11 +46,11 @@ public class CardOperation {
 	@OneToMany(mappedBy = "operation")
 	private Set<CardHistory> history;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

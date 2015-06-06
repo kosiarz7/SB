@@ -19,11 +19,14 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
 
-@Entity(name = "KARTY")
+@Entity
+@Table(name = "KARTY")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 	@DiscriminatorColumn(name = "card_type", discriminatorType = DiscriminatorType.STRING)
 	@DiscriminatorValue(CardDiscriminator.BASE)
@@ -35,8 +38,9 @@ public class Card implements Serializable{
 	private static final long serialVersionUID = -529893989224333146L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "KARTY_SEQ")
+    @SequenceGenerator(name = "KARTY_SEQ", sequenceName = "KARTY_SEQ", allocationSize = 1)
+	private Integer id;
 	
 	@Column(name = "card_number", nullable = false, length = 16)
 	private String number;
@@ -114,14 +118,14 @@ public class Card implements Serializable{
 	@JoinColumn
 	private AccountDto account;
 	
-	@OneToMany(mappedBy = "card")
+	@OneToMany(mappedBy = "card", fetch = FetchType.EAGER)
 	private List<CardHistory> history;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

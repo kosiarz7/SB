@@ -9,13 +9,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-@Entity(name = "HISTORIA_KART")
+@Entity
+@Table(name = "HISTORIA_KART")
 public class CardHistory {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HISTORIA_KART_SEQ")
+    @SequenceGenerator(name = "HISTORIA_KART_SEQ", sequenceName = "HISTORIA_KART_SEQ", allocationSize = 1)
+	private Integer id;
 	
 	private Date timestamp;
 	
@@ -29,11 +33,11 @@ public class CardHistory {
 	@JoinColumn(name = "operation_id")
 	private CardOperation operation;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

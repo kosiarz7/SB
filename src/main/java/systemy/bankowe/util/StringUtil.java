@@ -36,4 +36,43 @@ public class StringUtil {
 
         return removedWhitespaces;
     }
+    
+    /**
+     * Zamienia napis skladajacy sie z cyfr na tablice
+     * 
+     * @param s napis składający się z cyfr
+     * @return tablica cyfr
+     * @throws IllegalArgumentException gdy w napisie sa inne znaki niz cyfry
+     */
+    public static int[] toIntArray(String s) {
+    	
+    	int[] intArray = new int[s.length()];
+    	
+        for(int i=0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) {
+              throw new IllegalArgumentException();
+            }
+            intArray[i] = Integer.parseInt(String.valueOf(s.charAt(i)));
+          }
+        
+        return intArray;
+    }
+    
+    /**
+     * Zamienia tablice liczb na napis
+     * 
+     * @param digits tablica liczb
+     * @return napis - liczba
+     */
+    public static String toString(int[] digits) {
+    	
+    	StringBuffer sb = new StringBuffer();
+    	
+    	for (int i : digits) {
+			sb.append(Integer.toString(i));
+		}
+    	
+    	return sb.toString();
+    	
+    }
 }

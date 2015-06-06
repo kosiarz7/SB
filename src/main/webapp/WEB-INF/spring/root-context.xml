@@ -76,6 +76,18 @@
 		p:port="587"
 		p:smtpHost="smtp.gmail.com"/>
 		
+	<bean id="cardService" class="systemy.bankowe.services.card.CardService"
+		p:cardDao-ref="cardDao"
+		p:commonDebitCardDao-ref="commonDao"
+		p:cardNumberService-ref="cardNumberService"
+		p:accountDao-ref="accountDao"
+		p:springSecurityUtil-ref="springSecurityContextUtilBean"
+		/>
+		
+	<bean id="cardNumberService" class="systemy.bankowe.services.card.CardNumberService"
+		p:cardDao-ref="cardDao"
+		/>
+		
 	<!-- DAO -->
 	<bean id="commonDao" class="systemy.bankowe.dao.CommonDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 	
@@ -86,6 +98,8 @@
 	<bean id="accountDao" class="systemy.bankowe.dao.account.AccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 		
 	<bean id="InsuranceTypeDao" class="systemy.bankowe.dao.insurance.InsuranceTypeDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="cardDao" class="systemy.bankowe.dao.card.CardDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 		
 	<!-- Wstrzykiwanie loggerów -->
 	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">
