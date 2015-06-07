@@ -25,6 +25,9 @@
 		<mapping class="systemy.bankowe.dto.deposit.OprocentowanieLokata" />
 		<mapping class="systemy.bankowe.dto.AccountDto" />
 		<mapping class="systemy.bankowe.dto.CitizenshipDto" />
-		<mapping class="systemy.bankowe.dto.insurances.InsuranceTypeDto" />
+		<mapping class="systemy.bankowe.dto.insurance.InsuranceTypeDto" />
+		<mapping class="systemy.bankowe.dto.insurance.InsuranceAccountDto" />
+		<mapping class="systemy.bankowe.dto.insurance.InsuranceDto" />
+		<mapping class="systemy.bankowe.dto.insurance.TransportInsuranceDto" />
 	</session-factory>
 </hibernate-configuration>

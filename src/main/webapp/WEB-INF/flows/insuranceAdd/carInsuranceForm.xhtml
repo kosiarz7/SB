@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+			<p:growl id="growl" sticky="true" showDetail="true" />
+
+			<p:progressBar id="pb" ajax="true" interval="1000"
+				value="#{data.progress}" labelTemplate="{value}%" widgetVar="pbAjax"
+				nextLabel="Dalej" backLabel="Cofnij" />
+			<p:wizard flowListener="#{data.onFlowProcess}" style="padding-top:1%">
+				<p:tab id="samochod" title="Samochód">
+					<p:messages />
+					<p:accordionPanel activeIndex="0">
+						<p:tab title="Podstawowe informacje o samochodzie">
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+
+								<h:outputText value="Rok produkcji: * " />
+								<p:selectOneMenu value="#{data.carBasicInfo.productionYear}">
+									<f:selectItems value="#{data.yearList}" var="productionYear" />
+								</p:selectOneMenu>
+
+								<h:outputText value="Marka: * " />
+								<p:selectOneMenu value="#{data.carBasicInfo.producent}">
+									<f:selectItems value="#{data.carBasicInfo.producentList}"
+										var="producent" itemValue="#{producent}"
+										itemLabel="#{producent.label}" />
+								</p:selectOneMenu>
+
+								<h:outputText value="Model: * " />
+								<p:inputText value="#{data.carBasicInfo.model}" required="true"
+									label="Model pojazdu" />
+
+								<h:outputText value="Typ nadwozia: * " />
+								<p:selectOneMenu value="#{data.carBasicInfo.bodyType}">
+									<f:selectItems value="#{data.carBasicInfo.bodyTypeList}" />
+								</p:selectOneMenu>
+
+								<h:outputText value="Rodzaj paliwa: * " />
+								<p:selectOneMenu value="#{data.carBasicInfo.fuelType}">
+									<f:selectItems value="#{data.carBasicInfo.fuelTypeList}" />
+								</p:selectOneMenu>
+
+								<h:outputText value="Instalacja LPG:  " />
+								<p:selectBooleanCheckbox
+									value="#{data.carBasicInfo.lpgInstalled}" />
+
+								<h:outputText value="Pojemność silnika (cm^3): * " />
+								<p:inputText value="#{data.carBasicInfo.engine_size}"
+									required="true" label="Pojemność silnika" />
+
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="Użytkowanie samochodu">
+							<h:panelGrid columns="2" columnClasses="label, value">
+
+								<h:outputText value="Rok nabycia pojazdu: * " />
+								<p:selectOneMenu value="#{data.carUsage.purchaseYear}">
+									<f:selectItems value="#{data.yearList}" var="purchaseYear" />
+								</p:selectOneMenu>
+
+								<h:outputText value="Średni roczny przebieg: * " />
+								<p:selectOneMenu value="#{data.carUsage.averageYearMillage}">
+									<f:selectItems value="#{data.carUsage.averageMillageList}"
+										var="averageMillage" itemValue="#{averageMillage}"
+										itemLabel="#{averageMillage.label}" />
+								</p:selectOneMenu>
+
+								<h:outputText value="Miejsce parkowania samochodu: * " />
+								<p:selectOneMenu value="#{data.carUsage.parkingPlace}">
+									<f:selectItems value="#{data.carUsage.parkingPlaceList}"
+										var="parkingPlace" itemValue="#{parkingPlace}"
+										itemLabel="#{parkingPlace.label}" />
+								</p:selectOneMenu>
+
+								<h:outputText value="Kod pocztowy miejsca parkowania: * " />
+								<p:inputMask mask="99-999"
+									value="#{data.carUsage.parkingPostalCode}" required="true"
+									placeholder="__-___" />
+							</h:panelGrid>
+						</p:tab>
+					</p:accordionPanel>
+
+				</p:tab>
+
+				<p:tab id="kierowca" title="Kierowca">
+					<p:messages />
+					<p:accordionPanel activeIndex="0">
+						<p:tab title="Podstawowe informacje o kierowcy">
+							<h:panelGrid columns="2" columnClasses="label, value">
+
+								<h:outputText value="Płeć: * " />
+								<p:selectOneRadio value="#{data.driverInfo.gender}"
+									layout="grid" columns="1">
+									<f:selectItems value="#{data.driverInfo.genderList}"
+										var="gender" itemLabel="#{gender.label}" itemValue="#{gender}" />
+								</p:selectOneRadio>
+
+								<h:outputText value="Stan cywilny: * " />
+								<p:selectOneMenu value="#{data.driverInfo.martialStatus}">
+									<f:selectItems value="#{data.driverInfo.martialStatusList}"
+										var="martialStatus" itemValue="#{martialStatus}"
+										itemLabel="#{martialStatus.label}" />
+								</p:selectOneMenu>
+
+								<h:outputText value="Data urodzenia: * " />
+								<p:calendar value="#{data.driverInfo.birthDate}"
+									pattern="dd-MM-yyyy" mask="true" />
+
+								<h:outputText value="Rok wydania prawa jazdy: * " />
+								<p:selectOneMenu value="#{data.driverInfo.drivinglicenceGiven}">
+									<f:selectItems value="#{data.yearList}" var="purchaseYear" />
+								</p:selectOneMenu>
+
+								<h:outputText
+									value="Ilu kierowców poniżej 26 roku życia będzie kierować pojazdem? * " />
+								<p:inputText value="#{data.driverInfo.below26Drivers}"
+									required="true" label="Kierowcy poniżej 26 lat">
+									<f:validateDoubleRange minimum="0" maximum="4" />
+								</p:inputText>
+
+							</h:panelGrid>
+						</p:tab>
+
+						<p:tab title="Historia ubezpieczenia kierowcy">
+							<h:panelGrid columns="2" columnClasses="label, value">
+
+								<h:outputText
+									value="Jaki zakres ubezpieczenia cie interesuje?: * " />
+								<p:selectOneRadio value="#{data.driverHistory.insuranceType}"
+									layout="grid" columns="1">
+									<f:selectItems value="#{data.driverHistory.insuranceTypeList}"
+										var="insuranceType" itemLabel="#{insuranceType.label}"
+										itemValue="#{insuranceType}" />
+								</p:selectOneRadio>
+
+								<h:outputText
+									value="Liczba lat bezszkodowych w OC (w ciągu ostatnich 7 lat): * " />
+								<p:inputText value="#{data.driverHistory.ocUndamagedTime}"
+									required="true" label="Bezszkodowe lata w OC">
+									<f:validateDoubleRange minimum="0" maximum="7" />
+								</p:inputText>
+
+								<h:outputText
+									value="Liczba lat bezszkodowych w AC (w ciągu ostatnich 7 lat): * " />
+								<p:inputText value="#{data.driverHistory.acUndamagedTime}"
+									required="true" label="Bezszkodowe lata w AC">
+									<f:validateDoubleRange minimum="0" maximum="7" />
+								</p:inputText>
+
+								<h:outputText
+									value="Czy posiadasz inną polisę ubezpieczeniową w Stealing Bank?:  " />
+								<p:selectBooleanCheckbox
+									value="#{data.driverHistory.otherInsurances}" />
+
+								<h:outputText
+									value="Od kiedy chcesz zacząć ubezpieczenie samochodu?: * " />
+								<p:calendar value="#{data.driverHistory.insuranceStartDate}"
+									pattern="dd-MM-yyyy" mask="true" />
+
+							</h:panelGrid>
+						</p:tab>
+					</p:accordionPanel>
+				</p:tab>
+
+				<p:tab id="oferta" title="Twoja oferta">
+					<div class="ui-grid ui-grid-responsive">
+						
+								<h:panelGroup rendered="#{data.driverHistory.insuranceType == 'OC'}">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-12">
+										<p:panel id="only_oc" header="OC"
+											footer="Podana kwota jest ratą kwartalną. Roczna wysokość składki #{data.calculatedOC}  zł"
+											style="font-size: 15px; margin-bottom:20px">
+											<h:panelGrid columns="2" cellpadding="5">
+												<h:outputText value="#{data.instalment}zł" style="font-size: 4em;" />
+												<h:panelGroup>	
+													<h:outputText value="Zakres ubezpieczenia OC:" style="font-size: 18px" />
+													<br />
+													<br /><h:outputText value="* Samochód zastępczy gratis do każdego OC"  style="font-size: 15px"/>											Assistance w wersji podstawowej gratis
+													<br /><h:outputText value="** Bezpłatne holowanie samochodu" style="font-size: 15px" />
+													<br /><h:outputText value="*** Bezpłatny certyfikat Zielonej Karty"  style="font-size: 15px"/>
+												</h:panelGroup>									
+											</h:panelGrid>
+										</p:panel>
+									</div>
+									</div>
+								</h:panelGroup>
+								
+								<h:panelGroup rendered="#{data.driverHistory.insuranceType == 'OC_AC'}">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-6">
+										<p:panel id="oc" header="OC"
+											style="font-size: 14px; margin-bottom:20px">
+											<h:panelGrid columns="2" cellpadding="5">
+												<h:outputText value="#{data.calculatedOC}zł" style="font-size: 2em;" />
+											
+													<h:panelGroup>
+														<h:outputText value="Zakres ubezpieczenia OC:" style="font-size: 18px" />
+														<br />
+														<br /><h:outputText value="* Samochód zastępczy gratis do każdego OC"  style="font-size: 15px"/>								
+														<br /><h:outputText value="** Bezpłatne holowanie samochodu" style="font-size: 15px" />
+														<br /><h:outputText value="*** Bezpłatny certyfikat Zielonej Karty"  style="font-size: 15px"/>
+													</h:panelGroup>
+											</h:panelGrid>
+										</p:panel>
+									</div>
+									<div class="ui-grid-col-6">
+										<p:panel id="ac" header="AC"
+											style="font-size: 14px; margin-bottom:20px">
+											<h:panelGrid columns="2" cellpadding="5">
+												<h:outputText value="#{data.calculatedAC}zł" style="font-size: 2em;" />
+													<h:panelGroup>
+														<h:outputText value="Zakres ubezpieczenia AC:" style="font-size: 18px" />
+														<br />		
+														<br /><h:outputText value="* Ubezpieczenie fotelika dla dziecka"  style="font-size: 15px"/>										
+														<br /><h:outputText value="** Samochód zastępczy" style="font-size: 15px" />
+														<br /><h:outputText value="*** 2-letnia gwarancja na wykonanie naprawy"  style="font-size: 15px"/>
+													
+													</h:panelGroup>
+											</h:panelGrid>
+										</p:panel>
+									</div>
+									</div>
+									<div class="ui-grid-row">
+									<p:outputPanel deferred="true" deferredMode="visible">
+										<h4><h:outputText value="W sumie #{data.calculatedOC+data.calculatedAC} zł. Płatne 4 ratach po #{data.instalment} zł." /></h4>
+									</p:outputPanel>
+									</div>
+								</h:panelGroup>
+			
+					</div>
+				</p:tab>
+
+				<p:tab id="podsumowanie" title="Podsumowanie">
+					
+					<div class="ui-grid-row">
+									<div class="ui-grid-col-6">
+										<p:panel id="account_nr" header="Który rachunek obciążany będzie opłatą ubezpieczenia"
+											style="font-size: 15px; margin-bottom:20px">
+											
+										<h:outputText value="Wybierz rachunek: * "  style ="padding-bottom: 1%;"/>
+								<p:selectOneRadio value="#{data.myAccount}"
+									layout="grid" columns="1">
+									<f:selectItems value="#{addInsuranceController.getUserAccounts()}" var="userAccounts" 
+									itemLabel="#{userAccounts.number} (#{userAccounts.saldo} zł)" itemValue="#{userAccounts.number}" />
+								</p:selectOneRadio>
+											
+										</p:panel>
+									</div>
+									
+									<div class="ui-grid-col-6">
+										<p:panel id="pay_type" header="Spłata w całości lub ratalnie"
+											style="font-size: 15px; margin-bottom:20px">
+											
+										<h:outputText value="Wybierz rodzaj spłaty: *" style ="padding-bottom: 1%;" />
+								<p:selectOneRadio value="#{data.payPartType}"
+									layout="grid" columns="1">
+									<f:selectItem itemLabel="W całości" itemValue="#{false}" />
+            						<f:selectItem itemLabel="W 4 dogodnych ratach" itemValue="#{true}" />
+								</p:selectOneRadio>
+											
+										</p:panel>
+									</div>			
+								</div>
+					<div class="ui-grid-row">
+						<p:commandButton action="addInsurance" value="Wybieram"
+										style="width: 100%; margin-bottom: 5%; font-size: 20px">
+						</p:commandButton>
+					</div>
+				</p:tab>
+			</p:wizard>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
