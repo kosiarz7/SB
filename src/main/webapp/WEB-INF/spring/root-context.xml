@@ -5,10 +5,13 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/security
-    http://www.springframework.org/schema/security/spring-security.xsd">
+    http://www.springframework.org/schema/security/spring-security.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     
     <!-- Konfiguracja Spring Security -->
 	<security:http auto-config="true">
@@ -32,14 +35,35 @@
 
 	<!-- Pozostałe beany -->
 	
+	
+	<!-- Połączenie z bazą -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	
+	<bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+        <property name="URL" value="${jdbc.url}" />
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+<!--         <property name="connectionCachingEnabled" value="true"/> -->
+    </bean>
+    
+    <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+	      <property name="dataSource" ref="dataSource" />
+	      <property name="changeLog" value="classpath:liquibase/master.xml" />
+ 	</bean>
+    
+	<!-- Skanowanie konfiguracji .java -->
+<!-- 	<context:component-scan base-package="systemy.bankowe.config" /> -->
+	
 	<!-- Fabryka sesji Hibernate -->
 	<bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-		p:configLocation="classpath:hibernate.cfg.xml"/>
+		p:configLocation="classpath:hibernate.cfg.xml"
+		p:dataSource-ref="dataSource"
+		p:packagesToScan="systemy.bankowe.dto"/>
 		
 	<!-- Serwisy -->
 	<bean id="userService" class="systemy.bankowe.services.user.UserService" p:userDao-ref="userDao"
 		p:springSecurityUtil-ref="springSecurityContextUtilBean" p:accountNumberService-ref="accountNumberService"
-		p:accountCommonDao-ref="commonDao"/>
+		p:accountCommonDao-ref="commonDao" p:accountDao-ref="accountDao"/>
 	
 	<bean id="accountNumberService" class="systemy.bankowe.services.accountnumber.AccountNumberService" 
 		lazy-init="false" p:accountDao-ref="accountDao"/>
@@ -52,16 +76,41 @@
 		p:port="587"
 		p:smtpHost="smtp.gmail.com"/>
 		
+	<bean id="cardService" class="systemy.bankowe.services.card.CardService"
+		p:cardDao-ref="cardDao"
+		p:commonDebitCardDao-ref="commonDao"
+		p:cardNumberService-ref="cardNumberService"
+		p:accountDao-ref="accountDao"
+		p:springSecurityUtil-ref="springSecurityContextUtilBean"
+		/>
+		
+	<bean id="cardNumberService" class="systemy.bankowe.services.card.CardNumberService"
+		p:cardDao-ref="cardDao"
+		/>
+
+	<bean id="pdfService" class="systemy.bankowe.services.pdf.PdfGeneratorService" />
+
+		
 	<!-- DAO -->
 	<bean id="commonDao" class="systemy.bankowe.dao.CommonDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
 	<bean id="userDao" class="systemy.bankowe.dao.user.UserDao"	p:sessionFactory-ref="hibernateSessionFactory"/>
+	
 	<bean id="roleDao" class="systemy.bankowe.dao.role.RoleDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
 	<bean id="accountDao" class="systemy.bankowe.dao.account.AccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+		
 	<bean id="InsuranceTypeDao" class="systemy.bankowe.dao.insurance.InsuranceTypeDao" p:sessionFactory-ref="hibernateSessionFactory"/>
-	<bean id="InsuranceDao" class="systemy.bankowe.dao.insurance.InsuranceDao" p:sessionFactory-ref="hibernateSessionFactory"/>
-	<bean id="InsuranceAccountDao" class="systemy.bankowe.dao.insurance.InsuranceAccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
-	<bean id="TransportInsuranceDao" class="systemy.bankowe.dao.insurance.TransportInsuranceDao" p:sessionFactory-ref="hibernateSessionFactory"/>
-				
+	
+
+	<bean id="cardDao" class="systemy.bankowe.dao.card.CardDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+
+	<bean id="cyclicTransferDao" class="systemy.bankowe.dao.cyclictransfer.CyclicTransferDao"
+		p:sessionFactory-ref="hibernateSessionFactory" />
+		
+	<bean id="definedRecipientDao" class="systemy.bankowe.dao.definedrecipients.DefindeRecipientDao"
+	 	p:sessionFactory-ref="hibernateSessionFactory"/>
+		
 	<!-- Wstrzykiwanie loggerów -->
 	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">
 		<constructor-arg name="loggerFactory">
@@ -72,5 +121,6 @@
 	<bean id="usernameExtractor" class="systemy.bankowe.common.beans.UsernameExtractorBean" lazy-init="false"/>
 	
 	<bean id="springSecurityContextUtilBean" class="systemy.bankowe.common.beans.SpringSecurityContextUtilBean" 
-		lazy-init="false" p:commonUserDao-ref="commonDao"/>
+		lazy-init="false" p:commonUserDao-ref="commonDao" p:cyclicTransferDao-ref="cyclicTransferDao" 
+		p:definedRecipientDao-ref="definedRecipientDao"/>
 </beans>
