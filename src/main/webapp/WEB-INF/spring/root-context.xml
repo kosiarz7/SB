@@ -101,8 +101,13 @@
 	<bean id="accountDao" class="systemy.bankowe.dao.account.AccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 		
 	<bean id="InsuranceTypeDao" class="systemy.bankowe.dao.insurance.InsuranceTypeDao" p:sessionFactory-ref="hibernateSessionFactory"/>
-	
 
+	<bean id="InsuranceDao" class="systemy.bankowe.dao.insurance.InsuranceDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="InsuranceAccountDao" class="systemy.bankowe.dao.insurance.InsuranceAccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="TransportInsuranceDao" class="systemy.bankowe.dao.insurance.TransportInsuranceDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+					
 	<bean id="cardDao" class="systemy.bankowe.dao.card.CardDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 
 	<bean id="cyclicTransferDao" class="systemy.bankowe.dao.cyclictransfer.CyclicTransferDao"
