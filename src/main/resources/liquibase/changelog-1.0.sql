@@ -115,7 +115,7 @@ CREATE TABLE przelew_niezrealizowany
   id_typ_przelewu INT NOT NULL,
   id_klient_zrodlo INT NOT NULL,
   id_rachunku_zrodla INT NOT NULL,
-  error INT NOT NULL,
+  blad INT NOT NULL,
   CONSTRAINT niezrealizowany_fk_id_klient FOREIGN KEY (id_klient_zrodlo) REFERENCES klienci(id_klient),
   CONSTRAINT niezrealizowany_id_rachunek FOREIGN KEY (id_rachunku_zrodla) REFERENCES rachunki(id_rachunek),
   CONSTRAINT niezrealizowany_fk_typ FOREIGN KEY (id_typ_przelewu) REFERENCES typ_przelewu(id_typ_przelewu)

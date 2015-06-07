@@ -69,4 +69,53 @@ CREATE TABLE typUbezpieczenie
 	CONSTRAINT typUbezpieczenie_pk PRIMARY KEY (id_typUbezpieczenie)
 ) ;
 
+CREATE TABLE rachunekUbezpieczenia
+(
+	id_rachunekUbezpieczenia integer  NOT NULL,
+	nazwa varchar2(50)  NOT NULL,
+	saldo DECIMAL(*, 5) NOT NULL ,
+	numer number(26,0)  NOT NULL,
+	CONSTRAINT rachunekUbezpieczenia_pk PRIMARY KEY (id_rachunekUbezpieczenia)
+);
+
+CREATE TABLE ubezpieczenie
+(
+	id_ubezpieczenie integer  NOT NULL,
+	id_rachunekUbezpieczenia integer  NOT NULL,
+	id_typUbezpieczenie integer NOT NULL,
+	id_klient integer  NOT NULL,
+	id_rachunekSplaty integer NOT NULL,
+	dataPoczatku date  NOT NULL,
+	dataKonca date  NOT NULL,
+	wartosc DECIMAL(*, 5) NOT NULL,
+	platnoscRatalna integer NOT NULL,
+	CONSTRAINT Ubezpieczenie_pk PRIMARY KEY (id_ubezpieczenie),
+	CONSTRAINT fk_id_typUbezpieczenie2 foreign key (id_typUbezpieczenie) references typUbezpieczenie(id_typUbezpieczenie),
+	CONSTRAINT fk_id_klient2 foreign key (id_klient) references klienci(id_klient),
+	CONSTRAINT fk_id_rachunekUbezpieczenia2 FOREIGN KEY (id_rachunekUbezpieczenia) references rachunekUbezpieczenia(id_rachunekUbezpieczenia),
+	CONSTRAINT fk_id_rachunekSplaty2 FOREIGN KEY (id_rachunekSplaty) references rachunki(id_rachunek)
+) ;
+
+CREATE TABLE ubezpieczenieKomunikacyjne
+ (
+	id_uKomunikacyjne integer  NOT NULL,
+	id_ubezpieczenie integer  NOT NULL,
+	czyAC integer NOT NULL,
+	wartosc_oc DECIMAL(*, 5) NOT NULL,
+	wartosc_ac DECIMAL(*, 5),
+	samochod varchar(500),
+	CONSTRAINT ubezpieczenieKomunikacyjne_pk PRIMARY KEY (id_uKomunikacyjne),
+	CONSTRAINT fk_id_ubezpieczenie2 FOREIGN KEY (id_ubezpieczenie) references ubezpieczenie(id_ubezpieczenie)
+) ;
+
+CREATE TABLE ubezpieczenieSplata
+ (
+	id_ubezpieczenieSplata integer  NOT NULL,
+	id_ubezpieczenie integer  NOT NULL,
+	dataSplaty DATE NOT NULL,
+	rata DECIMAL(*, 5) NOT NULL,
+	status varchar(50) NOT NULL,
+	CONSTRAINT ubezpieczenieSplata_pk PRIMARY KEY (id_ubezpieczenieSplata),
+	CONSTRAINT fk_id_ubezpieczenie6 FOREIGN KEY (id_ubezpieczenie) references ubezpieczenie(id_ubezpieczenie)
+) ;
 

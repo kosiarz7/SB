@@ -1,16 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <include file="classpath:liquibase/changelog-1.0.sql"/>
-    <include file="classpath:liquibase/changelog-2.0.sql"/>
-    <include file="classpath:liquibase/changelog-3.0.sql"/>
-   	<include file="classpath:liquibase/changelog-4.0.sql"/>
-   	<include file="classpath:liquibase/changelog-5.0.sql"/>
-    
-    <!-- 
-	<include file="classpath:liquibase/functions_transfer.sql"/>
-	 -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet author="serwach" id="changelog-1.0">
+		<sqlFile path="classpath:liquibase/changelog-1.0.sql"
+			splitStatements="true" />
+	</changeSet>
+
+	<changeSet author="serwach" id="changelog-2.0">
+		<sqlFile path="classpath:liquibase/changelog-2.0.sql"
+			splitStatements="true" />
+	</changeSet>
+	<changeSet author="serwach" id="changelog-3.0">
+		<sqlFile path="classpath:liquibase/changelog-3.0.sql"
+			splitStatements="true" />
+	</changeSet>
+	<changeSet author="serwach" id="changelog-4.0">
+		<sqlFile path="classpath:liquibase/changelog-4.0.sql"
+			splitStatements="true" />
+	</changeSet>
+	<changeSet author="serwach" id="changelog-5.0">
+		<sqlFile path="classpath:liquibase/changelog-5.0.sql"
+			splitStatements="true" />
+	</changeSet>
+	
+	<changeSet author="patrykwoj" id="changelog-6.0">
+		<sqlFile path="classpath:liquibase/changelog-6.0.sql"
+			splitStatements="true" />
+	</changeSet>
+	
+	<changeSet author="serwach" id="create_seqs">
+		<sqlFile
+			path="classpath:liquibase/money/transfer/seq_przelew_wych_oczekujacy.sql"
+			splitStatements="true" />
+		<sqlFile
+			path="classpath:liquibase/money/transfer/seq_przelew_wych_zrealizowany.sql"
+			splitStatements="true" />
+		<sqlFile
+			path="classpath:liquibase/money/transfer/seq_przelew_wych_niezrealizowany.sql"
+			splitStatements="true" />
+	</changeSet>
+
+	<changeSet author="serwach" id="create_checking_functions">
+		<sqlFile path="classpath:liquibase/money/transfer/fn_rachunek_istnieje.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		<sqlFile
+			path="classpath:liquibase/money/transfer/fn_prawidlowa_nazwa_odbiorcy.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		<sqlFile
+			path="classpath:liquibase/money/transfer/fn_prawidlowy_adres_odbiorcy.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		<sqlFile
+			path="classpath:liquibase/money/transfer/fn_wystarczajace_srodki.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		<sqlFile
+			path="classpath:liquibase/money/transfer/fn_wystarczajace_srodki_id.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		<sqlFile path="classpath:liquibase/money/transfer/fn_dodaj_przelew.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		<sqlFile path="classpath:liquibase/money/transfer/fn_dodaj_przelew2.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		<sqlFile
+			path="classpath:liquibase/money/transfer/pr_przetwarzanie_przel_oczek.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+	</changeSet>
+	
+	<changeSet author="patrykwoj" id="create_insurance_procedure_trigger">
+		<sqlFile path="classpath:liquibase/insurance/insuranceProcedure.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		<sqlFile path="classpath:liquibase/insurance/insuranceTrigger.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		
+	</changeSet>
+	
 </databaseChangeLog>
