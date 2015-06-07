@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" start-state="home"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+        
+    <!-- Zabezpieczenie flow przez Spring Security -->
+    <secured attributes="ROLE_USER"/>
+    
+	<view-state id="home">
+		<on-entry>
+			<evaluate expression="controller.init(data)" />
+		</on-entry>
+		<transition on="addRecipient" to="newEditDefinedRecipient">
+			<evaluate expression="data.setEditMode(false)" />
+		</transition>
+		<transition on="editDefinedRecipient" to="newEditDefinedRecipient">
+			<evaluate expression="data.setEditMode(true)" />
+			<evaluate expression="controller.copyDataToEdit(data)" />
+		</transition>
+		<transition on="deleteDefinedRecipient" to="delete" />
+	</view-state>
+	
+	<view-state id="newEditDefinedRecipient">
+		<transition on="addRecipient" to="addDefinedRecipient">
+			<evaluate expression="controller.validateRecipientData(data)" />
+		</transition>
+		<transition on="saveChanges" to="saveChanges">
+			<evaluate expression="controller.validateRecipientData(data)" />
+		</transition>
+	</view-state>
+	
+	<action-state id="addDefinedRecipient">
+		<evaluate expression="controller.addNewDefindedRecipient(data)" />
+		<transition to="end" />
+	</action-state>
+	
+	<action-state id="saveChanges">
+		<evaluate expression="controller.saveChanges(data)" />
+		<transition to="end" />
+	</action-state>
+	
+	<action-state id="delete">
+		<evaluate expression="controller.delete(data)" />
+		<transition to="end" />
+	</action-state>
+	
+	<view-state id="end" />
+	
+	<bean-import resource="flow-beans.xml"/>
+</flow>

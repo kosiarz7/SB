@@ -15,22 +15,22 @@ public abstract class OutcomingTransfer extends AbstractDto implements
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "nr_rachunku_docelowego")
-	private String targetAccountNumber;
+	protected String targetAccountNumber;
 
 	@Column(name = "nazwa_odbiorcy")
-	private String targetName;
+	protected String targetName;
 
 	@Column(name = "tytul")
-	private String title;
+	protected String title;
 
 	@Column(name = "adres")
-	private String address;
+	protected String address;
 
 	@Column(name = "kwota")
-	private double amount;
+	protected double amount;
 
 	@JoinColumn(name = "id_typ_przelewu")
-	private TransferType type;
+	protected TransferType type;
 
 	// TODO: Rachunek - klient tabela
 

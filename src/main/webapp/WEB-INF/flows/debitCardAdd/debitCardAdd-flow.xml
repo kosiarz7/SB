@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	 start-state="debitCardAdd">
+
+	<!-- Zabezpieczenie flow przez Spring Security -->
+	<secured attributes="ROLE_USER" />
+	
+	<view-state id="debitCardAdd">
+		<on-entry>
+			<evaluate expression="cardBean.getDebitCardsOffer()" 
+                  result="viewScope.debitCards" />
+		</on-entry>
+		<transition on="details" to="debitCardDetails"/>
+	</view-state>
+
+	<view-state id="debitCardDetails">
+		<on-entry>
+			<evaluate expression="cardBean.getAccounts()" result="viewScope.accounts" />
+		</on-entry>
+		<transition on="save" to="debitCardSave"/>
+	</view-state>
+	
+	<action-state id="debitCardSave">
+		<evaluate expression="cardBean.addDebitCard(data)" />
+		<transition on="yes" to="success" />
+		<transition on="no" to="fail" />
+	</action-state>
+
+	<view-state id="success" />
+
+	<view-state id="fail" />
+	
+	<bean-import resource="flow-beans.xml" />
+</flow>
