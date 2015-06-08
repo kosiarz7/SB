@@ -9,6 +9,9 @@
 	<ui:define name="pageContent">
 		<h:form>
 			<p>
+				<p:message for="name" />
+			</p>
+			<p>
 				<p:message for="accountEmpowered" />
 			</p>
 			<p>
@@ -30,6 +33,12 @@
 					<f:selectItems value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}" var="item"
 						itemValue="#{item}" itemLabel="#{item}" />
 				</p:selectOneMenu>
+			</p>
+			<p>
+				Nazwa:
+			<p:inputText id="name"
+					value="#{orderToPayVar.name}" label="'Nazwa'"
+					required="true" />
 			</p>
 			<p>
 				Numer rachunku upoważnionego:

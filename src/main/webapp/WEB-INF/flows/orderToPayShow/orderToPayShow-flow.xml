@@ -9,19 +9,12 @@
 	<var name="controllerVar" class="systemy.bankowe.flows.money.transfer.OrderToPayFlow"/>
 	
 	<on-start>
-		<evaluate expression="controllerVar.getOrderToPays(springSecurityContextUtilBean.getLoggedInUser().get())"
+		<evaluate expression="controllerVar.getOrderToPaysByUser(hibernateSessionFactory, springSecurityContextUtilBean.getLoggedInUser().get())"
 			result="flowScope.orderToPays" />
 	</on-start>
 	
 	<view-state id="orderToPayShowView">
 		<transition on="orderToPayShow" to="orderToPayShow"/>
 	</view-state>
-<!-- 
-	<action-state id="Show">
-		<evaluate expression="controllerVar.submit(orderToPayVar)" result="flowScope.status" />
-		<transition to="orderToPayEnd" />
-	</action-state>
 
-		<view-state id="orderToPayEnd" />
-		 -->
 </flow>

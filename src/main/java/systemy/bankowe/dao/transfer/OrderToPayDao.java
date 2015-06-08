@@ -3,10 +3,13 @@ package systemy.bankowe.dao.transfer;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import oracle.jdbc.OracleTypes;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
 
@@ -43,7 +46,6 @@ CREATE OR REPLACE PROCEDURE pr_dodaj_polecenie(	res out int,
         String accountNumber = orderToPay.getAccountNumber();
         String accountNumberEmpowered = orderToPay.getAccountEmpowered();
         double maxAmount = orderToPay.getMaxAmount();
-
         try {
             // znowu cos zrobili deprecated w interface Session. Taki myk by to ominac :P
             CallableStatement callableStatement = ((SessionImpl) session).connection().prepareCall(pattern);
@@ -70,6 +72,29 @@ CREATE OR REPLACE PROCEDURE pr_dodaj_polecenie(	res out int,
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        session.getTransaction().rollback();
         return -1;
+	}
+	@SuppressWarnings("unchecked")
+	public List<OrderToPay> getOrderToPays(String accountNumber) {
+		Session session = openSession();
+
+        session.getTransaction().begin();
+        SQLQuery query = session.createSQLQuery("SELECT upowaznienie_polecenia_zapl.* from upowaznienie_polecenia_zapl inner join rachunki on rachunki.id_rachunek = upowaznienie_polecenia_zapl.id_rachunek where rachunki.numer=:nr");
+        query.addEntity(OrderToPay.class);
+        query.setString("nr", accountNumber);
+        List<OrderToPay> list = query.list();
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	public List<OrderToPay> getOrderToPaysByUser(int senderId) {
+		Session session = openSession();
+        session.getTransaction().begin();
+        SQLQuery query = session.createSQLQuery(
+        		"SELECT upowaznienie_polecenia_zapl.* from upowaznienie_polecenia_zapl inner join klienci on klienci.id_klient = upowaznienie_polecenia_zapl.id_klient where klienci.id_klient = :id");
+        query.addEntity(OrderToPay.class);
+        query.setInteger("id", senderId);
+        List<OrderToPay> list = query.list();
+        return list;
 	}
 }

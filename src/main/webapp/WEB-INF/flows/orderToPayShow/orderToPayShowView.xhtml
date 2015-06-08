@@ -10,6 +10,17 @@
 	<ui:define name="pageContent">
 		<h1>Polecenie zapłaty</h1>
 		<h:form>
+		<!-- MICHAŁ: Jak zrobić by przy pomocy comboboxa zmieniac zawartosc tabeli - filtrowac?
+			<p>
+				Numer rachunku, ktorego upoważnienia są wyświetlane 			
+				<p:selectOneMenu id="accountNumber" value="accountNumberVar"
+					required="true">
+					<f:selectItems value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}" var="item"
+						itemValue="#{item}" itemLabel="#{item}" />
+					
+				</p:selectOneMenu>
+			</p>
+			 -->
 			<table border="1">
 				<tr>
 					<th width="100">Nazwa</th>
@@ -31,6 +42,7 @@
 				</c:forEach>
 			</table>
 			<br />
+			
 		</h:form>
 	</ui:define>
 </ui:composition>
