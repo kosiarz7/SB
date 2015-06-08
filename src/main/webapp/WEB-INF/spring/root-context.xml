@@ -1,63 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:c="http://www.springframework.org/schema/c" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
-	<!-- Konfiguracja Spring Security -->
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    
+    <!-- Konfiguracja Spring Security -->
 	<security:http auto-config="true">
-		<security:form-login login-page="/app/login"
-			login-processing-url="/app/j_spring_security_check"
-			default-target-url="/app/mainWindow" always-use-default-target="true"
-			authentication-failure-url="/app/login?login_error=1"
-			username-parameter="username" password-parameter="password" />
-		<security:logout logout-url="/app/logout"
-			logout-success-url="/app/login" />
+		<security:form-login login-page="/app/login" login-processing-url="/app/j_spring_security_check" 
+			default-target-url="/app/mainWindow" always-use-default-target="true" 
+			authentication-failure-url="/app/login?login_error=1" 
+			username-parameter="username" password-parameter="password"/>
+		<security:logout logout-url="/app/logout" logout-success-url="/app/login"/>
 	</security:http>
+	
 	<security:authentication-manager>
-		<security:authentication-provider
-			ref="authenticationProvider" />
+		<security:authentication-provider ref="authenticationProvider" />
 	</security:authentication-manager>
+	
 	<bean id="authenticationProvider" class="systemy.bankowe.security.CustomAuthenticationProvider">
-		<property name="encryptor" ref="encryptor" />
-		<property name="userService" ref="userService" />
+		<property name="encryptor" ref="encryptor"/>
+		<property name="userService" ref="userService"/>
 	</bean>
-	<bean id="encryptor" class="systemy.bankowe.services.encrypt.SHA512Encryptor" />
+	
+	<bean id="encryptor" class="systemy.bankowe.services.encrypt.SHA512Encryptor"/>
+
 	<!-- Pozostałe beany -->
+	
+	
+	<!-- Połączenie z bazą -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	
+	<bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+        <property name="URL" value="${jdbc.url}" />
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+<!--         <property name="connectionCachingEnabled" value="true"/> -->
+    </bean>
+    
+    <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+	      <property name="dataSource" ref="dataSource" />
+	      <property name="changeLog" value="classpath:liquibase/master.xml" />
+ 	</bean>
+    
+	<!-- Skanowanie konfiguracji .java -->
+<!-- 	<context:component-scan base-package="systemy.bankowe.config" /> -->
+	
 	<!-- Fabryka sesji Hibernate -->
-	<bean id="hibernateSessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-		p:configLocation="classpath:hibernate.cfg.xml" />
+	<bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+		p:configLocation="classpath:hibernate.cfg.xml"
+		p:dataSource-ref="dataSource"
+		p:packagesToScan="systemy.bankowe.dto"/>
+		
 	<!-- Serwisy -->
-	<bean id="userService" class="systemy.bankowe.services.user.UserService"
-		p:userDao-ref="userDao" p:springSecurityUtil-ref="springSecurityContextUtilBean"
-		p:accountNumberService-ref="accountNumberService"
-		p:accountCommonDao-ref="commonDao" />
-	<bean id="accountNumberService"
-		class="systemy.bankowe.services.accountnumber.AccountNumberService"
-		lazy-init="false" p:accountDao-ref="accountDao" />
-	<bean id="loginService" class="systemy.bankowe.services.login.LoginService"
-		p:userDao-ref="userDao" />
+	<bean id="userService" class="systemy.bankowe.services.user.UserService" p:userDao-ref="userDao"
+		p:springSecurityUtil-ref="springSecurityContextUtilBean" p:accountNumberService-ref="accountNumberService"
+		p:accountCommonDao-ref="commonDao" p:accountDao-ref="accountDao"/>
+	
+	<bean id="accountNumberService" class="systemy.bankowe.services.accountnumber.AccountNumberService" 
+		lazy-init="false" p:accountDao-ref="accountDao"/>
+		
+	<bean id="loginService" class="systemy.bankowe.services.login.LoginService" p:userDao-ref="userDao"/>
+	
 	<bean id="mailService" class="systemy.bankowe.services.mail.MailService"
-		p:password="stealingbank7" p:sender="stealing.bank@gmail.com" p:port="587"
-		p:smtpHost="smtp.gmail.com" />
+		p:password="stealingbank7"
+		p:sender="stealing.bank@gmail.com"
+		p:port="587"
+		p:smtpHost="smtp.gmail.com"/>
+		
+	<bean id="cardService" class="systemy.bankowe.services.card.CardService"
+		p:cardDao-ref="cardDao"
+		p:commonDebitCardDao-ref="commonDao"
+		p:cardNumberService-ref="cardNumberService"
+		p:accountDao-ref="accountDao"
+		p:springSecurityUtil-ref="springSecurityContextUtilBean"
+		/>
+		
+	<bean id="cardNumberService" class="systemy.bankowe.services.card.CardNumberService"
+		p:cardDao-ref="cardDao"
+		/>
+
+	<bean id="pdfService" class="systemy.bankowe.services.pdf.PdfGeneratorService" />
+
+		
 	<!-- DAO -->
-	<bean id="commonDao" class="systemy.bankowe.dao.CommonDao"
+	<bean id="commonDao" class="systemy.bankowe.dao.CommonDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="userDao" class="systemy.bankowe.dao.user.UserDao"	p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="roleDao" class="systemy.bankowe.dao.role.RoleDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="accountDao" class="systemy.bankowe.dao.account.AccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+		
+	<bean id="InsuranceTypeDao" class="systemy.bankowe.dao.insurance.InsuranceTypeDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+
+	<bean id="InsuranceDao" class="systemy.bankowe.dao.insurance.InsuranceDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="InsuranceAccountDao" class="systemy.bankowe.dao.insurance.InsuranceAccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
+	<bean id="TransportInsuranceDao" class="systemy.bankowe.dao.insurance.TransportInsuranceDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+					
+	<bean id="cardDao" class="systemy.bankowe.dao.card.CardDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+
+	<bean id="cyclicTransferDao" class="systemy.bankowe.dao.cyclictransfer.CyclicTransferDao"
 		p:sessionFactory-ref="hibernateSessionFactory" />
-	<bean id="userDao" class="systemy.bankowe.dao.user.UserDao"
-		p:sessionFactory-ref="hibernateSessionFactory" />
-	<bean id="roleDao" class="systemy.bankowe.dao.role.RoleDao"
-		p:sessionFactory-ref="hibernateSessionFactory" />
-	<bean id="accountDao" class="systemy.bankowe.dao.account.AccountDao"
-		p:sessionFactory-ref="hibernateSessionFactory" />
+		
+	<bean id="definedRecipientDao" class="systemy.bankowe.dao.definedrecipients.DefindeRecipientDao"
+	 	p:sessionFactory-ref="hibernateSessionFactory"/>
+		
 	<!-- Wstrzykiwanie loggerów -->
 	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">
 		<constructor-arg name="loggerFactory">
 			<bean class="systemy.bankowe.annotations.CustomLoggerFactory" />
 		</constructor-arg>
 	</bean>
-	<bean id="usernameExtractor" class="systemy.bankowe.common.beans.UsernameExtractorBean"
-		lazy-init="false" />
-	<bean id="springSecurityContextUtilBean"
-		class="systemy.bankowe.common.beans.SpringSecurityContextUtilBean"
-		lazy-init="false" p:commonUserDao-ref="commonDao" />
+	
+	<bean id="usernameExtractor" class="systemy.bankowe.common.beans.UsernameExtractorBean" lazy-init="false"/>
+	
+	<bean id="springSecurityContextUtilBean" class="systemy.bankowe.common.beans.SpringSecurityContextUtilBean" 
+		lazy-init="false" p:commonUserDao-ref="commonDao" p:cyclicTransferDao-ref="cyclicTransferDao" 
+		p:definedRecipientDao-ref="definedRecipientDao"/>
 </beans>

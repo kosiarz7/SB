@@ -13,32 +13,39 @@
 
 	<action-state id="insuranceAdd">
 		<evaluate expression="addInsuranceController.evaluateType(typeId)" />
-		<transition on="komunikacyjne" to="komunikacyjneForm" />
-		<transition on="zdrowotne" to="zdrowotneForm" />
-		<transition on="nieruchomości" to="nieruchomosciForm" />
-		<transition on="karty" to="kartyForm" />
-		<transition on="kredytu" to="kredytuForm" />
+		<transition on="komunikacyjne" to="carInsuranceForm" />
+		<transition on="zdrowotne" to="healthInsuranceForm" />
+		<transition on="nieruchomości" to="homeInsuranceForm" />
+		<transition on="karty" to="cardInsuranceForm" />
+		<transition on="kredytu" to="creditInsuranceForm" />
 	</action-state>
 	
-	<view-state id="komunikacyjneForm" >
+	<view-state id="carInsuranceForm" >
+		<transition on="addInsurance" to="addCarInsurance" />
+	</view-state>
+	
+	<action-state id="addCarInsurance">
+		<evaluate expression="addInsuranceController.newInsurance(data,typeId)" />
+		<transition to="endFlow" />
+	</action-state>
+	
+	<view-state id="healthInsuranceForm" >
 		
 	</view-state>
 	
-	<view-state id="zdrowotneForm" >
+	<view-state id="homeInsuranceForm" >
 		
 	</view-state>
 	
-	<view-state id="nieruchomosciForm" >
+	<view-state id="cardInsuranceForm" >
 		
 	</view-state>
 	
-	<view-state id="kartyForm" >
+	<view-state id="creditInsuranceForm" >
 		
 	</view-state>
 	
-	<view-state id="kredytuForm" >
-		
-	</view-state>
+	<end-state id="endFlow" view="externalRedirect:/insuranceMain"/>
 	
 	<bean-import resource="flow-beans.xml" />
 </flow>

@@ -7,14 +7,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import systemy.bankowe.dao.CommonDao;
+import systemy.bankowe.dao.account.IAccountDao;
 import systemy.bankowe.dao.user.IUserDao;
 import systemy.bankowe.dao.user.UserDao;
 import systemy.bankowe.dto.AccountDto;
@@ -62,6 +65,11 @@ public class UserService implements IUserService, Serializable {
     private CommonDao<DepositDto> depositCommonDao;
     
     
+    /**
+     * DAO dla kont.
+     */
+    private IAccountDao accountDao;
+
 
     /**
      * {@inheritDoc}
@@ -152,6 +160,30 @@ public class UserService implements IUserService, Serializable {
             throw new IllegalStateException("Użytkownik jest niezalogowany!");
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<AccountDto> getUserAccounts(final UserData userData) {
+        return accountDao.getUserAccounts(userData.getUserDto());
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getSaldo(UserData userData, String accoutNumber) {
+        List<AccountDto> accounts = getUserAccounts(userData).stream().filter(a -> accoutNumber.equals(a.getNumber()))
+                .collect(Collectors.toList());
+        if (null != accounts && !accounts.isEmpty()) {
+            return accounts.get(0).getSaldo();
+        }
+        else {
+            LOGGER.error("getSaldo|Użytkownik: {} nie posiada konta o numerze: {}", userData, accoutNumber);
+            throw new IllegalArgumentException("Zalogowany użytkownik nie posiada knota o numerze: " + accoutNumber);
+        }
+    }
 
     /**
      * Ustawia DAO użytkownika.
@@ -220,6 +252,9 @@ public class UserService implements IUserService, Serializable {
 		userDao.updateUser(user);
 		//depositCommonDao.update(deposit);
 	}
-	
-	
+    
+    public void setAccountDao(IAccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
+
 }

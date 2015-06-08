@@ -24,24 +24,29 @@
 				Numer rachunku upoważnionego:
 				<p:inputText id="accountEmpowered"
 					value="#{orderToPayVar.accountEmpowered}"
-					label="'Numer rachunku upoważnionego'" />
+					label="'Numer rachunku upoważnionego'" required="true"
+					placeholder="__ ____ ____ ____ ____ ____ ____" maxlength="26"
+					onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" />
+
 			</p>
 			<p>
 				Od kiedy:
-				<p:inputText id="fromDate" value="#{orderToPayVar.fromDate}"
-					label="'Od kiedy'" />
+				<p:calendar id="fromDate" value="#{orderToPayVar.fromDate}"
+					showOn="button" pattern="dd-MM-yyyy" label="'Od kiedy'"
+					placeholder="dd-mm-yyyy" required="true" />
 			</p>
 			<p>
 				Do kiedy:
-				<p:inputText id="toDate" value="#{orderToPayVar.toDate}"
-					label="'Tytuł'" />
+				<p:calendar id="toDate" value="#{orderToPayVar.toDate}"
+					showOn="button" pattern="dd-MM-yyyy" label="'Do kiedy'"
+					placeholder="dd-mm-yyyy" required="true" />
 			</p>
 			<p>
 				Maksymalna kwota:
 				<p:inputText id="maxAmount" value="#{orderToPayVar.maxAmount}"
-					label="'Maksymalna kwota'" />
+					label="'Maksymalna kwota'" required="true" />
 			</p>
-			
+
 
 			<p:commandButton action="orderToPay" value="Dodaj" ajax="false" />
 		</h:form>

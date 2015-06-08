@@ -1,6 +1,7 @@
 package systemy.bankowe.dao.account;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import systemy.bankowe.annotations.InjectLogger;
 import systemy.bankowe.dao.HibernateUtil;
 import systemy.bankowe.dto.AccountDto;
+import systemy.bankowe.dto.UserDto;
 
 public class AccountDao extends HibernateUtil implements IAccountDao, Serializable {
     /**
@@ -103,5 +105,34 @@ public class AccountDao extends HibernateUtil implements IAccountDao, Serializab
         }
         
         return account;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<AccountDto> getUserAccounts(UserDto userDto) {
+        Session session = openSession();
+        Transaction tx = null;
+        List<AccountDto> accounts = null;
+        
+        try {
+            tx = session.beginTransaction();
+            accounts = session.createQuery("select a from AccountDto a join a.owners u where u.id = :id and enabled = true")
+                    .setInteger("id", userDto.getId()).list();
+            tx.commit();
+        }
+        catch (RuntimeException e) {
+            if (null != tx) {
+                tx.rollback();
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        
+        return null == accounts ? new ArrayList<>() : accounts;
     }
 }

@@ -8,13 +8,14 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 	<ui:define name="pageContent">
-		<c:if test="#{flowScope.status}">
+
+		<c:if test="#{not flowScope.status.isError()}">
 			<p>Przelew oczekuje do realizacji</p>
 		</c:if>
-		<c:if test="#{not flowScope.status}">
-			<p>Wystąpiły błędy podczas próby realizacji przelewu. Przelew nie
-				został i nie zostanie wykonany.</p>
+		<c:if test="#{flowScope.status.isError()}">
+			<p>Wystąpiły błędy podczas próby realizacji przelewu: #{flowScope.status.getErrorMessage()} </p>
 		</c:if>
+
 	</ui:define>
 </ui:composition>
 </html>

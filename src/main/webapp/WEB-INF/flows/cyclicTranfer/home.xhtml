@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:param name="hide" value="true"/>
+    <ui:define name="pageContent">
+        <h:form>
+        	<p:dataTable rows="10" paginator="true" value="#{data.getDefindedCyclicTransfers()}" 
+				var="dto" emptyMessage="Brak zdefiniowanych przelewów cyklicznych."
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				
+				<p:column headerText="Nazwa">
+					<h:outputText value="#{dto.name}" />
+				</p:column>
+				
+				<p:column headerText="Z rachunku">
+					<h:outputText value="#{accountNumberService.formatAccountNumber(dto.debitAccount.number)}" />
+				</p:column>
+				
+				<p:column headerText="Na rachunek">
+					<h:outputText value="#{accountNumberService.formatAccountNumber(dto.accountNumber)}" />
+				</p:column>
+				
+				<p:column>
+					<p:splitButton value="Szczegóły" style="margin: 0; padding: 0;" onstart="showCurtain()"
+						oncomplete="PF('definedRecipientDetails').show();hideCurtain();" update="@form"
+						actionListener="#{data.setSelectedDto(dto)}">
+						<p:menuitem value="Edytuj" actionListener="#{data.setSelectedDto(dto)}" update="@form"
+							action="editCyclicTransfer" onstart="showCurtain()" oncomplete="hideCurtain()"/>
+						<p:menuitem value="Usuń" actionListener="#{data.setSelectedDto(dto)}" update="@form"
+							oncomplete="PF('confirm').show();hideCurtain()" onstart="showCurtain()"/>	
+				    </p:splitButton>
+				</p:column>
+        	</p:dataTable>
+        
+        	<p:commandButton action="addCyclicTransfer" value="Dodaj nowy przelew cykliczny" style="margin-top: 25px;" ajax="false" 
+				immediate="true"/>
+				
+			<p:dialog id="definedRecipientDetailsDialog" header="Szczegóły" widgetVar="definedRecipientDetails" modal="true">
+				<h:panelGrid columns="2" cellpadding="5" style="display: table; margin: 0 auto;">
+				
+					<h:outputText value="Nazwa:" styleClass="bold"/>
+					<h:outputText value="#{data.selectedDto.name}" />
+					
+					<h:outputText value="Z rachunku:" styleClass="bold"/>
+					<h:outputText value="#{accountNumberService.formatAccountNumber(data.selectedDto.debitAccount.number)}" />
+					
+					<h:outputText value="Na rachunek:" styleClass="bold"/>
+					<h:outputText value="#{accountNumberService.formatAccountNumber(data.selectedDto.accountNumber)}" />
+					
+					<h:outputText value="Kwota:" styleClass="bold"/>
+					<h:outputText value="#{data.selectedDto.amount}">
+						<f:convertNumber currencySymbol="zł" groupingUsed="true" maxFractionDigits="2" type="currency" 
+							locale="pl_PL"/>
+					</h:outputText>
+					
+					<h:outputText value="Dzień misiąca, w którym jest wykonywany przelew:" styleClass="bold"/>
+					<h:outputText value="#{data.selectedDto.dayOfMonth}" />
+		        	
+		        	<h:outputText value="Ulica:" styleClass="bold"/>
+					<h:outputText value="#{data.selectedDto.street}" />
+					
+					<h:outputText value="Numer:" styleClass="bold"/>
+					<h:outputText value="#{data.selectedDto.streetNo}" />
+					
+					<h:outputText value="Kod pocztowy:" styleClass="bold"/>
+					<h:outputText value="#{data.selectedDto.zipcode}" />
+					
+					<h:outputText value="Miasto:" styleClass="bold"/>
+					<h:outputText value="#{data.selectedDto.city}" />
+	        	</h:panelGrid>
+			</p:dialog>
+			
+			<p:dialog id="confirmDialog" widgetVar="confirm" modal="true" closable="false">
+				<p>Na pewno chcesz usunąć przelew cykliczny: "#{data.selectedDto.name}"?</p>
+				<h:panelGrid columns="2" cellpadding="5" style="display: table; margin: 0 auto;">
+					<p:commandButton value="Nie" onclick="PF('confirm').hide()"/>
+					<p:commandButton value="Tak" action="deleteCyclicTransfer" 
+						onstart="showCurtain()" oncomplete="PF('confirm').hide();hideCurtain()"/>
+				</h:panelGrid>
+			</p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

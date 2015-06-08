@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import systemy.bankowe.dto.CyclicTransferDto;
+import systemy.bankowe.dto.DefinedRecipientDto;
 import systemy.bankowe.services.user.UserData;
 
 /**
@@ -50,4 +52,16 @@ public interface SpringSecurityContextUtil {
      * @return zalogowany użytkownik.
      */
     Optional<UserData> getLoggedInUser();
+    /**
+     * Zwraca listę wszystkich zdefiniowanych odbiorców dla użytkownika.
+     * 
+     * @return lista zdefiniowanych odbiorców dla użytkownika.
+     */
+    List<DefinedRecipientDto> getAllDefinedRecipients();
+    /**
+     * Zwraca listę przelewów cyklicznych danego użytkownika.
+     * 
+     * @return lista przelewów cyklicznych danego użytkownika.
+     */
+    List<CyclicTransferDto> getAllCyclicTransfers();
 }
