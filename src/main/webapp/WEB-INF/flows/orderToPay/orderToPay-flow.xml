@@ -16,7 +16,8 @@
 	</view-state>
 
 	<action-state id="orderToPay">
-		<evaluate expression="controllerVar.submit(orderToPayVar)" result="flowScope.status" />
+		<evaluate expression="controllerVar.submit(orderToPayVar, hibernateSessionFactory, springSecurityContextUtilBean.getLoggedInUser().get())" 
+		result="flowScope.status" />
 		<transition to="orderToPayEnd" />
 	</action-state>
 

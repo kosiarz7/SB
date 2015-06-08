@@ -41,6 +41,9 @@
 		<sqlFile
 			path="classpath:liquibase/money/transfer/seq_przelew_wych_niezrealizowany.sql"
 			splitStatements="true" />
+		<sqlFile
+			path="classpath:liquibase/money/transfer/seq_polecenie_zaplaty.sql"
+			splitStatements="true" />
 	</changeSet>
 
 	<changeSet author="serwach" id="create_checking_functions">
@@ -58,12 +61,13 @@
 		<sqlFile
 			path="classpath:liquibase/money/transfer/fn_wystarczajace_srodki_id.sql"
 			splitStatements="true" endDelimiter="(?m)^/$" />
-		<sqlFile path="classpath:liquibase/money/transfer/fn_dodaj_przelew.sql"
-			splitStatements="true" endDelimiter="(?m)^/$" />
-		<sqlFile path="classpath:liquibase/money/transfer/fn_dodaj_przelew2.sql"
+		<sqlFile path="classpath:liquibase/money/transfer/pr_dodaj_przelew2.sql"
 			splitStatements="true" endDelimiter="(?m)^/$" />
 		<sqlFile
 			path="classpath:liquibase/money/transfer/pr_przetwarzanie_przel_oczek.sql"
+			splitStatements="true" endDelimiter="(?m)^/$" />
+		<sqlFile
+			path="classpath:liquibase/money/transfer/pr_dodaj_polecenie.sql"
 			splitStatements="true" endDelimiter="(?m)^/$" />
 	</changeSet>
 	

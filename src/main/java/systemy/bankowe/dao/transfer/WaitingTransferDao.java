@@ -1,10 +1,7 @@
 package systemy.bankowe.dao.transfer;
 
-import java.math.BigDecimal;
 import java.sql.CallableStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -12,9 +9,7 @@ import oracle.jdbc.OracleTypes;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.internal.SessionImpl;
 
 import systemy.bankowe.dao.HibernateUtil;
@@ -29,6 +24,7 @@ public class WaitingTransferDao extends HibernateUtil {
     private static final long serialVersionUID = 1L;
 
     public int submit(int senderId, WaitingTransfer waitingTransfer) {
+    	
         waitingTransfer.removeSpaceFromAccountNumber();
         Session session = openSession();
 
@@ -54,7 +50,6 @@ public class WaitingTransferDao extends HibernateUtil {
         String title = waitingTransfer.getTitle();
         double amount = waitingTransfer.getAmount();
         TransferType transerType = waitingTransfer.getTransferType();
-
         try {
             // znowu cos zrobili deprecated w interface Session. Taki myk by to ominac :P
             CallableStatement callableStatement = ((SessionImpl) session).connection().prepareCall(pattern);

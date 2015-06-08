@@ -38,9 +38,9 @@ public class OrderToPay extends AbstractDto implements Serializable {
 
     @Column(name = "maksymalna_kwota")
     private double maxAmount;
-
-    // TODO: Rachunek - klient tabela
-
+    
+    private String accountNumber;
+    
     public OrderToPay() {
     }
 
@@ -102,4 +102,17 @@ public class OrderToPay extends AbstractDto implements Serializable {
         this.name = name;
     }
 
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	
+    public void removeSpaceFromAccountNumber()
+    {
+    	accountNumber = accountNumber.replace(" ", "");
+    	accountEmpowered = accountEmpowered.replace(" ", "");
+    }
 }
