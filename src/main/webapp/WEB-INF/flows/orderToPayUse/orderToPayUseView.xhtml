@@ -8,19 +8,8 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 	<ui:define name="pageContent">
-		<h1>Polecenia zapłaty - upoważnienia</h1>
+		<h1>Polecenia zapłaty - wysylanie rachunku</h1>
 		<h:form>
-		<!-- MICHAŁ: Jak zrobić by przy pomocy comboboxa zmieniac zawartosc tabeli - filtrowac?
-			<p>
-				Numer rachunku, ktorego upoważnienia są wyświetlane 			
-				<p:selectOneMenu id="accountNumber" value="accountNumberVar"
-					required="true">
-					<f:selectItems value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}" var="item"
-						itemValue="#{item}" itemLabel="#{item}" />
-					
-				</p:selectOneMenu>
-			</p>
-			 -->
 			<table border="1">
 				<tr>
 					<th width="100">Nazwa</th>
@@ -30,7 +19,7 @@
 					<th>Maksymalna kwota</th>
 					<th>Opcje</th>
 				</tr>
-				<c:forEach items="${flowScope.orderToPays}" var="instance">
+				<c:forEach items="${flowScope.orderToPaysUse}" var="instance">
 					<tr>
 						<td>${instance.getName()}</td>
 						<td>${instance.getAccountEmpowered()}</td>

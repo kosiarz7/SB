@@ -8,7 +8,6 @@ import java.util.List;
 import oracle.jdbc.OracleTypes;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
@@ -86,14 +85,29 @@ CREATE OR REPLACE PROCEDURE pr_dodaj_polecenie(	res out int,
         List<OrderToPay> list = query.list();
 		return list;
 	}
+	
 	@SuppressWarnings("unchecked")
-	public List<OrderToPay> getOrderToPaysByUser(int senderId) {
+	public List<OrderToPay> getOrderToPaysByUser(int userId) {
 		Session session = openSession();
-        session.getTransaction().begin();
+
         SQLQuery query = session.createSQLQuery(
         		"SELECT upowaznienie_polecenia_zapl.* from upowaznienie_polecenia_zapl inner join klienci on klienci.id_klient = upowaznienie_polecenia_zapl.id_klient where klienci.id_klient = :id");
         query.addEntity(OrderToPay.class);
-        query.setInteger("id", senderId);
+        query.setInteger("id", userId);
+        List<OrderToPay> list = query.list();
+        return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<OrderToPay> getOrderToPaysUseByUser(int userIdThatCanOrderToPay)
+	{
+		Session session = openSession();
+
+        SQLQuery query = session.createSQLQuery(
+        		"SELECT zap.* from upowaznienie_polecenia_zapl  zap, klienci  kl, rachunki  r, klienci_rachunki  kl_r " +
+        		"WHERE zap.nr_rachunku_upowaznionego = r.numer AND r.id_rachunek = kl_r.id_rachunek AND kl_r.id_klient = kl.id_klient AND kl.id_klient = :id");
+        query.addEntity(OrderToPay.class);
+        query.setInteger("id", userIdThatCanOrderToPay);
         List<OrderToPay> list = query.list();
         return list;
 	}
