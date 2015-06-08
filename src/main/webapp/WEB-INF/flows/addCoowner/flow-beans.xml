@@ -5,15 +5,12 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="data" class="systemy.bankowe.flows.mainwindow.MainWindowData" scope="flow"/>
-
-    <bean id="controller" class="systemy.bankowe.flows.mainwindow.MainWindowBean">
-    	<property name="springSecurityUtil" ref="springSecurityContextUtilBean"/>
-    	<property name="accountNumberService" ref="accountNumberService"/>
-    	<property name="userService" ref="userService"/>
-    	<property name="commonUserDao" ref="commonDao" />
-    	<property name="commonAccountDto" ref="commonDao" />
-    </bean>
+    <bean id="data" class="systemy.bankowe.flows.addcoowner.AddCoownerDataBean" scope="flow"/>
     
-    <bean id="accountDetails" class="systemy.bankowe.flows.mainwindow.AccountDetails" scope="flow"/>
+    <bean id="controller" class="systemy.bankowe.flows.addcoowner.AddCoownerBean">
+    	<property name="userDao" ref="userDao"/>
+    	<property name="springSecurityUtil" ref="springSecurityContextUtilBean"/>
+    	<property name="commonUserDao" ref="commonDao" />
+    	<property name="accountDao" ref="accountDao" />
+    </bean>
 </beans>

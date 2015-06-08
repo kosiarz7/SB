@@ -39,4 +39,11 @@ public interface IUserDao {
      * @param accountDto konto.
      */
     void addAccount(final UserDto userDto, final AccountDto accountDto);
+    /**
+     * Wyszukuje użytkownika po numerze pesel.
+     * 
+     * @param pesel numer pesel.
+     * @return dane użytiownika.
+     */
+    UserDto findUserByPesel(String pesel);
 }
