@@ -71,7 +71,7 @@ public class DepositBean implements Serializable{
 			cal.add(Calendar.DATE,deposit.getOkresTrwania());
 			deposit.setDataZakonczenia(cal.getTime());
 			deposit.setWartoscObecna(deposit.getWartoscStartowa());
-		
+			deposit.setIdTyplokata(depositType);
 			deposit.setStatusLokaty("otwarta");
 
 			userService.addNextDeposit(deposit,sourceAccount);
