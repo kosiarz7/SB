@@ -2,9 +2,11 @@ package systemy.bankowe.dto.card;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -57,6 +59,8 @@ public class Card implements Serializable{
 	@Column(name = "expiration_date")
 	private Date expirationDate;
 	
+	private String label;
+	
 	/**
 	 * Czy nie usunieta
 	 */
@@ -102,7 +106,7 @@ public class Card implements Serializable{
 	 * Dzienny limit operacji zbliżeniowych (liczba operacji)
 	 */
 	@Column(name = "dialy_proximity_max_ops")
-	private BigDecimal proximityDialyMaxOperations;
+	private Integer proximityDialyMaxOperations;
 	
 	/**
 	 * Właściciel karty
@@ -118,8 +122,8 @@ public class Card implements Serializable{
 	@JoinColumn
 	private AccountDto account;
 	
-	@OneToMany(mappedBy = "card", fetch = FetchType.EAGER)
-	private List<CardHistory> history;
+	@OneToMany(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<CardHistory> history = new ArrayList<CardHistory>();
 
 	public Integer getId() {
 		return id;
@@ -135,6 +139,14 @@ public class Card implements Serializable{
 
 	public void setNumber(String number) {
 		this.number = number;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	public String getSecureCode() {
@@ -225,12 +237,12 @@ public class Card implements Serializable{
 		this.proximityDialyMaxAmmount = proximityDialyMaxAmmount;
 	}
 
-	public BigDecimal getProximityDialyMaxOperations() {
+	public Integer getProximityDialyMaxOperations() {
 		return proximityDialyMaxOperations;
 	}
 
 	public void setProximityDialyMaxOperations(
-			BigDecimal proximityDialyMaxOperations) {
+			Integer proximityDialyMaxOperations) {
 		this.proximityDialyMaxOperations = proximityDialyMaxOperations;
 	}
 

@@ -67,6 +67,7 @@
 			<c:if test="#{not springSecurityContextUtilBean.isUserLoggedIn() and not hide}">
 				<h:form>
 					<p:button value="Załóż konto" href="/app/addAccount"/>
+					<p:button value="Terminal płatniczy" href="/app/paymentTerminal"/>
 				</h:form>
 			</c:if>
 			<div id="pageContent" style="padding-top: 10px;">

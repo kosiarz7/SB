@@ -78,7 +78,7 @@
 		
 	<bean id="cardService" class="systemy.bankowe.services.card.CardService"
 		p:cardDao-ref="cardDao"
-		p:commonDebitCardDao-ref="commonDao"
+		p:commonCardDao-ref="commonDao"
 		p:cardNumberService-ref="cardNumberService"
 		p:accountDao-ref="accountDao"
 		p:springSecurityUtil-ref="springSecurityContextUtilBean"

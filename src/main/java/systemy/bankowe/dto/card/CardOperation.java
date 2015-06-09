@@ -1,5 +1,6 @@
 package systemy.bankowe.dto.card;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -14,8 +15,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "OPERACJE_KARTA")
-public class CardOperation {
-	
+public class CardOperation implements Serializable{
+
+
+	/**
+	 * UID
+	 */
+	private static final long serialVersionUID = 6389717351428886123L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "OPERACJE_KARTA_SEQ")
     @SequenceGenerator(name = "OPERACJE_KARTA_SEQ", sequenceName = "OPERACJE_KARTA_SEQ", allocationSize = 1)
@@ -102,5 +109,6 @@ public class CardOperation {
 				+ interest + ", history=" + history + "]";
 	}
 
+	
 	
 }
