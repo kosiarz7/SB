@@ -93,13 +93,19 @@ public class WaitingTransfer extends OutcomingTransfer implements Serializable {
         senderAccountNumber = senderAccountNumber.replace(" ", "");
         targetAccountNumber = targetAccountNumber.replace(" ", "");
     }
-    
-    @Override
-    public String toString() {
-        return "WaitingTransfer [id=" + id + ", dateWaitTransfer=" + dateWaitTransfer + ", realizationDate="
-                + realizationDate + ", transferType=" + transferType + ", senderAccountNumber=" + senderAccountNumber
-                + "]";
-    }
+
+	@Override
+	public String toString() {
+		return "WaitingTransfer [id=" + id + ", dateWaitTransfer="
+				+ dateWaitTransfer + ", realizationDate=" + realizationDate
+				+ ", transferType=" + transferType + ", senderAccountNumber="
+				+ senderAccountNumber + ", targetAccountNumber="
+				+ targetAccountNumber + ", targetName=" + targetName
+				+ ", title=" + title + ", address=" + address + ", amount="
+				+ amount + ", type=" + type + "]";
+	}
+
+
     
     
 }

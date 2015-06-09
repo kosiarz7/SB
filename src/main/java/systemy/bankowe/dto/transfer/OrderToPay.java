@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import systemy.bankowe.dto.AbstractDto;
 
@@ -21,7 +22,7 @@ public class OrderToPay extends AbstractDto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_przelew_przychodzacy")
+    @Column(name = "id_upowaznienie")
     private int id;
 
     @Column(name = "nazwa")
@@ -38,9 +39,10 @@ public class OrderToPay extends AbstractDto implements Serializable {
 
     @Column(name = "maksymalna_kwota")
     private double maxAmount;
-
-    // TODO: Rachunek - klient tabela
-
+    
+    @Transient
+    private String accountNumber;
+    
     public OrderToPay() {
     }
 
@@ -102,4 +104,27 @@ public class OrderToPay extends AbstractDto implements Serializable {
         this.name = name;
     }
 
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	
+    public void removeSpaceFromAccountNumber()
+    {
+    	accountNumber = accountNumber.replace(" ", "");
+    	accountEmpowered = accountEmpowered.replace(" ", "");
+    }
+
+	@Override
+	public String toString() {
+		return "OrderToPay [id=" + id + ", name=" + name
+				+ ", accountEmpowered=" + accountEmpowered + ", fromDate="
+				+ fromDate + ", toDate=" + toDate + ", maxAmount=" + maxAmount
+				+ ", accountNumber=" + accountNumber + "]";
+	}
+    
+    
 }

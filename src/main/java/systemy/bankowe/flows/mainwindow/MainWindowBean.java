@@ -9,6 +9,10 @@ import java.util.Optional;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import systemy.bankowe.dao.CommonDao;
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.security.SpringSecurityContextUtil;
@@ -21,6 +25,7 @@ public class MainWindowBean implements Serializable {
      * UID.
      */
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainWindowBean.class);
     /**
      * Metody wspomagającę pracę z Spring Security.
      */
@@ -33,6 +38,10 @@ public class MainWindowBean implements Serializable {
      * Serwis dla kont bankowych.
      */
     private IAccountNumberService accountNumberService;
+    
+    private CommonDao<UserDto> commonUserDao;
+    
+    private CommonDao<AccountDto> commonAccountDto;
     
     /**
      * Pobiera informacje o kontach należących do zalogowanego użytkownika.
@@ -111,6 +120,7 @@ public class MainWindowBean implements Serializable {
                         + " nie posiada konta o numerze: " + accountStub.getNumber()); 
             }
             else {
+                commonAccountDto.refresh(selectedAccount);
                 List<AccountOwnerDetails> owners = new ArrayList<>();
                 for (UserDto u : selectedAccount.getOwners()) {
                     owners.add(new AccountOwnerDetails().address(u.getAddress()).city(u.getCity()).mail(u.getEmail())
@@ -140,6 +150,7 @@ public class MainWindowBean implements Serializable {
         }
         return null;
     }
+    
     /**
      * Zamyka żądany rachunek.
      * 
@@ -148,6 +159,30 @@ public class MainWindowBean implements Serializable {
     public void deleteAccount(final MainWindowData data) {
         // TODO dodać operację przelewu
         userService.closeAccount(data.getAccount().getNumber());
+    }
+    
+    public void resign(final MainWindowData data) {
+        Optional<UserData> user = springSecurityUtil.getLoggedInUser();
+        if (user.isPresent()) {
+            UserDto userDto = user.get().getUserDto();
+            int index = -1, i = 0;
+            for (AccountDto a : userDto.getAccounts()) {
+                if (data.getAccount().getNumber().equals(a.getNumber())) {
+                    index = i;
+                }
+                ++i;
+            }
+            if (index > -1) {
+                userDto.getAccounts().remove(index);
+                commonUserDao.update(userDto);
+            }
+            else {
+                LOGGER.warn("resign|Użytkownik nie posiada konta o numerze: {}", data.getAccount().getNumber());
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Użytkownik jest niezalogowany!");
+        }
     }
 
     public void setSpringSecurityUtil(SpringSecurityContextUtil springSecurityUtil) {
@@ -160,5 +195,13 @@ public class MainWindowBean implements Serializable {
 
     public void setAccountNumberService(IAccountNumberService accountNumberService) {
         this.accountNumberService = accountNumberService;
+    }
+
+    public void setCommonUserDao(CommonDao<UserDto> commonUserDao) {
+        this.commonUserDao = commonUserDao;
+    }
+
+    public void setCommonAccountDto(CommonDao<AccountDto> commonAccountDto) {
+        this.commonAccountDto = commonAccountDto;
     }
 }

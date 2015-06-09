@@ -11,6 +11,8 @@
     	<property name="springSecurityUtil" ref="springSecurityContextUtilBean"/>
     	<property name="accountNumberService" ref="accountNumberService"/>
     	<property name="userService" ref="userService"/>
+    	<property name="commonUserDao" ref="commonDao" />
+    	<property name="commonAccountDto" ref="commonDao" />
     </bean>
     
     <bean id="accountDetails" class="systemy.bankowe.flows.mainwindow.AccountDetails" scope="flow"/>

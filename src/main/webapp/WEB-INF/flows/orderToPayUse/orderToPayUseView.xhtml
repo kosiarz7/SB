@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h1>Polecenia zapłaty - wysylanie rachunku</h1>
+		<h:form>
+			<table border="1">
+				<tr>
+					<th width="100">Nazwa</th>
+					<th width="200">Konto upoważnione</th>
+					<th width="200">Data początku</th>
+					<th width="200">Data końca</th>
+					<th>Maksymalna kwota</th>
+					<th>Opcje</th>
+				</tr>
+				<c:forEach items="${flowScope.orderToPaysUse}" var="instance">
+					<tr>
+						<td>${instance.getName()}</td>
+						<td>${instance.getAccountEmpowered()}</td>
+						<td>${instance.getFromDate()}</td>
+						<td>${instance.getToDate()}</td>
+						<td>${instance.getMaxAmount()}</td>
+						<td>TO BE DONE</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br />
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
+

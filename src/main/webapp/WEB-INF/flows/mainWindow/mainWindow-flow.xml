@@ -14,8 +14,10 @@
 		<transition on="delete" to="delete"/>
 		<transition on="transfer" to="transfer" />
 		<transition on="history" to="history" />
-		<transition on="addCoowner" to="home" />
-		<transition on="resign" to="home" />
+		<transition on="addCoowner" to="addCoowner" />
+		<transition on="resign" to="home">
+			<evaluate expression="controller.resign(data)" />
+		</transition>
 	</view-state>
 	
 	<view-state id="delete" >
@@ -32,6 +34,8 @@
 	<end-state id="transfer" view="externalRedirect:contextRelative:/app/moneyTransfer?targetAccountNumber=#{data.getAccount().getNumber()}"/>
 	
 	<end-state id="history" view="externalRedirect:contextRelative:/app/history?accountNumber=#{data.getAccount().getNumber()}"/>
+	
+	<end-state id="addCoowner" view="externalRedirect:contextRelative:/app/addCoowner?accountNumber=#{data.getAccount().getNumber()}"/>
 
 	<bean-import resource="flow-beans.xml" />
 </flow>

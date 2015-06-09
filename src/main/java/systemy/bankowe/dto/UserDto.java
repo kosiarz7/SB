@@ -21,6 +21,8 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import systemy.bankowe.dto.credit.CreditAccountDto;
+
 /**
  * Encja użytkownika.
  * 
@@ -117,6 +119,8 @@ public class UserDto extends AbstractDto implements Serializable {
     @JoinTable(name = "klienci_rachunki", joinColumns = { @JoinColumn(name = "id_klient", referencedColumnName = "id_klient") }, inverseJoinColumns = { @JoinColumn(name = "id_rachunek", referencedColumnName = "id_rachunek") })
     private List<AccountDto> accounts;
 
+//    @OneToMany(mappedBy="klient")
+//    private List<CreditAccountDto> creditAccounts;
     /**
      * Konstrutkor.
      */
