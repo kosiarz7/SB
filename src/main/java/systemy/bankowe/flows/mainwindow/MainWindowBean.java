@@ -41,8 +41,6 @@ public class MainWindowBean implements Serializable {
     
     private CommonDao<UserDto> commonUserDao;
     
-    private CommonDao<AccountDto> commonAccountDto;
-    
     /**
      * Pobiera informacje o kontach należących do zalogowanego użytkownika.
      * 
@@ -120,7 +118,6 @@ public class MainWindowBean implements Serializable {
                         + " nie posiada konta o numerze: " + accountStub.getNumber()); 
             }
             else {
-                commonAccountDto.refresh(selectedAccount);
                 List<AccountOwnerDetails> owners = new ArrayList<>();
                 for (UserDto u : selectedAccount.getOwners()) {
                     owners.add(new AccountOwnerDetails().address(u.getAddress()).city(u.getCity()).mail(u.getEmail())
@@ -199,9 +196,5 @@ public class MainWindowBean implements Serializable {
 
     public void setCommonUserDao(CommonDao<UserDto> commonUserDao) {
         this.commonUserDao = commonUserDao;
-    }
-
-    public void setCommonAccountDto(CommonDao<AccountDto> commonAccountDto) {
-        this.commonAccountDto = commonAccountDto;
     }
 }

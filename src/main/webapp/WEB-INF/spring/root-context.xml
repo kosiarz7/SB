@@ -126,6 +126,6 @@
 	<bean id="usernameExtractor" class="systemy.bankowe.common.beans.UsernameExtractorBean" lazy-init="false"/>
 	
 	<bean id="springSecurityContextUtilBean" class="systemy.bankowe.common.beans.SpringSecurityContextUtilBean" 
-		lazy-init="false" p:commonUserDao-ref="commonDao" p:cyclicTransferDao-ref="cyclicTransferDao" 
+		lazy-init="false" p:commonDao-ref="commonDao" p:cyclicTransferDao-ref="cyclicTransferDao" 
 		p:definedRecipientDao-ref="definedRecipientDao"/>
 </beans>
