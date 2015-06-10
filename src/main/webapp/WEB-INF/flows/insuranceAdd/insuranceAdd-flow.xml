@@ -45,7 +45,7 @@
 		
 	</view-state>
 	
-	<end-state id="endFlow" view="externalRedirect:/insuranceMain"/>
+	<end-state id="endFlow" view="externalRedirect:/insuranceShow?success=newInsurance"/>
 	
 	<bean-import resource="flow-beans.xml" />
 </flow>

@@ -104,6 +104,8 @@
 
 	<bean id="InsuranceDao" class="systemy.bankowe.dao.insurance.InsuranceDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 	
+	<bean id="InsuranceClaimDao" class="systemy.bankowe.dao.insurance.InsuranceClaimDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+	
 	<bean id="InsuranceAccountDao" class="systemy.bankowe.dao.insurance.InsuranceAccountDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 	
 	<bean id="TransportInsuranceDao" class="systemy.bankowe.dao.insurance.TransportInsuranceDao" p:sessionFactory-ref="hibernateSessionFactory"/>

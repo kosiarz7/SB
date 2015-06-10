@@ -23,6 +23,17 @@ public class InsuranceMainBean implements Serializable {
 		return convertInsuranceTypes(insuranceTypes);
 	}
 	
+	public String setSuccessMessage(String success){
+		if (success.equals("claim"))
+			return "Zg³oszenie zosta³o wys³ane";
+		else if (success.equals("newInsurance")) {
+			return "Ubezpieczenie zosta³o dodane";
+		}
+		else {
+			return "empty";
+		}
+	}
+	
 	private List<InsuranceTypeStub> convertInsuranceTypes(List <InsuranceTypeDto> insuranceTypes){
 		   List<InsuranceTypeStub> insuranceTypeStubs = new ArrayList<>();
 	        

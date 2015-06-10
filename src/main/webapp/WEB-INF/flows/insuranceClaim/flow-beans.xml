@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="data" class="systemy.bankowe.flows.insuranceclaim.InsuranceClaimData" scope="flow" init-method="init" />
+	
+	<bean id="insuranceClaimController" class="systemy.bankowe.flows.insuranceclaim.InsuranceClaimBean">
+    	<property name="insuranceDao" ref="InsuranceDao" />
+    	<property name="userDao" ref="userDao" />
+    	<property name="commonDao" ref="commonDao"/>
+    	<property name="insuranceClaimDao" ref="InsuranceClaimDao"/>
+    </bean>
+	
+</beans>

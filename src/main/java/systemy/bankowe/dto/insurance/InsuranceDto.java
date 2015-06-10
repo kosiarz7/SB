@@ -3,6 +3,7 @@ package systemy.bankowe.dto.insurance;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -76,6 +77,9 @@ public class InsuranceDto  extends AbstractDto implements Serializable {
 
 	@OneToMany(mappedBy = "insurance", cascade=CascadeType.ALL)
     private Set <TransportInsuranceDto> transportInsurances;
+
+	@OneToMany(mappedBy = "insurance", cascade=CascadeType.ALL)
+	private List<InsurancePaymentDto> installments;
 	
 	public InsuranceDto() {
 		
@@ -168,5 +172,18 @@ public class InsuranceDto  extends AbstractDto implements Serializable {
 
 	public void setInsuranceType(InsuranceTypeDto insuranceType) {
 		this.insuranceType = insuranceType;
+	}
+
+	public List<InsurancePaymentDto> getInstallments() {
+		return installments;
+	}
+
+	public void setInstallments(List<InsurancePaymentDto> installments) {
+		this.installments = installments;
+	}
+
+	public void setTransportInsurances(
+			Set<TransportInsuranceDto> transportInsurances) {
+		this.transportInsurances = transportInsurances;
 	}
 }

@@ -31,6 +31,11 @@
 			splitStatements="true" />
 	</changeSet>
 	
+	<changeSet author="patrykwoj" id="changelog-7.0">
+		<sqlFile path="classpath:liquibase/changelog-7.0.sql"
+			splitStatements="true" />
+	</changeSet>
+	
 	<changeSet author="serwach" id="create_seqs">
 		<sqlFile
 			path="classpath:liquibase/money/transfer/seq_przelew_wych_oczekujacy.sql"

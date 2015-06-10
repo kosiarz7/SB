@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="data" class="systemy.bankowe.flows.insuranceadd.InsuranceAddCarData" scope="flow" init-method="init" />
+	 <bean id="mainInsuranceController" class="systemy.bankowe.flows.insurancemain.InsuranceMainBean">
+    	<property name="insuranceTypeDao" ref="commonDao"/>
+    </bean>
+	
+	
+	
+	<bean id="insuranceShowController" class="systemy.bankowe.flows.insuranceadd.InsuranceAddBean">
+    	<property name="insuranceTypeDao" ref="InsuranceTypeDao" />
+    	<property name="insuranceAccountDao" ref="InsuranceAccountDao" />
+    	<property name="insuranceDao" ref="InsuranceDao" />
+    	<property name="transportInsuranceDao" ref="TransportInsuranceDao" />
+    	<property name="userDao" ref="userDao" />
+    	<property name="accountDao" ref="accountDao" />
+    	<property name="accountNumberService" ref="accountNumberService" />
+    	<property name="commonInsuranceDao" ref="commonDao"/>
+    </bean>
+	
+</beans>

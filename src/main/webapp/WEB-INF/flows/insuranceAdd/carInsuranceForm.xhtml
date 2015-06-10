@@ -231,7 +231,9 @@
 									</div>
 									<div class="ui-grid-row">
 									<p:outputPanel deferred="true" deferredMode="visible">
-										<h4><h:outputText value="W sumie #{data.calculatedOC+data.calculatedAC} zł. Płatne 4 ratach po #{data.instalment} zł." /></h4>
+										<h4>
+											<h:outputText value="W sumie #{addInsuranceController.round(data.calculatedOC+data.calculatedAC)} zł. Płatne 4 ratach po #{data.instalment} zł." />
+										</h4>
 									</p:outputPanel>
 									</div>
 								</h:panelGroup>
@@ -250,7 +252,7 @@
 								<p:selectOneRadio value="#{data.myAccount}"
 									layout="grid" columns="1">
 									<f:selectItems value="#{addInsuranceController.getUserAccounts()}" var="userAccounts" 
-									itemLabel="#{userAccounts.number} (#{userAccounts.saldo} zł)" itemValue="#{userAccounts.number}" />
+									itemLabel="#{userAccounts.number} (#{addInsuranceController.round(userAccounts.saldo)} zł)" itemValue="#{userAccounts.number}" />
 								</p:selectOneRadio>
 											
 										</p:panel>

@@ -1,6 +1,7 @@
 package systemy.bankowe.flows.insuranceadd;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +52,12 @@ public class InsuranceAddBean implements Serializable {
 		return insuranceType.getType();
 		
 	}
+	
+	public Double round(Double number) {
+		
+		return (double)Math.round(number * 100) / 100;
+		
+	}
 
 	public List<AccountDto> getUserAccounts() {
 		
@@ -58,10 +65,19 @@ public class InsuranceAddBean implements Serializable {
 	    String login = auth.getName(); //get logged in username
 	 
 		user = userDao.loadUserByUserName(login);
-		System.out.println(login);
 		return user.getAccounts();
 	}
 	    
+	public List<InsuranceDto> getInsurances() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String login = auth.getName(); //get logged in username
+	 
+		user = userDao.loadUserByUserName(login);
+		List<InsuranceDto> insurances = new ArrayList<InsuranceDto>();
+		insurances = insuranceDao.getByUser(user);
+		return insurances;
+	}
+	
 	public void newInsurance(InsuranceAddCarData insuranceAddDataCar, Integer typeId) {
 		TransportInsuranceDto transportInsurance = new TransportInsuranceDto();
 		InsuranceAccountDto insuranceAccount = new InsuranceAccountDto();

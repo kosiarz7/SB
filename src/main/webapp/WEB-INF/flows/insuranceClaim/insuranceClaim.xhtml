@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-3" />
+					<div class="ui-grid-col-6">
+					<h:messages/>
+						<div class="ui-grid-row">
+							<div class="ui-grid-col-12">
+								<p:selectOneMenu id="insur" value="#{data.insuranceId}" style="width: 100%;">
+               						<f:selectItem itemLabel="Wybierz ubezpieczenie" itemValue="" noSelectionOption="true" />
+               						<f:selectItems value="#{insurancesList}" var="insList" itemLabel="#{insList.id}. #{insList.insuranceAccount.name} (#{insList.total_value} zł)" itemValue="#{insList.id}"/>
+            					</p:selectOneMenu>
+							</div>
+						</div>
+						<div class="ui-grid-row">
+							<div class="ui-grid-col-12">
+								<p:inputTextarea style="width: 98.5%;" value="#{data.claimDescription}" rows="10" cols="50"
+								 counter="display" maxlength="255" counterTemplate="Pozostalo {0} znaków." 
+								/>
+								 <h:outputText id="display" />
+							</div>
+						</div>
+						
+						<p:growl id="growl" showDetail="true" sticky="true" />  
+						
+						<div class="ui-grid-row">
+							<p:commandButton action="addClaim" value="Zgłoś" style="width: 100%; margin-bottom: 5%; font-size: 20px">
+							</p:commandButton>
+						</div>
+					</div>
+					<div class="ui-grid-col-3" />
+				</div>
+			</div>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
