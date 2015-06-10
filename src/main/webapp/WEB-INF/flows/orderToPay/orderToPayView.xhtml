@@ -68,7 +68,7 @@
 			</p>
 
 
-			<p:commandButton action="orderToPay" value="Dodaj" ajax="false" />
+			<p:commandButton action="orderToPay" value="Dodaj" ajax="false" onstart="showCurtain()" oncomplete="hideCurtain()"/>
 		</h:form>
 	</ui:define>
 </ui:composition>
