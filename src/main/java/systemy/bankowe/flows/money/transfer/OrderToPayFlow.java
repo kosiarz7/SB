@@ -41,4 +41,9 @@ public class OrderToPayFlow extends AbstractFlowHelper implements Serializable {
 		int senderId = user.getUserDto().getId();
 		return orderToPayDao.getOrderToPaysByUser(senderId);
 	}
+	
+	public void loadOrderToPaysByUser(SessionFactory factory, UserData user, AccountNumberBean data)
+	{
+		data.setOrdersToPay(getOrderToPaysByUser(factory, user));
+	}
 }

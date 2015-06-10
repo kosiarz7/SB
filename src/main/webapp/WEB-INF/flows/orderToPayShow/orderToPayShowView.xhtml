@@ -10,37 +10,38 @@
 	<ui:define name="pageContent">
 		<h1>Polecenia zapłaty - upoważnienia</h1>
 		<h:form>
-		<!-- MICHAŁ: Jak zrobić by przy pomocy comboboxa zmieniac zawartosc tabeli - filtrowac?
+		<!-- MICHAŁ: Jak zrobić by przy pomocy comboboxa zmieniac zawartosc tabeli - filtrowac? -->
 			<p>
 				Numer rachunku, ktorego upoważnienia są wyświetlane 			
-				<p:selectOneMenu id="accountNumber" value="accountNumberVar"
-					required="true">
+				<p:selectOneMenu id="accountNumber" value="#{accountNumberVar}"
+					required="true" valueChangeListener="#{data.selectedAccountChanged}" >
 					<f:selectItems value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}" var="item"
 						itemValue="#{item}" itemLabel="#{item}" />
-					
+					<p:ajax event="valueChange" process="@this" update="@form"/>
 				</p:selectOneMenu>
 			</p>
-			 -->
-			<table border="1">
-				<tr>
-					<th width="100">Nazwa</th>
-					<th width="200">Konto upoważnione</th>
-					<th width="200">Data początku</th>
-					<th width="200">Data końca</th>
-					<th>Maksymalna kwota</th>
-					<th>Opcje</th>
-				</tr>
-				<c:forEach items="${flowScope.orderToPays}" var="instance">
-					<tr>
-						<td>${instance.getName()}</td>
-						<td>${instance.getAccountEmpowered()}</td>
-						<td>${instance.getFromDate()}</td>
-						<td>${instance.getToDate()}</td>
-						<td>${instance.getMaxAmount()}</td>
-						<td>TO BE DONE</td>
-					</tr>
-				</c:forEach>
-			</table>
+			 
+			<p:dataTable var="instance" value="${data.ordersToPay}" id="tableOrderToPay">
+				<p:column headerText="Nazwa">
+					${instance.getName()}
+				</p:column>
+				
+				<p:column headerText="Konto upoważnione">
+					${instance.getAccountEmpowered()}
+				</p:column>
+				
+				<p:column headerText="Data początku">
+					${instance.getFromDate()}
+				</p:column>
+				
+				<p:column headerText="Data końca">
+					${instance.getToDate()}
+				</p:column>
+				
+				<p:column headerText="Maksymalna kwota">
+					${instance.getMaxAmount()}
+				</p:column>
+			</p:dataTable>
 			<br />
 			
 		</h:form>

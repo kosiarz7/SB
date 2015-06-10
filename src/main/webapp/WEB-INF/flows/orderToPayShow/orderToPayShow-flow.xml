@@ -7,14 +7,15 @@
 	<secured attributes="ROLE_USER"/>
 	
 	<var name="controllerVar" class="systemy.bankowe.flows.money.transfer.OrderToPayFlow"/>
+	<var name="accountNumberVar" class="java.lang.String" />
 	
 	<on-start>
-		<evaluate expression="controllerVar.getOrderToPaysByUser(hibernateSessionFactory, springSecurityContextUtilBean.getLoggedInUser().get())"
-			result="flowScope.orderToPays" />
+		<evaluate expression="controllerVar.loadOrderToPaysByUser(hibernateSessionFactory, springSecurityContextUtilBean.getLoggedInUser().get(), data)" />
 	</on-start>
 	
 	<view-state id="orderToPayShowView">
 		<transition on="orderToPayShow" to="orderToPayShow"/>
 	</view-state>
 
+	<bean-import resource="flow-beans.xml"/>
 </flow>
