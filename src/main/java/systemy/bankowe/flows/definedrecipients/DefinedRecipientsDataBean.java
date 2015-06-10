@@ -56,8 +56,15 @@ public class DefinedRecipientsDataBean implements Serializable {
      */
     private List<DefinedRecipientDto> defindedRecipients;
     
-    private String message;
-
+    public void clear() {
+        name = null;
+        street = null;
+        streetNo = null;
+        zipcode = null;
+        city = null;
+        accountNumber = null;
+    }
+    
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -128,13 +135,5 @@ public class DefinedRecipientsDataBean implements Serializable {
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }

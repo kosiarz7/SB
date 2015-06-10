@@ -10,6 +10,7 @@
 	<ui:param name="hide" value="true"/>
     <ui:define name="pageContent">
         <h:form>
+        	<p:messages />
         	<p:dataTable rows="10" paginator="true" value="#{data.getDefindedRecipients()}" 
 				var="dto" emptyMessage="Brak zdefiniowanych odbiorców."
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
