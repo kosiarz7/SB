@@ -79,7 +79,7 @@ CREATE OR REPLACE PROCEDURE pr_dodaj_polecenie(	res out int,
 		Session session = openSession();
 
         session.getTransaction().begin();
-        SQLQuery query = session.createSQLQuery("SELECT upowaznienie_polecenia_zapl.* from upowaznienie_polecenia_zapl inner join rachunki on rachunki.id_rachunek = upowaznienie_polecenia_zapl.id_rachunek where rachunki.numer=:nr");
+        SQLQuery query = session.createSQLQuery("SELECT upowaznienie_polecenia_zapl.* from upowaznienie_polecenia_zapl inner join rachunki on rachunki.id_rachunek = upowaznienie_polecenia_zapl.id_rachunek where rachunki.numer=:nr and upowaznienie_polecenia_zapl.do_kiedy >= sysdate");
         query.addEntity(OrderToPay.class);
         query.setString("nr", accountNumber);
         List<OrderToPay> list = query.list();
@@ -110,5 +110,15 @@ CREATE OR REPLACE PROCEDURE pr_dodaj_polecenie(	res out int,
         query.setInteger("id", userIdThatCanOrderToPay);
         List<OrderToPay> list = query.list();
         return list;
+	}
+	
+	public void updateOrderToPay(OrderToPay orderToPay)
+	{
+		Session session = openSession();
+
+        session.getTransaction().begin();
+        session.update(orderToPay);
+        session.getTransaction().commit();
+        
 	}
 }

@@ -1,7 +1,9 @@
 package systemy.bankowe.flows.money.transfer;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import systemy.bankowe.dto.AccountDto;
@@ -41,5 +43,11 @@ public class AbstractFlowHelper implements Serializable{
             str.append(accountNumber.charAt(i));
         }
         return str.toString();
+    }
+    
+    public String convertDateToString(Date date)
+    {
+    	SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+    	return format.format(date);
     }
 }
