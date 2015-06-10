@@ -41,6 +41,19 @@
 				    </p:dataList>
 				</p>
 			</p:dialog>
+			
+			<p:dialog id="confirmDialog" widgetVar="confirm" modal="true" closable="false">
+				<p>
+					Na pewno chcesz zrezygnować z rachunku: 
+					<span style="font-weight: bold;">#{data.account.name}</span> 
+					<span style="font-style: italic;">(#{accountNumberService.formatAccountNumber(data.account.number)})?</span>
+				</p>
+				<h:panelGrid columns="2" cellpadding="5" style="display: table; margin: 0 auto;">
+					<p:commandButton value="Nie" onclick="PF('confirm').hide()"/>
+					<p:commandButton value="Tak" action="resign" ajax="true"
+						onstart="showCurtain()" oncomplete="PF('confirm').hide();hideCurtain()"/>
+				</h:panelGrid>
+			</p:dialog>
 		</h:form>
     </ui:define>
 </ui:composition>

@@ -13,6 +13,7 @@
 		</on-entry>
 		<transition on="addRecipient" to="newEditDefinedRecipient">
 			<evaluate expression="data.setEditMode(false)" />
+			<evaluate expression="data.clear()" />
 		</transition>
 		<transition on="editDefinedRecipient" to="newEditDefinedRecipient">
 			<evaluate expression="data.setEditMode(true)" />
@@ -32,20 +33,18 @@
 	
 	<action-state id="addDefinedRecipient">
 		<evaluate expression="controller.addNewDefindedRecipient(data)" />
-		<transition to="end" />
+		<transition to="home" />
 	</action-state>
 	
 	<action-state id="saveChanges">
 		<evaluate expression="controller.saveChanges(data)" />
-		<transition to="end" />
+		<transition to="home" />
 	</action-state>
 	
 	<action-state id="delete">
 		<evaluate expression="controller.delete(data)" />
-		<transition to="end" />
+		<transition to="home" />
 	</action-state>
-	
-	<view-state id="end" />
 	
 	<bean-import resource="flow-beans.xml"/>
 </flow>

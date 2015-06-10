@@ -78,7 +78,7 @@
 		
 	<bean id="cardService" class="systemy.bankowe.services.card.CardService"
 		p:cardDao-ref="cardDao"
-		p:commonDebitCardDao-ref="commonDao"
+		p:commonCardDao-ref="commonDao"
 		p:cardNumberService-ref="cardNumberService"
 		p:accountDao-ref="accountDao"
 		p:springSecurityUtil-ref="springSecurityContextUtilBean"
@@ -117,6 +117,8 @@
 		
 	<bean id="definedRecipientDao" class="systemy.bankowe.dao.definedrecipients.DefindeRecipientDao"
 	 	p:sessionFactory-ref="hibernateSessionFactory"/>
+	 	
+	<bean id="orderToPayDao" class="systemy.bankowe.dao.transfer.OrderToPayDao" p:sessionFactory-ref="hibernateSessionFactory"/>	
 		
 	<!-- Wstrzykiwanie loggerów -->
 	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">
@@ -128,6 +130,6 @@
 	<bean id="usernameExtractor" class="systemy.bankowe.common.beans.UsernameExtractorBean" lazy-init="false"/>
 	
 	<bean id="springSecurityContextUtilBean" class="systemy.bankowe.common.beans.SpringSecurityContextUtilBean" 
-		lazy-init="false" p:commonUserDao-ref="commonDao" p:cyclicTransferDao-ref="cyclicTransferDao" 
+		lazy-init="false" p:commonDao-ref="commonDao" p:cyclicTransferDao-ref="cyclicTransferDao" 
 		p:definedRecipientDao-ref="definedRecipientDao"/>
 </beans>

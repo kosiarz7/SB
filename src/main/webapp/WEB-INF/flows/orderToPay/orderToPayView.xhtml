@@ -9,6 +9,9 @@
 	<ui:define name="pageContent">
 		<h:form>
 			<p>
+				<p:message for="name" />
+			</p>
+			<p>
 				<p:message for="accountEmpowered" />
 			</p>
 			<p>
@@ -21,11 +24,28 @@
 				<p:message for="maxAmount" />
 			</p>
 			<p>
+				<p:message for="accountNumber" />
+			</p>
+			<p>
+				Numer rachunku, z którego pieniądze będą pobierane				
+				<p:selectOneMenu id="accountNumber" value="#{orderToPayVar.accountNumber}"
+					required="true">
+					<f:selectItems value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}" var="item"
+						itemValue="#{item}" itemLabel="#{item}" />
+				</p:selectOneMenu>
+			</p>
+			<p>
+				Nazwa:
+			<p:inputText id="name"
+					value="#{orderToPayVar.name}" label="'Nazwa'"
+					required="true" />
+			</p>
+			<p>
 				Numer rachunku upoważnionego:
 				<p:inputText id="accountEmpowered"
 					value="#{orderToPayVar.accountEmpowered}"
 					label="'Numer rachunku upoważnionego'" required="true"
-					placeholder="__ ____ ____ ____ ____ ____ ____" maxlength="26"
+					placeholder="__ ____ ____ ____ ____ ____ ____" maxlength="32"
 					onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" />
 
 			</p>
@@ -48,7 +68,7 @@
 			</p>
 
 
-			<p:commandButton action="orderToPay" value="Dodaj" ajax="false" />
+			<p:commandButton action="orderToPay" value="Dodaj" ajax="false" onstart="showCurtain()" oncomplete="hideCurtain()"/>
 		</h:form>
 	</ui:define>
 </ui:composition>

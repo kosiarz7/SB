@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:param name="hide" value="true" />
+	<ui:define name="pageContent">
+		<h:form>
+			<div class="ui-grid ui-grid-responsive">
+
+				<h:form>
+				<p:messages />
+					<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+					
+						<p:outputLabel value="Rodzaj operacji:" for="operationType"/>
+						<p:selectOneButton id="operationType" value="#{terminalData.operationType}" required="true">
+							<f:selectItems value="#{operationTypes}"/>
+						</p:selectOneButton>
+						<p:message for="operationType"/>
+						
+						<p:outputLabel for="operationType" value="Numer karty:" />
+						<p:inputMask value="#{terminalData.cardNumber}" mask="9999999999999999" required="true"></p:inputMask>
+						<p:message for="operationType"/>
+						
+						<p:outputLabel for="pin" value="Kod PIN:" />
+						<p:password id="pin" value="#{terminalData.pin}"></p:password>
+						<p:message for="pin"/>
+						
+						<p:outputLabel for="account" value="Rachunek docelowy:" />
+						<p:inputMask id="account" value="#{terminalData.accountNumber}" mask="99999999999999999999999999"></p:inputMask>
+						<p:message for="account"/>
+						
+						<p:outputLabel for="amount" value="Kwota:" />
+						<p:inputText id="amount" value="#{terminalData.amount}"></p:inputText>
+						<p:message for="amount"/>
+						
+						<p:commandButton action="pay" value="Zapłać"></p:commandButton>
+					</h:panelGrid>
+				</h:form>
+				
+
+
+			</div>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

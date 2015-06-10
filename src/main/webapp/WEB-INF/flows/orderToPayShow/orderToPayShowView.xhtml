@@ -8,29 +8,99 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 	<ui:define name="pageContent">
-		<h1>Polecenie zapłaty</h1>
-		<h:form>
-			<table border="1">
-				<tr>
-					<th width="100">Nazwa</th>
-					<th width="200">Konto upoważnione</th>
-					<th width="200">Data początku</th>
-					<th width="200">Data końca</th>
-					<th>Maksymalna kwota</th>
-					<th>Opcje</th>
-				</tr>
-				<c:forEach items="${flowScope.orderToPays}" var="instance">
-					<tr>
-						<td>${instance.getName()}</td>
-						<td>${instance.getAccountEmpowered()}</td>
-						<td>${instance.getFromDate()}</td>
-						<td>${instance.getToDate()}</td>
-						<td>${instance.getMaxAmount()}</td>
-						<td>TO BE DONE</td>
-					</tr>
-				</c:forEach>
-			</table>
+		<h1>Polecenia zapłaty - upoważnienia</h1>
+		<h:form id="formId">
+			<!-- MICHAŁ: Jak zrobić by przy pomocy comboboxa zmieniac zawartosc tabeli - filtrowac? -->
+			<p>
+				Numer rachunku, ktorego upoważnienia są wyświetlane
+				<p:selectOneMenu id="accountNumber" value="#{accountNumberVar}"
+					required="true"
+					valueChangeListener="#{data.selectedAccountChanged}">
+					<f:selectItems
+						value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}"
+						var="item" itemValue="#{item}" itemLabel="#{item}" />
+					<p:ajax event="valueChange" process="@this" update="@form" />
+				</p:selectOneMenu>
+			</p>
+
+
+			<p:dataTable var="instance" value="${data.ordersToPay}"
+				paginator="true" rows="10"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				selection="#{data.selectedOrderToPay}" id="tableOrderToPay"
+				rowKey="#{instance}"
+				emptyMessage="Nie masz zdefiniowanych żadnych poleceń zapłaty">
+				<p:ajax event="rowSelect" listener="#{data.onRowSelect}"
+					update=":formId:orderToPayDetails"
+					oncomplete="PF('orderToPayWidgetVar').show()" />
+				<p:column headerText="Nazwa" style="width:30px;">
+					${instance.getName()}
+				</p:column>
+
+				<p:column headerText="Konto upoważnione" style="width:150px;">
+					${data.formatAccountNumber(instance.getAccountEmpowered())}
+				</p:column>
+
+				<p:column headerText="Data początku" style="width:60px;">
+					${controllerVar.convertDateToString(instance.getFromDate())}
+				</p:column>
+
+				<p:column headerText="Data końca" style="width:60px;">
+					${controllerVar.convertDateToString(instance.getToDate())}
+				</p:column>
+
+				<p:column headerText="Maksymalna kwota" style="width:50px;">
+					${instance.getMaxAmount()}
+				</p:column>
+			</p:dataTable>
 			<br />
+
+			<p:dialog header="Polecenie zaplaty - opcje"
+				widgetVar="orderToPayWidgetVar" modal="true" showEffect="fade"
+				hideEffect="fade" resizable="false">
+				<p:outputPanel id="orderToPayDetails" style="text-align:center;">
+					<p:panelGrid columns="1"
+						rendered="#{not empty data.selectedOrderToPay}"
+						columnClasses="label,value">
+						<p>
+							Nazwa:
+							<p:inputText id="name" value="#{data.selectedOrderToPay.name}"
+								label="'Nazwa'" required="true" />
+						</p>
+						<p>
+							Numer rachunku upoważnionego:
+							<p:inputText id="accountEmpowered"
+								value="#{data.formatAccountNumber(data.selectedOrderToPay.accountEmpowered)}"
+								label="'Numer rachunku upoważnionego'" required="true"
+								placeholder="__ ____ ____ ____ ____ ____ ____" maxlength="32"
+								onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" />
+
+						</p>
+						<p>
+							Od kiedy:
+							<p:calendar id="fromDate" value="#{data.selectedOrderToPay.fromDate}"
+								showOn="button" pattern="dd-MM-yyyy" label="'Od kiedy'"
+								placeholder="dd-mm-yyyy" required="true" />
+						</p>
+						<p>
+							Do kiedy:
+							<p:calendar id="toDate" value="#{data.selectedOrderToPay.toDate}"
+								showOn="button" pattern="dd-MM-yyyy" label="'Do kiedy'"
+								placeholder="dd-mm-yyyy" required="true" />
+						</p>
+						<p>
+							Maksymalna kwota:
+							<p:inputText id="maxAmount" value="#{data.selectedOrderToPay.maxAmount}"
+								label="'Maksymalna kwota'" required="true" />
+						</p>
+						<p:commandButton value="Zaktualizuj" actionListener="#{data.updateOrderToPay}" update="@form"
+							onstart="showCurtain()" oncomplete="hideCurtain()"/>
+						<p:commandButton value="Wycofaj" actionListener="#{data.terminateOrderToPay}" update="@form"
+							onstart="showCurtain()" oncomplete="hideCurtain()"/>
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -57,11 +57,16 @@ public class DefinedRecipientBean implements Serializable {
     public void addNewDefindedRecipient(final DefinedRecipientsDataBean data) {
         try {
             commonDao.save(createDto(data));
-            data.setMessage("Odbiorca został dodany.");
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Odbiorca został dodany.",
+                            "Odbiorca został dodany."));
         }
         catch (Exception e) {
             LOGGER.error("addNewDefindedRecipient|Wystąpił błąd podczas próby dodania nowego odbiorcy.", e);
-            data.setMessage("Wystąpił bład podczas dodawania nowego odbiorcy. Spróbuj później.");
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                            "Wystąpił błąd podczas dodawania nowego odbiorcy. Spróbuj później.",
+                            "Wystąpił błąd podczas dodawania nowego odbiorcy. Spróbuj później."));
         }
     }
     
@@ -106,22 +111,34 @@ public class DefinedRecipientBean implements Serializable {
             DefinedRecipientDto dto = data.getSelectedDto();
             fillFields(data, dto);
             commonDao.update(dto);
-            data.setMessage("Zmiany zostały zapisane.");
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Zmiany zostały zapisane.",
+                            "Zmiany zostały zapisane."));
         }
         catch (Exception e) {
             LOGGER.error("saveChanges|Wystąpił błąd podczas próby dodania nowego odbiorcy.", e);
-            data.setMessage("Wystąpił bład podczas próby zapisania zmian. Spróbuj później.");
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                            "Wystąpił bład podczas próby zapisania zmian. Spróbuj później.",
+                            "Wystąpił bład podczas próby zapisania zmian. Spróbuj później."));
         }
     }
     
     public void delete(final DefinedRecipientsDataBean data) {
         try {
             commonDao.delete(data.getSelectedDto());
-            data.setMessage("Odbiorca został usunięty.");
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Odbiorca został usunięty.",
+                            "Odbiorca został usunięty."));
         }
         catch (Exception e) {
             LOGGER.error("delete|Wystąpił błąd podczas próby dodania nowego odbiorcy.", e);
-            data.setMessage("Wystąpił bład podczas usunięcia odbiorcy. Spróbuj później.");
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                            "Wystąpił błąd podczas usunięcia odbiorcy. Spróbuj później.",
+                            "Wystąpił błąd podczas usunięcia odbiorcy. Spróbuj później."));
         }
     }
 

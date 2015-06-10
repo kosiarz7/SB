@@ -11,9 +11,9 @@ CREATE TABLE kredyt
 id_kredytu INT PRIMARY KEY,
 nazwa VARCHAR2(64) NOT NULL,
 czas_trwania INT NOT NULL,
-spłata_na_raz INT NOT NULL, --zamiast BOOL dalem INT bedzie sie dawalo 1 lub 0 i rozroznialo
-kapital_początkowy INT NOT NULL,
-kapital_spłacony INT NOT NULL,
+splata_na_raz INT NOT NULL, --zamiast BOOL dalem INT bedzie sie dawalo 1 lub 0 i rozroznialo
+kapital_poczatkowy INT NOT NULL,
+kapital_splacony INT NOT NULL,
 odsetki INT NOT NULL,
 odsetki_splacone INT NOT NULL,
 odsetki_karne INT NOT NULL,
@@ -60,3 +60,6 @@ CONSTRAINT kredyt_oprocentowanie_fk FOREIGN KEY (id_kredytu) REFERENCES kredyt(i
    CREATE SEQUENCE RODZAJ_KREDYTU_SEQ START WITH 1 INCREMENT BY 1;
    CREATE SEQUENCE RATY_KREDYTU_SEQ START WITH 1 INCREMENT BY 1;
    CREATE SEQUENCE OPROCENTOWANIE_SEQ START WITH 1 INCREMENT BY 1;
+   
+--changeset lothrimondWDZ:8
+ALTER TABLE oprocentowanie ADD wartosc INT NOT NULL;

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" start-state="orderToPayUseView"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<!-- Zabezpieczenie flow przez Spring Security -->
+	<secured attributes="ROLE_USER" />
+
+	
+	<var name="controllerVar" class="systemy.bankowe.flows.money.transfer.OrderToPayFlow" />
+	<on-start>
+		<evaluate
+			expression="controllerVar.getOrderToPaysByUser(hibernateSessionFactory, springSecurityContextUtilBean.getLoggedInUser().get())"
+			result="flowScope.orderToPaysUse" />
+	</on-start>
+	<view-state id="transfer" />
+
+	<view-state id="orderToPayUseView">
+		<transition on="orderToPayUse" to="orderToPayUse" />
+	</view-state>
+
+</flow>

@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import systemy.bankowe.dao.CommonDao;
 import systemy.bankowe.dao.cyclictransfer.ICyclicTransferDao;
 import systemy.bankowe.dao.definedrecipients.IDefindeRecipientDao;
+import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.CyclicTransferDto;
 import systemy.bankowe.dto.DefinedRecipientDto;
 import systemy.bankowe.dto.UserDto;
@@ -33,14 +34,12 @@ public class SpringSecurityContextUtilBean implements Serializable, SpringSecuri
      * UID.
      */
     private static final long serialVersionUID = -1707242397470945906L;
-    /**
-     * Podstawowe DAO dla użytkownika.
-     */
-    private CommonDao<UserDto> commonUserDao;
 
     private IDefindeRecipientDao definedRecipientDao;
 
     private ICyclicTransferDao cyclicTransferDao;
+    
+    private CommonDao<Object> commonDao;
 
     /**
      * {@inheritDoc}
@@ -114,7 +113,10 @@ public class SpringSecurityContextUtilBean implements Serializable, SpringSecuri
             if (principal instanceof UserData) {
                 UserData userData = (UserData) principal;
                 UserDto userDto = userData.getUserDto();
-                commonUserDao.refresh(userDto);
+                commonDao.refresh(userDto);
+                for (AccountDto a : userDto.getAccounts()) {
+                    commonDao.refresh(a);
+                }
                 userDto.setAccounts(userDto.getAccounts().stream().filter(a -> a.isEnabled())
                         .collect(Collectors.toList()));
                 user = Optional.of(userData);
@@ -152,15 +154,15 @@ public class SpringSecurityContextUtilBean implements Serializable, SpringSecuri
         }
     }
 
-    public void setCommonUserDao(CommonDao<UserDto> commonUserDao) {
-        this.commonUserDao = commonUserDao;
-    }
-    
     public void setDefinedRecipientDao(IDefindeRecipientDao definedRecipientDao) {
         this.definedRecipientDao = definedRecipientDao;
     }
 
     public void setCyclicTransferDao(ICyclicTransferDao cyclicTransferDao) {
         this.cyclicTransferDao = cyclicTransferDao;
+    }
+
+    public void setCommonDao(CommonDao<Object> commonDao) {
+        this.commonDao = commonDao;
     }
 }

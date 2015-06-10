@@ -164,4 +164,46 @@ public class UserDao extends HibernateUtil implements IUserDao, Serializable {
             session.close();
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public UserDto findUserByPesel(String pesel) {
+        LOGGER.debug("findUserByPesel|Pesel: {}", pesel);
+        
+        UserDto userDto = null;
+
+        Session session = openSession();
+        Transaction tx = null;
+        List<UserDto> users = null;
+
+        try {
+            tx = session.beginTransaction();
+            users = session.createQuery("from UserDto where pesel = :pesel").setString("pesel", pesel).list();
+            tx.commit();
+        }
+        catch (RuntimeException e) {
+            if (null != tx) {
+                tx.rollback();
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        if (users.isEmpty()) {
+            LOGGER.debug("findUserByPesel|Brak użytkownika o nr pesel: {}", pesel);
+        }
+        else {
+            userDto = users.get(0);
+            LOGGER.debug("lfindUserByPesel|Załadowane dane użytkownika o nr pesel: {}", pesel);
+        }
+
+        return userDto;
+    }
+
+    
 }
