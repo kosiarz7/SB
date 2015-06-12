@@ -6,13 +6,18 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import systemy.bankowe.dto.AbstractDto;
+import systemy.bankowe.dto.AccountDto;
+import systemy.bankowe.dto.UserDto;
 
 @Entity
 @Table(name = "upowaznienie_polecenia_zapl")
@@ -42,6 +47,15 @@ public class OrderToPay extends AbstractDto implements Serializable {
     
     @Transient
     private String accountNumber;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_rachunek")
+    private AccountDto account;
+    
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_klient")
+    private UserDto client;
     
     public OrderToPay() {
     }
@@ -117,6 +131,22 @@ public class OrderToPay extends AbstractDto implements Serializable {
     	accountNumber = accountNumber.replace(" ", "");
     	accountEmpowered = accountEmpowered.replace(" ", "");
     }
+
+	public AccountDto getAccount() {
+		return account;
+	}
+
+	public void setAccount(AccountDto account) {
+		this.account = account;
+	}
+
+	public UserDto getClient() {
+		return client;
+	}
+
+	public void setClient(UserDto client) {
+		this.client = client;
+	}
 
 	@Override
 	public String toString() {

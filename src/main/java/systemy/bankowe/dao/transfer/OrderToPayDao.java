@@ -112,6 +112,21 @@ CREATE OR REPLACE PROCEDURE pr_dodaj_polecenie(	res out int,
         return list;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<OrderToPay> getOrderToPaysUseByAccountNumber(String accountNumber)
+	{
+		Session session = openSession();
+		System.err.println("account: "+accountNumber);
+        SQLQuery query = session.createSQLQuery(
+        		"SELECT zap.* from upowaznienie_polecenia_zapl  zap, klienci  kl, rachunki  r, klienci_rachunki  kl_r " +
+        		"WHERE zap.nr_rachunku_upowaznionego = r.numer AND r.id_rachunek = kl_r.id_rachunek AND kl_r.id_klient = kl.id_klient AND r.numer = :account");
+        query.addEntity(OrderToPay.class);
+        query.setString("account", accountNumber);
+        List<OrderToPay> list = query.list();
+        System.err.println("list size: "+list.toString());
+        return list;
+	}
+	
 	public void updateOrderToPay(OrderToPay orderToPay)
 	{
 		Session session = openSession();

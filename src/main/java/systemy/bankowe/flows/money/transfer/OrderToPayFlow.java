@@ -24,26 +24,26 @@ public class OrderToPayFlow extends AbstractFlowHelper implements Serializable {
 		return new OrderToPayResult(OrderToPayResult.convertErrorCode(buf));
 	}
 
-	public List<OrderToPay> getOrderToPays(SessionFactory factory, String accountNumber) {
-		if (accountNumber.isEmpty())
-		{
+	public List<OrderToPay> getOrderToPays(SessionFactory factory,
+			String accountNumber) {
+		if (accountNumber.isEmpty()) {
 			return new ArrayList<OrderToPay>();
 		}
 		OrderToPayDao orderToPayDao = new OrderToPayDao();
 		orderToPayDao.setSessionFactory(factory);
 		return orderToPayDao.getOrderToPays(accountNumber);
 	}
-	
-	public List<OrderToPay> getOrderToPaysByUser(SessionFactory factory, UserData user)
-	{
+
+	public List<OrderToPay> getOrderToPaysByUser(SessionFactory factory,
+			UserData user) {
 		OrderToPayDao orderToPayDao = new OrderToPayDao();
 		orderToPayDao.setSessionFactory(factory);
 		int senderId = user.getUserDto().getId();
 		return orderToPayDao.getOrderToPaysByUser(senderId);
 	}
-	
-	public void loadOrderToPaysByUser(SessionFactory factory, UserData user, AccountNumberBean data)
-	{
+
+	public void loadOrderToPaysByUser(SessionFactory factory, UserData user,
+			OrderToPayBean data) {
 		data.setOrdersToPay(getOrderToPaysByUser(factory, user));
 	}
 }

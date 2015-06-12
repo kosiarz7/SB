@@ -10,7 +10,6 @@
 	<ui:define name="pageContent">
 		<h1>Polecenia zapłaty - upoważnienia</h1>
 		<h:form id="formId">
-			<!-- MICHAŁ: Jak zrobić by przy pomocy comboboxa zmieniac zawartosc tabeli - filtrowac? -->
 			<p>
 				Numer rachunku, ktorego upoważnienia są wyświetlane
 				<p:selectOneMenu id="accountNumber" value="#{accountNumberVar}"
@@ -78,16 +77,10 @@
 
 						</p>
 						<p>
-							Od kiedy:
-							<p:calendar id="fromDate" value="#{data.selectedOrderToPay.fromDate}"
-								showOn="button" pattern="dd-MM-yyyy" label="'Od kiedy'"
-								placeholder="dd-mm-yyyy" required="true" />
-						</p>
-						<p>
 							Do kiedy:
 							<p:calendar id="toDate" value="#{data.selectedOrderToPay.toDate}"
 								showOn="button" pattern="dd-MM-yyyy" label="'Do kiedy'"
-								placeholder="dd-mm-yyyy" required="true" />
+								placeholder="dd-mm-yyyy" required="true" mindate="calwidget.today()" widgetVar="calwidget" />
 						</p>
 						<p>
 							Maksymalna kwota:

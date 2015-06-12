@@ -27,7 +27,12 @@ public class MoneyTransferResult implements Serializable {
         return errorMessage != null;
     }
 
-    public static String convertErrorCode(int code) {
+    @Override
+	public String toString() {
+		return "MoneyTransferResult [errorMessage=" + errorMessage + "]";
+	}
+
+	public static String convertErrorCode(int code) {
         switch (code) {
 
         case 1:

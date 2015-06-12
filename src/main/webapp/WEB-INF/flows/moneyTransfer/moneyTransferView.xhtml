@@ -70,11 +70,13 @@
 				<p:inputText id="amount" value="#{waitingTransferVar.amount}"
 					label="'Kwota'" required="true" />
 			</p>
+			<p>
 				Data realizacji
 				<p:calendar id="realizationDate"
 				value="#{waitingTransferVar.realizationDate}" showOn="button"
-				pattern="dd-MM-yyyy" label="'Data powrotu'" placeholder="dd-mm-yyyy"
+				pattern="dd-MM-yyyy" label="'Data realizacji'" placeholder="dd-mm-yyyy"
 				required="true" />
+			</p>
 			<br />
 			<p:commandButton action="moneyTransferState" value="Dodaj"
 				ajax="false"/>

@@ -9,29 +9,97 @@
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 	<ui:define name="pageContent">
 		<h1>Polecenia zapłaty - wysylanie rachunku</h1>
-		<h:form>
-			<table border="1">
-				<tr>
-					<th width="100">Nazwa</th>
-					<th width="200">Konto upoważnione</th>
-					<th width="200">Data początku</th>
-					<th width="200">Data końca</th>
-					<th>Maksymalna kwota</th>
-					<th>Opcje</th>
-				</tr>
-				<c:forEach items="${flowScope.orderToPaysUse}" var="instance">
-					<tr>
-						<td>${instance.getName()}</td>
-						<td>${instance.getAccountEmpowered()}</td>
-						<td>${instance.getFromDate()}</td>
-						<td>${instance.getToDate()}</td>
-						<td>${instance.getMaxAmount()}</td>
-						<td>TO BE DONE</td>
-					</tr>
-				</c:forEach>
-			</table>
+		<h:form id="formId">
+			<p>
+				Numer rachunku wierzyciela, na który zostaną przelane pieniądze dłużnika:
+				<p:selectOneMenu id="accountNumber" value="#{accountNumberVar}"
+					required="true"
+					valueChangeListener="#{data.selectedAccountChanged}">
+					<f:selectItems
+						value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}"
+						var="item" itemValue="#{item}" itemLabel="#{item}" />
+					<p:ajax event="valueChange" process="@this" update="@form" />
+				</p:selectOneMenu>
+			</p>
+
+
+			<p:dataTable var="instance" value="${data.ordersToPay}"
+				paginator="true" rows="10"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				selection="#{data.selectedOrderToPay}" id="tableOrderToPay"
+				rowKey="#{instance}"
+				emptyMessage="Nie masz zdefiniowanych żadnych poleceń zapłaty">
+				<p:ajax event="rowSelect" listener="#{data.onRowSelect}"
+					update=":formId:orderToPayDetails"
+					oncomplete="PF('orderToPayWidgetVar').show()" />
+
+				<p:column headerText="Właściciel" style="width:30px;">
+					${instance.getClient().getName()} ${instance.getClient().getSurname()}
+				</p:column>
+
+				<p:column headerText="Konto udostępnione" style="width:150px;">
+					${data.formatAccountNumber(instance.getAccount().getNumber())}
+				</p:column>
+
+				<p:column headerText="Data początku" style="width:60px;">
+					${controllerVar.convertDateToString(instance.getFromDate())}
+				</p:column>
+
+				<p:column headerText="Data końca" style="width:60px;">
+					${controllerVar.convertDateToString(instance.getToDate())}
+				</p:column>
+
+				<p:column headerText="Maksymalna kwota" style="width:50px;">
+					${instance.getMaxAmount()}
+				</p:column>
+			</p:dataTable>
 			<br />
-			
+
+			<p:dialog header="Polecenie zaplaty - opcje"
+				widgetVar="orderToPayWidgetVar" modal="true" showEffect="fade"
+				hideEffect="fade" resizable="false">
+				<p:outputPanel id="orderToPayDetails" style="text-align:center;">
+					<p:panelGrid columns="1"
+						rendered="#{not empty data.selectedOrderToPay}"
+						columnClasses="label,value">
+						<p>
+							Numer konta, z którego będą przesłane pieniądze:
+							<p:inputText id="accountNumberSender"
+								value="#{data.formatAccountNumber(data.selectedOrderToPay.getAccount().getNumber())}"
+								label="'Konto dłużnika'" required="true" disabled="true" />
+
+						</p>
+						<p>
+							Numer rachunku docelowego:
+							<p:inputText id="accountNumberReceiver"
+								value="#{data.formatAccountNumber(data.selectedOrderToPay.accountEmpowered)}"
+								label="'Konto wierzyciela'" required="true" disabled="true" />
+						</p>
+						<p>
+							Tytuł:
+							<p:inputText id="title" value="#{data.waitingTransfer.title}"
+								label="'Tytuł'" required="true" />
+						</p>
+						<p>
+							Kwota:
+							<p:inputText id="amount" value="#{data.waitingTransfer.amount}"
+								label="'Kwota'" required="true" />
+						</p>
+						<p>
+							Data realizacji
+							<p:calendar id="realizationDate"
+								value="#{data.waitingTransfer.realizationDate}" showOn="button"
+								pattern="dd-MM-yyyy" label="'Data powrotu'"
+								placeholder="dd-mm-yyyy" required="true" />
+						</p>
+						<br />
+						<p:commandButton value="Wystaw fakturę"
+							actionListener="#{data.addWaitingTransfer(springSecurityContextUtilBean.getLoggedInUser().get())}"
+							ajax="false" onstart="showCurtain()" oncomplete="hideCurtain()" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
 		</h:form>
 	</ui:define>
 </ui:composition>

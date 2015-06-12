@@ -5,8 +5,9 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="data" class="systemy.bankowe.flows.money.transfer.OrderToPayShowBean" scope="flow">
+    <bean id="data" class="systemy.bankowe.flows.money.transfer.OrderToPayUseBean" scope="flow">
     	<property name="orderToPayDao" ref="orderToPayDao" />
     	<property name="accountService" ref="accountNumberService"/>
+    	<property name="waitingTransferDao" ref="waitingTransferDao" />
     </bean>
 </beans>

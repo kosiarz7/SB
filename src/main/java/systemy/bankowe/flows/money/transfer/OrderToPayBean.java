@@ -12,16 +12,18 @@ import systemy.bankowe.dao.transfer.OrderToPayDao;
 import systemy.bankowe.dto.transfer.OrderToPay;
 import systemy.bankowe.services.accountnumber.IAccountNumberService;
 
-public class AccountNumberBean implements Serializable{
+public abstract class OrderToPayBean implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6789711125409284246L;
-	private OrderToPay selectedOrderToPay;
-	private OrderToPayDao orderToPayDao;
-	private List<OrderToPay> ordersToPay;
-	private String accountNumber;
-	private IAccountNumberService accountService;
+	
+	protected OrderToPay selectedOrderToPay;
+	protected OrderToPayDao orderToPayDao;
+	protected List<OrderToPay> ordersToPay;
+	protected String accountNumber;
+	protected IAccountNumberService accountService;
+	 
 	public List<OrderToPay> getOrdersToPay() {
 		return ordersToPay;
 	}
@@ -45,7 +47,7 @@ public class AccountNumberBean implements Serializable{
 	public void selectedAccountChanged(ValueChangeEvent event) {
 		String buf = (String) event.getNewValue();
 		accountNumber = accountService.removeWhitespaces(buf);
-		ordersToPay = orderToPayDao.getOrderToPays(accountNumber);
+		ordersToPay = reloadOrderToPays(accountNumber);
     }
 	
 	public void setOrderToPayDao(OrderToPayDao orderToPayDao) {
@@ -61,7 +63,7 @@ public class AccountNumberBean implements Serializable{
 	{
 		selectedOrderToPay.setToDate(new Date());
 		orderToPayDao.updateOrderToPay(selectedOrderToPay);
-		ordersToPay = orderToPayDao.getOrderToPays(accountNumber);
+		ordersToPay = reloadOrderToPays(accountNumber);
 	}
 	
 	public void  updateOrderToPay()
@@ -82,5 +84,8 @@ public class AccountNumberBean implements Serializable{
 	public void setSelectedOrderToPay(OrderToPay selectedOrderToPay) {
 		this.selectedOrderToPay = selectedOrderToPay;
 	}
+	
+	public abstract List<OrderToPay> reloadOrderToPays(String accountNumber);
 
+	
 }
