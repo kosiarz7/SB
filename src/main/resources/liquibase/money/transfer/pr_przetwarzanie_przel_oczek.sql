@@ -1,8 +1,8 @@
 create or replace
-PROCEDURE pr_przetwarzanie_przel_oczek(i_przetwarzany_dzien DATE) IS
+PROCEDURE pr_przetwarzanie_przel_oczek(i_przetwarzany_dzien DATE DEFAULT SYSDATE) IS
 	CURSOR l_oczekujacy_kursor IS
 		SELECT * FROM przelew_wych_oczekujacy
-		WHERE trunc(DATA_REALIZACJI) = trunc(i_przetwarzany_dzien);
+		WHERE trunc(DATA_REALIZACJI) = trunc(nvl(i_przetwarzany_dzien, sysdate));
     
 	przelew_oczekujacy przelew_wych_oczekujacy%ROWTYPE;
 	blad INT := 0;
@@ -66,7 +66,7 @@ BEGIN
         
 	END LOOP;
 	CLOSE l_oczekujacy_kursor;
-	DELETE FROM przelew_wych_oczekujacy WHERE trunc(DATA_REALIZACJI) = trunc(i_przetwarzany_dzien);
+	DELETE FROM przelew_wych_oczekujacy WHERE trunc(DATA_REALIZACJI) = trunc(nvl(i_przetwarzany_dzien, sysdate));
 	COMMIT;
 
     EXCEPTION
