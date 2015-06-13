@@ -87,12 +87,12 @@
 			splitStatements="true" endDelimiter="(?m)^/$" />
 	</changeSet>
 	
-	<changeSet author="mujczar" id="changelog-8.0">
-		<sqlFile path="classpath:liquibase/changelog-8.0.sql"
+	<changeSet author="mujczar" id="realizacja_cykliczna_przelewow">
+		<sqlFile path="classpath:liquibase/money/transfer/realizacja_cykliczna_przelewow.sql"
 			splitStatements="true" endDelimiter="(?m)^/$" />
 	</changeSet>
 	
-	<changeSet author="mujczar" id="mod_checking_functions">
+	<changeSet author="mujczar" id="pr_zmien_polecenie">
 		<sqlFile
 			path="classpath:liquibase/money/transfer/pr_zmien_polecenie.sql"
 			splitStatements="true" endDelimiter="(?m)^/$" />

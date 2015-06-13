@@ -69,9 +69,9 @@ public class WaitingTransferDao extends HibernateUtil {
             callableStatement.getFetchSize();
 
             //// Powinno byc uruchomione raz iles tam ale w ramach testow przelewy beda realizowane na biezaco
-            String realizationPattern = "CALL pr_przetwarzanie_przel_oczek(sysdate)";
-            CallableStatement realizationCallableStatement = ((SessionImpl) session).connection().prepareCall(realizationPattern);
-            realizationCallableStatement.execute();
+            //String realizationPattern = "CALL pr_przetwarzanie_przel_oczek(sysdate)";
+            //CallableStatement realizationCallableStatement = ((SessionImpl) session).connection().prepareCall(realizationPattern);
+            //realizationCallableStatement.execute();
             session.getTransaction().commit();
             
             return resultInt;

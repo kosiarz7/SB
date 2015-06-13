@@ -5,14 +5,14 @@ BEGIN
     SELECT count(*)
       INTO l_job_exists 
       FROM user_scheduler_jobs
-     WHERE job_name = 'przet_przel_oczek';
+     WHERE job_name = 'PRZET_PRZEL_OCZEK';
 
    IF l_job_exists = 1 THEN
-      SYS.DBMS_SCHEDULER.DROP_JOB(job_name => 'przet_przel_oczek');
+      SYS.DBMS_SCHEDULER.DROP_JOB(job_name => 'PRZET_PRZEL_OCZEK');
    END IF;
    
     SYS.DBMS_SCHEDULER.CREATE_JOB (
-            job_name => 'przet_przel_oczek',
+            job_name => 'PRZET_PRZEL_OCZEK',
             job_type => 'STORED_PROCEDURE',
             job_action => 'PR_PRZETWARZANIE_PRZEL_OCZEK',
             number_of_arguments => 1,
@@ -28,16 +28,16 @@ BEGIN
     );
 
     SYS.DBMS_SCHEDULER.SET_ATTRIBUTE(
-             name => 'przet_przel_oczek',
+             name => 'PRZET_PRZEL_OCZEK',
              attribute => 'logging_level', value => DBMS_SCHEDULER.LOGGING_RUNS
     );
 
     SYS.DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE(
-             job_name => 'przet_przel_oczek',
+             job_name => 'PRZET_PRZEL_OCZEK',
              argument_position => 1,
              argument_value => ''
     );
             
-    SYS.DBMS_SCHEDULER.enable(name => 'przet_przel_oczek');
+    SYS.DBMS_SCHEDULER.enable(name => 'PRZET_PRZEL_OCZEK');
 END;
 /
