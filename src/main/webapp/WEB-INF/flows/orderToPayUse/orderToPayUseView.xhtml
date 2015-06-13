@@ -18,7 +18,7 @@
 					<f:selectItems
 						value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}"
 						var="item" itemValue="#{item}" itemLabel="#{item}" />
-					<p:ajax event="valueChange" process="@this" update="@form" />
+					<p:ajax event="valueChange" process="@this" update="@form"  onstart="showCurtain()" oncomplete="hideCurtain()"/>
 				</p:selectOneMenu>
 			</p>
 
