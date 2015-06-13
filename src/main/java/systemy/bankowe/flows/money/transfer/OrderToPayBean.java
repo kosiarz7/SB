@@ -27,6 +27,8 @@ public abstract class OrderToPayBean implements Serializable{
 	protected SpringSecurityContextUtilBean springSecurityContextUtilBean;
 	protected String selectedEmpoweredAccountFormat;
 	protected String selectedAccountFormat;
+
+	protected OrderToPayResult editOrderToPayResult;
 	
 	public List<OrderToPay> getOrdersToPay() {
 		return ordersToPay;
@@ -74,7 +76,6 @@ public abstract class OrderToPayBean implements Serializable{
 		System.err.println(selectedOrderToPay.toString());
 		selectedOrderToPay.setAccountNumber(accountNumber);
 		int res = orderToPayDao.updateOrderToPay(senderId, selectedOrderToPay);
-		System.err.println("------------------------------ res: "+ OrderToPayResult.convertErrorCode(res));
 		ordersToPay = reloadOrderToPays(accountNumber);
 	}
 	
@@ -85,7 +86,7 @@ public abstract class OrderToPayBean implements Serializable{
 		System.err.println(selectedOrderToPay.toString());
 		selectedOrderToPay.setAccountNumber(accountNumber);
 		int res = orderToPayDao.updateOrderToPay(senderId, selectedOrderToPay);
-		System.err.println("------------------------------ res: "+ OrderToPayResult.convertErrorCode(res));
+		editOrderToPayResult = new OrderToPayResult(OrderToPayResult.convertErrorCode(res));
 		ordersToPay = orderToPayDao.getOrderToPays(accountNumber);
 	}
 	public SpringSecurityContextUtilBean getSpringSecurityContextUtilBean() {
@@ -123,6 +124,14 @@ public abstract class OrderToPayBean implements Serializable{
 	}
 	
 	public abstract List<OrderToPay> reloadOrderToPays(String accountNumber);
+
+	public OrderToPayResult getEditOrderToPayResult() {
+		return editOrderToPayResult;
+	}
+
+	public void setEditOrderToPayResult(OrderToPayResult editOrderToPayResult) {
+		this.editOrderToPayResult = editOrderToPayResult;
+	}
 
 	
 }

@@ -10,6 +10,11 @@
 	<ui:define name="pageContent">
 		<h1>Polecenia zapłaty - upoważnienia</h1>
 		<h:form id="formId">
+			<c:if test="#{data.editOrderToPayResult != null}">
+				<c:if test="#{data.editOrderToPayResult.errorMessage != null}">
+					<p:outputLabel id="editOrderToPayResultLabel" value="#{data.editOrderToPayResult.errorMessage}" style="color: #FF0000; font-size: 150%;"/>
+				</c:if>
+			</c:if>
 			<p>
 				Numer rachunku, ktorego upoważnienia są wyświetlane
 				<p:selectOneMenu id="accountNumber" value="#{accountNumberVar}"

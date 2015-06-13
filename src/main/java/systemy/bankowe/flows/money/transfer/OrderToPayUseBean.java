@@ -19,7 +19,6 @@ public class OrderToPayUseBean extends OrderToPayBean implements Serializable{
 	private WaitingTransfer waitingTransfer;
 	private WaitingTransferDao waitingTransferDao;
 	private MoneyTransferResult moneyTransferResult;
-	
 	public List<OrderToPay> reloadOrderToPays(String accountNumber)
 	{
 		waitingTransfer = new WaitingTransfer();
@@ -56,6 +55,15 @@ public class OrderToPayUseBean extends OrderToPayBean implements Serializable{
 		int id = user.getUserDto().getId();
 		int res = waitingTransferDao.submit(id, waitingTransfer);
 		moneyTransferResult = new MoneyTransferResult(MoneyTransferResult.convertErrorCode(res));
-
 	}
+
+	public MoneyTransferResult getMoneyTransferResult() {
+		return moneyTransferResult;
+	}
+
+	public void setMoneyTransferResult(MoneyTransferResult moneyTransferResult) {
+		this.moneyTransferResult = moneyTransferResult;
+	}
+	
+	
 }

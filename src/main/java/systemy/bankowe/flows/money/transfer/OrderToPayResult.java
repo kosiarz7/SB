@@ -31,17 +31,24 @@ public class OrderToPayResult implements Serializable {
         switch (code) {
 
         case 1:
-            return "Rachunek wierzyciela nie został odnaleziony.";
+            return "Bład: Rachunek wierzyciela nie został odnaleziony.";
         case 2:
-            return "Rachunek dłużnika nie został odnaleziony.";
+            return "Bład: Rachunek dłużnika nie został odnaleziony.";
         case 3:
-            return "Data rozpoczęcia upoważnienia zapłaty już minęła.";
+            return "Bład: Data rozpoczęcia upoważnienia zapłaty już minęła.";
         case 4:
-            return "Data zakończenia upoważnienia zapłaty jest wcześniej niż data rozpoczęcia.";
+            return "Bład: Data zakończenia upoważnienia zapłaty jest wcześniej niż data rozpoczęcia.";
         case 5:
-            return "Maksymalna kwota upoważnienia jest ujemna.";
+            return "Bład: Maksymalna kwota upoważnienia jest ujemna.";
         default:
             return null;
         }
     }
+
+	@Override
+	public String toString() {
+		return "OrderToPayResult [errorMessage=" + errorMessage + "]";
+	}
+    
+    
 }
