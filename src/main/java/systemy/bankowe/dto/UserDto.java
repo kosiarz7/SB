@@ -119,8 +119,8 @@ public class UserDto extends AbstractDto implements Serializable {
     @JoinTable(name = "klienci_rachunki", joinColumns = { @JoinColumn(name = "id_klient", referencedColumnName = "id_klient") }, inverseJoinColumns = { @JoinColumn(name = "id_rachunek", referencedColumnName = "id_rachunek") })
     private List<AccountDto> accounts;
 
-//    @OneToMany(mappedBy="klient")
-//    private List<CreditAccountDto> creditAccounts;
+    @OneToMany(mappedBy="klient")
+    private List<CreditAccountDto> creditAccounts;
     /**
      * Konstrutkor.
      */

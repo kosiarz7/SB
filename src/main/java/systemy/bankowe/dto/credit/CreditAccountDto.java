@@ -34,10 +34,12 @@ public class CreditAccountDto implements Serializable {
     @Column(name = "id_rachunek", nullable = false)
     private int id;
 	
-//	@ManyToOne(fetch=FetchType.EAGER)
-//	@JoinColumn(name="klient_id")
-//    private UserDto klient;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="klient_id")
+    private UserDto klient;
     
+	@OneToMany(mappedBy="rachunek")
+    private List<CreditDto> kredyty;
 //    @ManyToOne(fetch = FetchType.EAGER, targetEntity = CreditDto.class)
 //    @JoinTable(name = "kredyty", joinColumns = { @JoinColumn(name = "id_kredytu", referencedColumnName = "id_kredytu") }, inverseJoinColumns = { @JoinColumn(name = "id_kredytu", referencedColumnName = "id_kredytu") })
 //    private List<CreditDto> kredyty;
@@ -55,20 +57,20 @@ public class CreditAccountDto implements Serializable {
 		this.id = id;
 	}
 
-//	public UserDto getKlient() {
-//		return klient;
-//	}
-//
-//	public void setKlient(UserDto klient) {
-//		this.klient = klient;
-//	}
+	public UserDto getKlient() {
+		return klient;
+	}
 
-//	public List<CreditDto> getKredyty() {
-//		return kredyty;
-//	}
-//
-//	public void setKredyty(List<CreditDto> kredyty) {
-//		this.kredyty = kredyty;
-//	}
+	public void setKlient(UserDto klient) {
+		this.klient = klient;
+	}
+
+	public List<CreditDto> getKredyty() {
+		return kredyty;
+	}
+
+	public void setKredyty(List<CreditDto> kredyty) {
+		this.kredyty = kredyty;
+	}
 
 }

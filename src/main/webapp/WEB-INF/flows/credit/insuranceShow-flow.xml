@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" start-state="home"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<!-- Zabezpieczenie flow przez Spring Security -->
+	<secured attributes="ROLE_USER" />
+	
+	<on-start>
+    	<set name="flowScope.success" value="requestParameters.success" type="java.lang.String" />
+	</on-start>
+	
+	<view-state id="home">
+		 <on-entry>
+			<evaluate expression="creditShowController.getCredits()" result="viewScope.credits" />
+		</on-entry>
+	</view-state>
+	
+	<bean-import resource="flow-beans.xml" />
+</flow>

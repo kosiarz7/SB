@@ -112,6 +112,8 @@
 					
 	<bean id="cardDao" class="systemy.bankowe.dao.card.CardDao" p:sessionFactory-ref="hibernateSessionFactory"/>
 
+	<bean id="CreditDao" class="systemy.bankowe.dao.credit.CreditDao" p:sessionFactory-ref="hibernateSessionFactory"/>
+
 	<bean id="cyclicTransferDao" class="systemy.bankowe.dao.cyclictransfer.CyclicTransferDao"
 		p:sessionFactory-ref="hibernateSessionFactory" />
 		

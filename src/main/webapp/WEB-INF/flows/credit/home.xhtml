@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+			<div class="ui-grid ui-grid-responsive">
+			
+			<p:dialog header="Udało się!" showEffect="explode" hideEffect="bounce" height="100" visible="true" 
+			rendered="#{successMessage !='empty'}">
+    			<h:outputText value="#{successMessage}" />
+			</p:dialog>
+			
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-3" />
+					<div class="ui-grid-col-6">
+					<div class="ui-grid-row">
+						<h2>Moje kredyty</h2>
+					</div>
+					</div>
+					<div class="ui-grid-col-3" />
+				</div>
+				
+				<div class="ui-grid-row">
+<!-- 					<p:dataTable var="insurance" value="#{insurances}"> -->
+<!-- 						<p:column headerText="Numer"> -->
+<!-- 							<h:outputText value="#{insurance.id}" /> -->
+<!-- 						</p:column> -->
+						
+<!-- 						<p:column headerText="Dotyczy"> -->
+<!-- 							<h:outputText value="#{insurance.insuranceAccount.name}" /> -->
+<!-- 						</p:column> -->
+						
+<!-- 						<p:column headerText="Data wygaśniecia"> -->
+<!-- 							<h:outputText value="#{insurance.endDate}" /> -->
+<!-- 						</p:column> -->
+						
+<!-- 						<p:column headerText="Pozostalo do splaty"> -->
+<!-- 							<h:outputText value="#{insurance.insuranceAccount.balance}" /> -->
+<!-- 						</p:column> -->
+<!-- 				</p:dataTable> -->
+				</div>
+			</div>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

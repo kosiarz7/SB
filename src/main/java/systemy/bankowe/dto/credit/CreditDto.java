@@ -23,6 +23,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import systemy.bankowe.dto.UserDto;
+
 @Entity
 @Table(name = "rachunek_kredytowy")
 public class CreditDto implements Serializable {
@@ -82,6 +84,10 @@ public class CreditDto implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="kredyt")
 	private List<CreditInstallmentDto> ratyKredytu;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="id_rachunek")
+    private CreditAccountDto rachunek;
 	
 	public int getId() {
 		return id;
