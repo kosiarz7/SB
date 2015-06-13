@@ -76,6 +76,7 @@ public abstract class OrderToPayBean implements Serializable{
 		System.err.println(selectedOrderToPay.toString());
 		selectedOrderToPay.setAccountNumber(accountNumber);
 		int res = orderToPayDao.updateOrderToPay(senderId, selectedOrderToPay);
+		editOrderToPayResult = new OrderToPayResult(OrderToPayResult.convertErrorCode(res));
 		ordersToPay = reloadOrderToPays(accountNumber);
 	}
 	
