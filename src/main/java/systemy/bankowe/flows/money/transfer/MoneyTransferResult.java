@@ -40,9 +40,9 @@ public class MoneyTransferResult implements Serializable {
         case 2:
             return "Bład: Rachunek wierzyciela nie został odnaleziony.";
         case 3:
-            return "Bład: Rachunek wierzyciela nie należy do zdefiniowanego wierzyciela.";
+            return "Bład: Rachunek nie należy do wierzyciela.";
         case 4:
-            return "Bład: Rachunek wierzyciela nie należy do wierzyciela o podanym adresie.";
+            return "Bład: Rachunek nie należy do wierzyciela o podanym adresie.";
         case 5:
             return "Bład: Nie ma wystarczających środków na koncie dłużnika.";
         case 6:
