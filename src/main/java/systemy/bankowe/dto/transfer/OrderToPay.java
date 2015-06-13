@@ -128,8 +128,14 @@ public class OrderToPay extends AbstractDto implements Serializable {
 	
     public void removeSpaceFromAccountNumber()
     {
-    	accountNumber = accountNumber.replace(" ", "");
-    	accountEmpowered = accountEmpowered.replace(" ", "");
+    	if (accountNumber != null)
+    	{
+        	accountNumber = accountNumber.replace(" ", "");
+    	}
+    	if (accountEmpowered != null)
+    	{
+        	accountEmpowered = accountEmpowered.replace(" ", "");   		
+    	}
     }
 
 	public AccountDto getAccount() {

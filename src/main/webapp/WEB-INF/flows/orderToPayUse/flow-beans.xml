@@ -9,5 +9,6 @@
     	<property name="orderToPayDao" ref="orderToPayDao" />
     	<property name="accountService" ref="accountNumberService"/>
     	<property name="waitingTransferDao" ref="waitingTransferDao" />
+    	<property name="springSecurityContextUtilBean" ref="springSecurityContextUtilBean"/>
     </bean>
 </beans>

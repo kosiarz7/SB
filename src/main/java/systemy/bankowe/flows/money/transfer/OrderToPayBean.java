@@ -8,6 +8,7 @@ import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.event.SelectEvent;
 
+import systemy.bankowe.common.beans.SpringSecurityContextUtilBean;
 import systemy.bankowe.dao.transfer.OrderToPayDao;
 import systemy.bankowe.dto.transfer.OrderToPay;
 import systemy.bankowe.services.accountnumber.IAccountNumberService;
@@ -23,7 +24,10 @@ public abstract class OrderToPayBean implements Serializable{
 	protected List<OrderToPay> ordersToPay;
 	protected String accountNumber;
 	protected IAccountNumberService accountService;
-	 
+	protected SpringSecurityContextUtilBean springSecurityContextUtilBean;
+	protected String selectedEmpoweredAccountFormat;
+	protected String selectedAccountFormat;
+	
 	public List<OrderToPay> getOrdersToPay() {
 		return ordersToPay;
 	}
@@ -56,27 +60,60 @@ public abstract class OrderToPayBean implements Serializable{
 	
 	public String formatAccountNumber(String accountNumber)
 	{
+		if (accountNumber == null)
+		{
+			return new String();
+		}
 		return accountService.formatAccountNumber(accountNumber);
 	}
 	
 	public void terminateOrderToPay()
 	{
 		selectedOrderToPay.setToDate(new Date());
-		orderToPayDao.updateOrderToPay(selectedOrderToPay);
+		int senderId = springSecurityContextUtilBean.getLoggedInUser().get().getUserDto().getId();
+		System.err.println(selectedOrderToPay.toString());
+		selectedOrderToPay.setAccountNumber(accountNumber);
+		int res = orderToPayDao.updateOrderToPay(senderId, selectedOrderToPay);
+		System.err.println("------------------------------ res: "+ OrderToPayResult.convertErrorCode(res));
 		ordersToPay = reloadOrderToPays(accountNumber);
 	}
 	
 	public void  updateOrderToPay()
 	{
-		orderToPayDao.updateOrderToPay(selectedOrderToPay);
+		selectedOrderToPay.setAccountEmpowered(selectedEmpoweredAccountFormat);
+		int senderId = springSecurityContextUtilBean.getLoggedInUser().get().getUserDto().getId();
+		System.err.println(selectedOrderToPay.toString());
+		selectedOrderToPay.setAccountNumber(accountNumber);
+		int res = orderToPayDao.updateOrderToPay(senderId, selectedOrderToPay);
+		System.err.println("------------------------------ res: "+ OrderToPayResult.convertErrorCode(res));
 		ordersToPay = orderToPayDao.getOrderToPays(accountNumber);
 	}
+	public SpringSecurityContextUtilBean getSpringSecurityContextUtilBean() {
+		return springSecurityContextUtilBean;
+	}
+
+	public void setSpringSecurityContextUtilBean(
+			SpringSecurityContextUtilBean springSecurityContextUtilBean) {
+		this.springSecurityContextUtilBean = springSecurityContextUtilBean;
+	}
+
 	public void onRowSelect(SelectEvent event) {
 		Object obj = event.getObject();
 		selectedOrderToPay= (OrderToPay) obj;
+		selectedEmpoweredAccountFormat = accountService.formatAccountNumber(selectedOrderToPay.getAccountEmpowered());
+		//selectedAccountFormat = accountService.formatAccountNumber(selectedOrderToPay.getAccountNumber());
     }
 	
 	
+	public String getSelectedEmpoweredAccountFormat() {
+		return selectedEmpoweredAccountFormat;
+	}
+
+	public void setSelectedEmpoweredAccountFormat(
+			String selectedEmpoweredAccountFormat) {
+		this.selectedEmpoweredAccountFormat = selectedEmpoweredAccountFormat;
+	}
+
 	public OrderToPay getSelectedOrderToPay() {
 		return selectedOrderToPay;
 	}

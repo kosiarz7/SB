@@ -8,5 +8,7 @@
     <bean id="data" class="systemy.bankowe.flows.money.transfer.OrderToPayShowBean" scope="flow">
     	<property name="orderToPayDao" ref="orderToPayDao" />
     	<property name="accountService" ref="accountNumberService"/>
+    	<property name="springSecurityContextUtilBean" ref="springSecurityContextUtilBean"/>
+    	 
     </bean>
 </beans>

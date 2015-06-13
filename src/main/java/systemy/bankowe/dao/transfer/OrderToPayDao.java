@@ -36,11 +36,10 @@ CREATE OR REPLACE PROCEDURE pr_dodaj_polecenie(	res out int,
 
         session.getTransaction().begin();
         
-        String pattern = "CALL pr_dodaj_polecenie(?, ?, ?, ?, ?, ?, ?, ?)";
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String dateFromStr = dateFormat.format(orderToPay.getFromDate());
         String dateToStr = dateFormat.format(orderToPay.getToDate());
-
+        String pattern = "CALL pr_dodaj_polecenie(?, ?, ?, ?, ?, ?, ?, ?)";
         String name = orderToPay.getName();
         String accountNumber = orderToPay.getAccountNumber();
         String accountNumberEmpowered = orderToPay.getAccountEmpowered();
@@ -123,17 +122,62 @@ CREATE OR REPLACE PROCEDURE pr_dodaj_polecenie(	res out int,
         query.addEntity(OrderToPay.class);
         query.setString("account", accountNumber);
         List<OrderToPay> list = query.list();
-        System.err.println("list size: "+list.toString());
         return list;
 	}
-	
-	public void updateOrderToPay(OrderToPay orderToPay)
+/*
+procedure pr_zmien_polecenie (res OUT INT, 
+                              i_id_upowaznienie IN INT,
+                              i_id_klient IN INT,
+                              i_nazwa IN VARCHAR2,
+                              i_rachunek IN VARCHAR2,
+                              i_rachunek_upow IN VARCHAR2,
+                              i_od_kiedy IN VARCHAR2,
+                              i_do_kiedy IN VARCHAR2,
+                              i_maksymalna_kwota IN DECIMAL)
+ */
+	public int updateOrderToPay(int senderId, OrderToPay orderToPay)
 	{
+		
+		orderToPay.removeSpaceFromAccountNumber();
 		Session session = openSession();
 
         session.getTransaction().begin();
-        session.update(orderToPay);
-        session.getTransaction().commit();
         
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String dateFromStr = dateFormat.format(orderToPay.getFromDate());
+        String dateToStr = dateFormat.format(orderToPay.getToDate());
+        String pattern = "CALL pr_zmien_polecenie(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String name = orderToPay.getName();
+        String accountNumber = orderToPay.getAccountNumber();
+        String accountNumberEmpowered = orderToPay.getAccountEmpowered();
+        double maxAmount = orderToPay.getMaxAmount();
+        try {
+            // znowu cos zrobili deprecated w interface Session. Taki myk by to ominac :P
+            CallableStatement callableStatement = ((SessionImpl) session).connection().prepareCall(pattern);
+            callableStatement.setInt(2, orderToPay.getId());
+            callableStatement.setInt(3, senderId);
+            callableStatement.setString(4, name);
+            callableStatement.setString(5, accountNumber);
+            callableStatement.setString(6, accountNumberEmpowered);
+            callableStatement.setString(7, dateFromStr);
+            callableStatement.setString(8, dateToStr);
+            callableStatement.setDouble(9, maxAmount);
+            callableStatement.registerOutParameter(1, OracleTypes.INTEGER);
+            callableStatement.execute();
+            Integer resultInt = (Integer) callableStatement.getObject(1);
+            callableStatement.getFetchSize();
+            session.getTransaction().commit();
+            
+            return resultInt;
+
+        } catch (HibernateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        session.getTransaction().rollback();
+        return -1;
 	}
 }

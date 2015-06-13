@@ -4,16 +4,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
 	<!-- Zabezpieczenie flow przez Spring Security -->
-	<secured attributes="ROLE_USER"/>
-	
-	<var name="controllerVar" class="systemy.bankowe.flows.money.transfer.OrderToPayFlow"/>
+	<secured attributes="ROLE_USER" />
+
+	<var name="controllerVar" class="systemy.bankowe.flows.money.transfer.OrderToPayFlow" />
 	<var name="accountNumberVar" class="java.lang.String" />
 	<on-start>
-		<evaluate expression="controllerVar.loadOrderToPaysByUser(hibernateSessionFactory, springSecurityContextUtilBean.getLoggedInUser().get(), data)" />
+		<evaluate
+			expression="controllerVar.loadOrderToPaysUseByUser(hibernateSessionFactory, springSecurityContextUtilBean.getLoggedInUser().get(), data)" />
 	</on-start>
 	<view-state id="orderToPayUseView">
 		<transition on="orderToPayUse" to="orderToPayUse" />
 	</view-state>
-	
-	<bean-import resource="flow-beans.xml"/>
+
+	<bean-import resource="flow-beans.xml" />
 </flow>
