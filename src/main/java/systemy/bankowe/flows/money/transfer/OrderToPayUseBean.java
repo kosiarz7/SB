@@ -47,8 +47,12 @@ public class OrderToPayUseBean extends OrderToPayBean implements Serializable{
 
 	public void addWaitingTransfer(UserData user)
 	{
-		//waitingTransfer
-		
+		// juz nie chce mi sie sprawdzac po stronei bazy danych tego warunku. 
+		if (waitingTransfer.getAmount() > selectedOrderToPay.getMaxAmount())
+		{
+			moneyTransferResult = new MoneyTransferResult(MoneyTransferResult.convertErrorCode(8));
+			return;
+		}
 		waitingTransfer.setAddress(user.getUserDto().getAddress());
 		waitingTransfer.setTargetName(user.getNameAndSurname());
 		waitingTransfer.setSenderAccountNumber(selectedOrderToPay.getAccount().getNumber());

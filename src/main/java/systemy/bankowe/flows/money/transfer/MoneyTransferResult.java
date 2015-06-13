@@ -36,20 +36,23 @@ public class MoneyTransferResult implements Serializable {
         switch (code) {
 
         case 1:
-            return "Bład: Rachunek dłużnika nie został odnaleziony.";
+            return "Błąd: Rachunek dłużnika nie został odnaleziony.";
         case 2:
-            return "Bład: Rachunek wierzyciela nie został odnaleziony.";
+            return "Błąd: Rachunek wierzyciela nie został odnaleziony.";
         case 3:
-            return "Bład: Rachunek nie należy do wierzyciela.";
+            return "Błąd: Rachunek nie należy do wierzyciela.";
         case 4:
-            return "Bład: Rachunek nie należy do wierzyciela o podanym adresie.";
+            return "Błąd: Rachunek nie należy do wierzyciela o podanym adresie.";
         case 5:
-            return "Bład: Nie ma wystarczających środków na koncie dłużnika.";
+            return "Błąd: Nie ma wystarczających środków na koncie dłużnika.";
         case 6:
-            return "Bład: Data realizacji przelewu już minęła.";
+            return "Błąd: Data realizacji przelewu już minęła.";
         case 7:
-            return "Bład: Kwota poniżej zera.";
+            return "Błąd: Kwota poniżej zera.";
+        case 8:
+        	return "Błąd: Za duża kwota.";
         default:
+        	
             return null;
         }
     }
