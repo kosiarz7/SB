@@ -35,7 +35,7 @@ public class CreditAccountDto implements Serializable {
     private int id;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="klient_id")
+	@JoinColumn(name="id_klient")
     private UserDto klient;
     
 	@OneToMany(mappedBy="rachunek")

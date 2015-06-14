@@ -60,7 +60,10 @@ public class CreditBean implements Serializable {
 	 
 		user = userDao.loadUserByUserName(login);
 		CreditAccountDto creditAccount = creditDao.getCreditAccount(user.getId());
-		List<CreditDto> credits = creditAccount.getKredyty();
+		List<CreditDto> credits = new ArrayList<CreditDto>();
+		if(creditAccount != null){
+		credits = creditAccount.getKredyty();
+		}
 		return credits;
 	}
 

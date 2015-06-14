@@ -19,7 +19,7 @@ ICreditDao, Serializable {
 	private static final long serialVersionUID = 2458054746328752447L;
 	
 	private static final String GET_CREDIT_BY_USER = "FROM CreditDto WHERE account = :account";
-	private static final String GET_CREDIT_ACCOUNT_BY_USER = "FROM CreditAccountDto WHERE user = :user";
+	private static final String GET_CREDIT_ACCOUNT_BY_USER = "FROM CreditAccountDto ca WHERE ca.klient.id = :id";
 	
 	@Override
 	public void grantCredit() {
