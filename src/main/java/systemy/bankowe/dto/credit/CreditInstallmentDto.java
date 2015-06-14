@@ -115,5 +115,11 @@ public class CreditInstallmentDto implements Serializable{
 	public void setKredyt(CreditDto kredyt) {
 		this.kredyt = kredyt;
 	}
+
+	@Override
+	public String toString() {
+		return "CreditInstallmentDto [numerRaty=" + numerRaty + ", kapital="
+				+ kapital + ", odsetki=" + odsetki + "]";
+	}
 	
 }

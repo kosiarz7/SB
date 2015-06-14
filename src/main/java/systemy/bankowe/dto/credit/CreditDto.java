@@ -192,5 +192,29 @@ public class CreditDto implements Serializable {
 	public void setRodzajKredytu(CreditTypeDto rodzajKredytu) {
 		this.rodzajKredytu = rodzajKredytu;
 	}
+
+	public List<CreditRate> getOprocentowanie() {
+		return oprocentowanie;
+	}
+
+	public void setOprocentowanie(List<CreditRate> oprocentowanie) {
+		this.oprocentowanie = oprocentowanie;
+	}
+
+	public List<CreditInstallmentDto> getRatyKredytu() {
+		return ratyKredytu;
+	}
+
+	public void setRatyKredytu(List<CreditInstallmentDto> ratyKredytu) {
+		this.ratyKredytu = ratyKredytu;
+	}
+
+	public CreditAccountDto getRachunek() {
+		return rachunek;
+	}
+
+	public void setRachunek(CreditAccountDto rachunek) {
+		this.rachunek = rachunek;
+	}
 	
 }

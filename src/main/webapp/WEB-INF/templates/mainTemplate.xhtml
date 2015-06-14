@@ -64,7 +64,10 @@
             				<p:menuitem value="Kredytowe" url="/app/creditCardMain"/>
             				<p:menuitem value="Obciążeniowe" url="/app/chargeCardMain"/>
             			</p:submenu>
-            			<p:menuitem value="Kredyty" url="/app/credit"/>
+            			<p:submenu label="Kredyty">
+	            			<p:menuitem value="Moje kredyty" url="/app/credit"/>
+	            			<p:menuitem value="Symulacja" url="/app/simulation"/>
+            			</p:submenu>
             		</p:menubar>
            		</h:form>
 			</c:if>

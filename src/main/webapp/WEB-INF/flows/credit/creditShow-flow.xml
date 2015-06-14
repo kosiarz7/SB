@@ -7,10 +7,6 @@
 	<!-- Zabezpieczenie flow przez Spring Security -->
 	<secured attributes="ROLE_USER" />
 	
-	<on-start>
-    	<set name="flowScope.success" value="requestParameters.success" type="java.lang.String" />
-	</on-start>
-	
 	<view-state id="home">
 		 <on-entry>
 			<evaluate expression="creditShowController.getCredits()" result="viewScope.credits" />

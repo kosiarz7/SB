@@ -1,6 +1,7 @@
 package systemy.bankowe.dto.credit;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -20,7 +21,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "oprocentowanie")
-public class CreditRate {
+public class CreditRate implements Serializable {
+
+	private static final long serialVersionUID = 3371038070703120964L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CREDIT_RATE_SEQ")
@@ -42,6 +45,46 @@ public class CreditRate {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_kredytu")
 	private CreditDto kredyt;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Integer getWartosc() {
+		return wartosc;
+	}
+
+	public void setWartosc(Integer wartosc) {
+		this.wartosc = wartosc;
+	}
+
+	public Date getDataOd() {
+		return dataOd;
+	}
+
+	public void setDataOd(Date dataOd) {
+		this.dataOd = dataOd;
+	}
+
+	public Date getDataDo() {
+		return dataDo;
+	}
+
+	public void setDataDo(Date dataDo) {
+		this.dataDo = dataDo;
+	}
+
+	public CreditDto getKredyt() {
+		return kredyt;
+	}
+
+	public void setKredyt(CreditDto kredyt) {
+		this.kredyt = kredyt;
+	}
 	
 	
 }

@@ -15,30 +15,30 @@
 					<div class="ui-grid-col-3" />
 					<div class="ui-grid-col-6">
 					<div class="ui-grid-row">
-						<h2>Moje kredyty</h2>
+						<h2>Symuluj kredyt</h2>
 					</div>
 					</div>
 					<div class="ui-grid-col-3" />
 				</div>
 				
 				<div class="ui-grid-row">
-<!-- 					<p:dataTable var="insurance" value="#{insurances}"> -->
-<!-- 						<p:column headerText="Numer"> -->
-<!-- 							<h:outputText value="#{insurance.id}" /> -->
-<!-- 						</p:column> -->
-						
-<!-- 						<p:column headerText="Dotyczy"> -->
-<!-- 							<h:outputText value="#{insurance.insuranceAccount.name}" /> -->
-<!-- 						</p:column> -->
-						
-<!-- 						<p:column headerText="Data wygaśniecia"> -->
-<!-- 							<h:outputText value="#{insurance.endDate}" /> -->
-<!-- 						</p:column> -->
-						
-<!-- 						<p:column headerText="Pozostalo do splaty"> -->
-<!-- 							<h:outputText value="#{insurance.insuranceAccount.balance}" /> -->
-<!-- 						</p:column> -->
-<!-- 				</p:dataTable> -->
+					<h:outputText value="Kwota kredytu*: " />
+					<p:inputText value="#{data.totalAmount}" required="true" label="Kwota kredytu" />
+				</div>
+				<div class="ui-grid-row">
+					<h:outputText value="Oprocentowanie kredytu*: " />
+					<p:inputText value="#{data.creditRate}" required="true" label="Oprocentowanie kredytu" />
+				</div>
+				<div class="ui-grid-row">
+					<h:outputText value="Okres kredytu*: " />
+					<p:inputText value="#{data.instalmentQuantity}" required="true" label="Okres kredytu" />
+				</div>
+				<div class="ui-grid-row">
+					<h:outputText value="Rata malejąca: " />
+					<p:selectBooleanCheckbox value="#{data.decreasingInstalment}" />
+				</div>
+				<div class="ui-grid-row">
+				<p:commandButton action="calculate" value="Pokaż symulację" style="width: 100%; margin-bottom: 5%; font-size: 20px" />
 				</div>
 			</div>
 		</h:form>
