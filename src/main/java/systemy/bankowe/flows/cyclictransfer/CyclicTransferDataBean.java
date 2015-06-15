@@ -72,7 +72,16 @@ public class CyclicTransferDataBean implements Serializable {
      */
     private String debitAccount;
     
-    private String message;
+    public void clean() {
+        accountNumber = null;
+        name = null;
+        street = null;
+        streetNo = null;
+        zipcode = null;
+        city = null;
+        amount = 0;
+        dayOfMonth = 1;
+    }
 
     public String getAccountNumber() {
         return accountNumber;
@@ -144,14 +153,6 @@ public class CyclicTransferDataBean implements Serializable {
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public double getAmount() {

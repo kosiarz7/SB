@@ -20,6 +20,7 @@ import systemy.bankowe.security.SpringSecurityContextUtil;
 import systemy.bankowe.services.accountnumber.IAccountNumberService;
 import systemy.bankowe.services.user.IUserService;
 import systemy.bankowe.services.user.UserData;
+import systemy.bankowe.util.FacesContextCommon;
 import systemy.bankowe.util.StringUtil;
 
 public class CyclicTransferBean implements Serializable {
@@ -101,11 +102,12 @@ public class CyclicTransferBean implements Serializable {
     public void addNewCyclicTransfer(final CyclicTransferDataBean data) {
         try {
             commonDao.save(createDto(data));
-            data.setMessage("Przelew cykliczny został dodany.");
+            FacesContextCommon.addMessage(FacesMessage.SEVERITY_INFO, "Przelew cykliczny został dodany.");
         }
         catch (Exception e) {
             LOGGER.error("addNewCyclicTransfer|Wystąpił błąd podczas próby dodania nowego przelewu cyklicznego.", e);
-            data.setMessage("Wystąpił bład podczas dodawania nowego przelewu cyklicznego. Spróbuj później.");
+            FacesContextCommon.addMessage(FacesMessage.SEVERITY_ERROR,
+                    "Wystąpił bład podczas dodawania nowego przelewu cyklicznego. Spróbuj później.");
         }
     }
 
@@ -156,22 +158,24 @@ public class CyclicTransferBean implements Serializable {
             CyclicTransferDto dto = data.getSelectedDto();
             fillFields(data, dto);
             commonDao.update(dto);
-            data.setMessage("Zmiany zostały zapisane.");
+            FacesContextCommon.addMessage(FacesMessage.SEVERITY_INFO, "Zmiany zostały zapisane.");
         }
         catch (Exception e) {
             LOGGER.error("saveChanges|Wystąpił błąd podczas próby uaktualnienia danych przelewu cyklicznego.", e);
-            data.setMessage("Wystąpił bład podczas próby zapisania zmian. Spróbuj później.");
+            FacesContextCommon.addMessage(FacesMessage.SEVERITY_ERROR,
+                    "Wystąpił bład podczas próby zapisania zmian. Spróbuj później.");
         }
     }
 
     public void delete(final CyclicTransferDataBean data) {
         try {
             commonDao.delete(data.getSelectedDto());
-            data.setMessage("Przelew cykliczny został usunięty.");
+            FacesContextCommon.addMessage(FacesMessage.SEVERITY_INFO, "Przelew cykliczny został usunięty.");
         }
         catch (Exception e) {
             LOGGER.error("delete|Wystąpił błąd podczas próby dodania nowego przelewu cyklicznego.", e);
-            data.setMessage("Wystąpił bład podczas usunięcia przelewu cyklicznego. Spróbuj później.");
+            FacesContextCommon.addMessage(FacesMessage.SEVERITY_ERROR,
+                    "Wystąpił bład podczas usunięcia przelewu cyklicznego. Spróbuj później.");
         }
     }
 

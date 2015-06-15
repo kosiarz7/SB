@@ -3,6 +3,7 @@ package systemy.bankowe.dto;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,9 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import systemy.bankowe.dto.credit.CreditAccountDto;
+import systemy.bankowe.util.CollectionsUtil;
 
 /**
  * Encja użytkownika.
@@ -133,7 +133,27 @@ public class UserDto extends AbstractDto implements Serializable {
      */
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        StringBuilder builder = new StringBuilder();
+        builder.append(getClass().getSimpleName()).append("[");
+        builder.append("id=").append(id).append(";");
+        builder.append("login=").append(login).append(";");
+        builder.append("name=").append(name).append(";");
+        builder.append("surname=").append(surname).append(";");
+        builder.append("failAttempts=").append(failAttempts).append(";");
+        builder.append("address=").append(address).append(";");
+        builder.append("zipcode=").append(zipcode).append(";");
+        builder.append("city=").append(city).append(";");
+        builder.append("pesel=").append(pesel).append(";");
+        builder.append("idCardNumber=").append(idCardNumber).append(";");
+        builder.append("email=").append(email).append(";");
+        builder.append("citizenship=").append(citizenship.getCitizenship()).append(";");
+        builder.append("roles=")
+                .append(CollectionsUtil.toString(roles.stream().map(r -> r.getName()).collect(Collectors.toList())))
+                .append(";");
+        builder.append("accounts=")
+                .append(CollectionsUtil.toString(accounts.stream().map(a -> a.getNumber()).collect(Collectors.toList())))
+                .append("]");
+        return builder.toString();
     }
 
     // SETTERY I GETTERY

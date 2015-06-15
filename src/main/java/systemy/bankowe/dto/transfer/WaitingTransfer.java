@@ -47,7 +47,7 @@ public class WaitingTransfer extends OutcomingTransfer implements Serializable {
         this.id = id;
         this.dateWaitTransfer = dateWaitTransfer;
     }
-
+    
     public int getId() {
         return id;
     }
