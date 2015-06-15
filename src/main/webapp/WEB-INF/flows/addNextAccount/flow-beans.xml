@@ -9,6 +9,7 @@
 	
 	<bean id="controller" class="systemy.bankowe.flows.addnextaccount.AddNextAccountBean">
 		<property name="userService" ref="userService"/>
+		<property name="loginUserUtil" ref="springSecurityContextUtilBean" />
 	</bean>
 
 </beans>

@@ -6,6 +6,13 @@
 
 	<!-- Zabezpieczenie flow przez Spring Security -->
 	<secured attributes="ROLE_USER" />
+	
+	<input name="message" type="java.lang.String" required="false"/>
+	<input name="level" type="java.lang.String" required="false"/>
+	
+	<on-start>
+		<evaluate expression="controller.addMessage(message, level)" />
+	</on-start>
 
 	<view-state id="home">
 		<on-entry>
@@ -20,11 +27,11 @@
 		</transition>
 	</view-state>
 	
-	<view-state id="delete" >
-		<transition on="delete" to="deleteAccount">
-			<evaluate expression="controller.isAccountNumberValid(data)" />
-		</transition>
-	</view-state>
+	<action-state id="delete">
+		<evaluate expression="controller.isAccountEmpty(data)" />
+		<transition on="no" to="home" />
+		<transition on="yes" to="deleteAccount" />
+	</action-state>
 	
 	<action-state id="deleteAccount">
 		<evaluate expression="controller.deleteAccount(data)" />

@@ -14,6 +14,8 @@
        			<p:menuitem value="Zlecenia stałe" url="/app/cyclicTranfer"/>
        			<p:menuitem value="Odbiorcy zdefiniowani" url="/app/definedRecipients"/>
        		</p:menubar>
+       		
+       		<p:messages />
 			<ui:repeat var="item" value="#{accounts}">
 				<my:account accountStub="#{item}" />
 			</ui:repeat>
@@ -52,6 +54,19 @@
 					<p:commandButton value="Nie" onclick="PF('confirm').hide()"/>
 					<p:commandButton value="Tak" action="resign" ajax="true"
 						onstart="showCurtain()" oncomplete="PF('confirm').hide();hideCurtain()"/>
+				</h:panelGrid>
+			</p:dialog>
+			
+			<p:dialog id="confirmDeleteDialog" widgetVar="confirmDelete" modal="true" closable="false">
+				<p>
+					Na pewno chcesz zamknąć rachunek: 
+					<span style="font-weight: bold;">#{data.account.name}</span> 
+					<span style="font-style: italic;">(#{accountNumberService.formatAccountNumber(data.account.number)})?</span>
+				</p>
+				<h:panelGrid columns="2" cellpadding="5" style="display: table; margin: 0 auto;">
+					<p:commandButton value="Nie" onclick="PF('confirmDelete').hide()"/>
+					<p:commandButton value="Tak" action="delete" ajax="true"
+						onstart="showCurtain()" oncomplete="PF('confirmDelete').hide();hideCurtain()"/>
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>

@@ -122,6 +122,25 @@ public class UserService implements IUserService, Serializable {
 
         return false;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean addNextAccount(final String accountName, final UserData userData, double saldo) {
+        AccountDto accountDto = new AccountDto();
+        accountDto.setNumber(accountNumberService.createNewAccountNumber());
+        accountDto.setName(accountName);
+        accountDto.setSaldo(saldo);
+        accountDto.setEnabled(true);
+        accountDto.setSetupDate(new Date());
+        Set<UserDto> owners = new HashSet<>();
+        owners.add(userData.getUserDto());
+        accountDto.setOwners(owners);
+        userDao.addAccount(userData.getUserDto(), accountDto);
+        return true;
+    }
+    
     /**
      * {@inheritDoc}
      */

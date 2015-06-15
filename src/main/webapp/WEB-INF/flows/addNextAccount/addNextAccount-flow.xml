@@ -13,13 +13,11 @@
 	
 	<action-state id="addAccount">
 		<evaluate expression="controller.addNextAccount(accountData)" />
-		<transition on="yes" to="end"/>
-		<transition on="no" to="error"/>
+		<transition to="end"/>
 	</action-state>
 	
-	<view-state id="end" />
-	
-	<view-state id="error" />
+	<end-state id="end"
+		view="externalRedirect:contextRelative:/app/mainWindow?message=#{accountData.getMessage()}&amp;level=#{accountData.getLevelAsString()}" />
 	
 	<bean-import resource="flow-beans.xml"/>
 

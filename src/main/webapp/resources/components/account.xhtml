@@ -24,8 +24,10 @@
 			        	<p:menuitem value="Zrezygnuj" onstart="showCurtain()" oncomplete="PF('confirm').show();hideCurtain()"
 			        		actionListener="#{data.setAccount(cc.attrs.accountStub)}" rendered="#{cc.attrs.accountStub.coowners}"
 			        		update="@form"/>
-			        	<p:menuitem value="Zamknij rachunek" action="delete" onstart="showCurtain()" oncomplete="hideCurtain()"
-			        		actionListener="#{data.setAccount(cc.attrs.accountStub)}" rendered="#{not cc.attrs.accountStub.coowners}"/>
+			        	<p:menuitem value="Zamknij rachunek" onstart="showCurtain()" 
+			        		oncomplete="PF('confirmDelete').show();hideCurtain()" update="@form"
+			        		actionListener="#{data.setAccount(cc.attrs.accountStub)}" 
+			        		rendered="#{not cc.attrs.accountStub.coowners}"/>
 				    </p:splitButton>
 				</div>
 			</div>

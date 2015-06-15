@@ -1,13 +1,14 @@
 package systemy.bankowe.flows.mainwindow;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +17,10 @@ import systemy.bankowe.dao.CommonDao;
 import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.security.SpringSecurityContextUtil;
-import systemy.bankowe.services.accountnumber.IAccountNumberService;
 import systemy.bankowe.services.user.IUserService;
 import systemy.bankowe.services.user.UserData;
+import systemy.bankowe.util.FacesContextCommon;
+import systemy.bankowe.util.StringUtil;
 
 public class MainWindowBean implements Serializable {
     /**
@@ -34,12 +36,22 @@ public class MainWindowBean implements Serializable {
      * Serwis dla użytkownika.
      */
     private IUserService userService;
-    /**
-     * Serwis dla kont bankowych.
-     */
-    private IAccountNumberService accountNumberService;
     
     private CommonDao<UserDto> commonUserDao;
+    
+    
+    public void addMessage(String message, String level) {
+        if (!StringUtil.isEmpty(message)) {
+            try {
+                String msg = URLDecoder.decode(message, "UTF-8");
+                LOGGER.debug("addMessage|Dodanie komunikatu o poziomie: {} i treści: {}", level, msg);
+                FacesContextCommon.addMessage(FacesContextCommon.toSeverity(level), msg);
+            }
+            catch (UnsupportedEncodingException e) {
+                LOGGER.error("addMessage|Wystąpił błąd podczas próby odkodowania komunikatu: {}", message, e);
+            }
+        }
+    }
     
     /**
      * Pobiera informacje o kontach należących do zalogowanego użytkownika.
@@ -83,23 +95,6 @@ public class MainWindowBean implements Serializable {
         }
         
         return accountNumber;
-    }
-    
-    /**
-     * Sprawdza czy podany numer rachunku bankowego jets poprawny.
-     * 
-     * @param data dane.
-     * @return true - nr rachunku jest poprawny; false = numer rachunku jest niepoprawny.
-     */
-    public boolean isAccountNumberValid(final MainWindowData data) {
-        boolean result = accountNumberService.isValid(accountNumberService.removeWhitespaces(data.getAccountNumber()));
-        if (!result) {
-            FacesContext.getCurrentInstance().addMessage(
-                    null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Podano nieprawidłowy numer rachunku bankowego.",
-                            "Podano nieprawidłowy numer rachunku bankowego."));
-        }
-        return result;
     }
     
     /**
@@ -148,14 +143,25 @@ public class MainWindowBean implements Serializable {
         return null;
     }
     
+    public boolean isAccountEmpty(final MainWindowData data) {
+        LOGGER.debug("isAccountEmpty|Saldo: {}", data.getAccount().getSaldo());
+        boolean result = data.getAccount().getSaldo() < 9e-3;
+        if (!result) {
+            FacesContextCommon
+                    .addMessage(FacesMessage.SEVERITY_WARN,
+                            "Nie można zamknąć rachunku, na którym są środki. Pozbądź się wszystkich środków z rachunku przed jego zamknięciem.");
+        }
+        return result;
+    }
+    
     /**
      * Zamyka żądany rachunek.
      * 
      * @param data dane.
      */
     public void deleteAccount(final MainWindowData data) {
-        // TODO dodać operację przelewu
         userService.closeAccount(data.getAccount().getNumber());
+        FacesContextCommon.addMessage(FacesMessage.SEVERITY_INFO, "Rachunek został zamknięty.");
     }
     
     public void resign(final MainWindowData data) {
@@ -188,10 +194,6 @@ public class MainWindowBean implements Serializable {
     
     public void setUserService(IUserService userService) {
         this.userService = userService;
-    }
-
-    public void setAccountNumberService(IAccountNumberService accountNumberService) {
-        this.accountNumberService = accountNumberService;
     }
 
     public void setCommonUserDao(CommonDao<UserDto> commonUserDao) {
