@@ -98,4 +98,9 @@
 			splitStatements="true" endDelimiter="(?m)^/$" />
 	</changeSet>
 	
+	<changeSet author="qbisiak" id="changelog-4.2">
+		<sqlFile path="classpath:liquibase/changelog-4.2.sql"
+			splitStatements="true" />
+	</changeSet>
+	
 </databaseChangeLog>

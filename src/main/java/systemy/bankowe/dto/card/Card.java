@@ -44,6 +44,9 @@ public class Card implements Serializable{
     @SequenceGenerator(name = "KARTY_SEQ", sequenceName = "KARTY_SEQ", allocationSize = 1)
 	private Integer id;
 	
+    @Column(name = "card_type", insertable = false, updatable = false)
+    private String cardType;
+	
 	@Column(name = "card_number", nullable = false, length = 16)
 	private String number;
 	
@@ -131,6 +134,14 @@ public class Card implements Serializable{
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getCardType() {
+		return cardType;
+	}
+
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
 	}
 
 	public String getNumber() {

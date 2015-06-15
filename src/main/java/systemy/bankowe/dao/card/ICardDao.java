@@ -4,6 +4,7 @@ import java.util.List;
 
 import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.dto.card.Card;
+import systemy.bankowe.dto.card.CardOperation;
 import systemy.bankowe.dto.card.DebitCard;
 
 public interface ICardDao {
@@ -13,4 +14,5 @@ public interface ICardDao {
 	public DebitCard findDebitCardById(int id);
 	public List<DebitCard> getUserDebitCards(UserDto user);
 	public Card findCardByNumber(String number);
+	public CardOperation getCardOperation(String discriminator, String operationType);
 }

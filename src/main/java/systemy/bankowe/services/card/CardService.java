@@ -12,19 +12,24 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import systemy.bankowe.dao.CommonDao;
 import systemy.bankowe.dao.account.IAccountDao;
 import systemy.bankowe.dao.card.ICardDao;
+import systemy.bankowe.dao.transfer.WaitingTransferDao;
 import systemy.bankowe.dto.AccountDto;
+import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.dto.card.Card;
 import systemy.bankowe.dto.card.CardHistory;
+import systemy.bankowe.dto.card.CardOperation;
 import systemy.bankowe.dto.card.CardOperationType;
 import systemy.bankowe.dto.card.DebitCard;
+import systemy.bankowe.dto.transfer.TransferType;
+import systemy.bankowe.dto.transfer.WaitingTransfer;
 import systemy.bankowe.flows.card.CardData;
+import systemy.bankowe.flows.money.transfer.MoneyTransferResult;
 import systemy.bankowe.flows.paymentterminal.PaymentTerminalData;
 import systemy.bankowe.security.SpringSecurityContextUtil;
 import systemy.bankowe.services.user.UserData;
@@ -44,6 +49,7 @@ public class CardService implements ICardService, Serializable {
 	private ICardNumberService cardNumberService;
 	private IAccountDao accountDao;
 	private SpringSecurityContextUtil springSecurityUtil;
+	private WaitingTransferDao waitingTransferDao;
 
 	@Override
 	@Transactional
@@ -105,7 +111,9 @@ public class CardService implements ICardService, Serializable {
 			//TODO: moze licznik niepoprawnego wprowadzenia kodu pin
 		
 		// spr. czy operacja dozwolona
-		//TODO
+		CardOperation cardOperation = cardDao.getCardOperation(card.getCardType(), data.getOperationType());
+		if (cardOperation == null)
+			return new Result("Niedozwolona operacja dla karty tego typu");
 		
 		// spr. czy konto docelowe istnieje
 		AccountDto destinationAccount = accountDao.getAccountByNumber(data.getAccountNumber());
@@ -183,20 +191,40 @@ public class CardService implements ICardService, Serializable {
 
 		if (limitMinusExpenses.compareTo(BigDecimal.ZERO) < 0)
 			return new Result("Przekroczono dzienny limit dla wybranej operacji");
-
+		
+		
 		// wykonanie przelewu
-		// TODO
+		UserDto targetUser = destinationAccount.getOwners().iterator().next();
 		
-		// wpis do historii
-		// TODO rodzaj operacji jesli takowe powstana
+
+		WaitingTransfer waitingTransfer = new WaitingTransfer(
+				0,
+				destinationAccount.getNumber(),
+				destinationAccount.getName(),
+				"Przelew kartą",
+				targetUser.getAddress(),
+				data.getAmount(),
+				new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER),
+				new Date());
 		
-//		CardHistory history = new CardHistory(null, new Date(), summaryAmountDec, card, null);
-//		card.getHistory().add(history);
-//		commonCardDao.update(card);
+		waitingTransfer.setTargetName(targetUser.getSurname());
+		waitingTransfer.setSenderAccountNumber(card.getAccount().getNumber());
+		waitingTransfer.setTransferType(new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER));
+				
+		int statusCode = waitingTransferDao.submit(card.getAccount().getId(), waitingTransfer);
+		MoneyTransferResult transferResult = new MoneyTransferResult(MoneyTransferResult.convertErrorCode(statusCode));
+		
+		if (transferResult.isError())
+			return new Result("Błąd w trakcie definiowania przelewu - " + transferResult.getErrorMessage());
+		
+		// wpis do historii		
+ 		CardHistory history = new CardHistory(null, new Date(), summaryAmountDec, card, cardOperation);
+ 		card.getHistory().add(history);
+ 		commonCardDao.update(card);
 		
 		return Result.OK;
 	}
-
+	
 	private static Date startOfDay() {
 
 		Instant instant = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
@@ -239,6 +267,9 @@ public class CardService implements ICardService, Serializable {
 		this.accountDao = accountDao;
 	}
 
+	public void setWaitingTransferDao(WaitingTransferDao waitingTransferDao) {
+		this.waitingTransferDao = waitingTransferDao;
+	}
 
 	public void setSpringSecurityUtil(SpringSecurityContextUtil springSecurityUtil) {
 		this.springSecurityUtil = springSecurityUtil;

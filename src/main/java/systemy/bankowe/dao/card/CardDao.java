@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import systemy.bankowe.dao.HibernateUtil;
 import systemy.bankowe.dto.UserDto;
 import systemy.bankowe.dto.card.Card;
+import systemy.bankowe.dto.card.CardOperation;
 import systemy.bankowe.dto.card.DebitCard;
 
 @Repository
@@ -23,6 +24,7 @@ public class CardDao extends HibernateUtil implements ICardDao, Serializable {
 	private static final String GET_DEBIT_CARD_BY_ID = "from DebitCard c where c.enabled = 'Y' and c.id = :id";
     private static final String GET_USERS_DEBIT_CARDS = "from DebitCard c where c.enabled = 'Y' and OWNER_ID_KLIENT = :user";
     private static final String GET_CARD_BY_NUMBER = "from Card c where c.enabled = 'Y' and c.number = :number";
+    private static final String GET_CARD_OPERATION = "from CardOperation op where op.cardDiscriminator = :discriminator and op.cardOperationType = :operationType";
     
 	@Override
 	@SuppressWarnings("unchecked")
@@ -175,6 +177,41 @@ public class CardDao extends HibernateUtil implements ICardDao, Serializable {
         }
         else {
             return cards.get(0);
+        }
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public CardOperation getCardOperation(String discriminator,
+			String operationType) {
+		
+        Session session = openSession();
+        Transaction tx = null;
+        List<CardOperation> cardOperations = null;
+        
+        try {
+            tx = session.beginTransaction();
+            cardOperations = session.createQuery(GET_CARD_OPERATION)
+            		.setParameter("discriminator", discriminator)
+            		.setParameter("operationType", operationType)
+            		.setMaxResults(1).list();
+            tx.commit();
+        }
+        catch (RuntimeException e) {
+            if (null != tx) {
+                tx.rollback();
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        
+        if (cardOperations.isEmpty()) {
+            return null;
+        }
+        else {
+            return cardOperations.get(0);
         }
 	}
 	
