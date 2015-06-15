@@ -40,10 +40,10 @@ begin
        res := 4;
        return;
     end if;
-   if not fn_wystarczajace_srodki(i_rachunek_nadawcy, i_kwota_przelewu) then
-       res := 5;
-       return;
-    end if;    
+   --if not fn_wystarczajace_srodki(i_rachunek_nadawcy, i_kwota_przelewu) then
+   --    res := 5;
+   --    return;
+   -- end if;    
    if not trunc(l_i_zlecona_data_transakcji) >= trunc(sysdate) then
        res := 6;
        return;
