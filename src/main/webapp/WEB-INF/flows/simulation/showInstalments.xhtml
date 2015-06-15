@@ -20,9 +20,29 @@
 					</div>
 					<div class="ui-grid-col-3" />
 				</div>
-				
-				<div class="ui-grid-row">
-				</div>
+				<p:dataTable var="rata" value="#{data.ratyWidok.raty}">
+						<p:column headerText="Numer raty">
+							<h:outputText value="#{rata.numerRaty}" />
+						</p:column>
+						
+						<p:column headerText="Kapitał">
+							<h:outputText value="#{rata.kapital}">
+								<f:convertNumber currencySymbol="" groupingUsed="true" maxFractionDigits="2" type="currency" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Odsetki">
+							<h:outputText value="#{rata.odsetki}">
+								<f:convertNumber currencySymbol="" groupingUsed="true" maxFractionDigits="2" type="currency" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Wysokość raty">
+							<h:outputText value="#{rata.kapital + rata.odsetki}">
+								<f:convertNumber currencySymbol="" groupingUsed="true" maxFractionDigits="2" type="currency" />
+							</h:outputText>
+						</p:column>
+				</p:dataTable>
 			</div>
 		</h:form>
 

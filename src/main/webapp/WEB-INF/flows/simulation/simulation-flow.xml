@@ -9,12 +9,12 @@
 	
 	<view-state id="simulation">
 		<transition on="calculate" to="showInstalments" />
-		<on-exit>
-			<evaluate expression="data.createSimulation()" />
-		</on-exit>
 	</view-state>
 	
 	<view-state id="showInstalments">
+		<on-render>
+			<evaluate expression="data.createSimulation()" result="viewScope.credit"/>
+		</on-render>
 		<transition to="showInstalments" />
 	</view-state>
 	

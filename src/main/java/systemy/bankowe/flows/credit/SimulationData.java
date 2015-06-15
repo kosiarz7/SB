@@ -32,6 +32,7 @@ public class SimulationData implements Serializable {
 	private Integer instalmentQuantity;
 	private Double creditRate;
 	private Boolean decreasingInstalment;
+	private CreditView ratyWidok;
 	
 	public void createSimulation(){
 		credit.setKapitalPoczatkowy(inGrosz(totalAmount));
@@ -42,7 +43,10 @@ public class SimulationData implements Serializable {
 		credit.setCzasTrwania(instalmentQuantity);
 		if(!decreasingInstalment){
 			credit.setRatyKredytu(calculateEvenInstalments(totalAmount, instalmentQuantity, creditRate));
+		}else{
+			credit.setRatyKredytu(calculateDiminishingInstalments(totalAmount, instalmentQuantity, creditRate));
 		}
+		this.ratyWidok = new CreditView(credit.getRatyKredytu());
 	}
 	
 	public void init() {
@@ -90,29 +94,72 @@ public class SimulationData implements Serializable {
 	}
 	
 	private Double inZloty(Integer amount){
-		return new Double(amount / 100);
+		return new Double(amount / 100.0);
 	}
 	
 	private Integer inGrosz(Double amount){
-		return amount.intValue() * 100;
+		return new Double(amount * 100.0).intValue();
 	}
 	
 	private List<CreditInstallmentDto> calculateEvenInstalments(Double amount, Integer instalmentQuantity, Double creditRate){
 		List<CreditInstallmentDto> instalments = new ArrayList<CreditInstallmentDto>();
 		Double rateInPeriod = creditRate/12;
 		Double equalRate = amount * ((rateInPeriod*Math.pow((1+rateInPeriod), instalmentQuantity))/(Math.pow((1+rateInPeriod), instalmentQuantity) -1));
+		equalRate = Math.round(equalRate * 100.0) / 100.0;
 		CreditInstallmentDto instalment;
 		Double tempAmount = amount;
+		Double odsetki, kapital = 0D;
 		for(int i=0; i<instalmentQuantity;i++){
 			instalment = new CreditInstallmentDto();
 			instalment.setNumerRaty(i+1);
-			instalment.setOdsetki(inGrosz(tempAmount*rateInPeriod));
+			odsetki = tempAmount*rateInPeriod;
+			kapital = equalRate - odsetki;
+			instalment.setOdsetki(inGrosz(odsetki));
 			instalment.setKapital(inGrosz(equalRate) - instalment.getOdsetki());
 			instalments.add(instalment);
-			tempAmount = tempAmount - equalRate;
+			tempAmount = tempAmount - kapital;
 			System.out.println(instalment);
 		}
 		return instalments;
+	}
+	
+	private List<CreditInstallmentDto> calculateDiminishingInstalments(Double amount, Integer instalmentQuantity, Double creditRate) {
+		List<CreditInstallmentDto> instalments = new ArrayList<CreditInstallmentDto>();
+		Double rateInPeriod = creditRate/12;
+		Double diminishingRate = 0.;
+		CreditInstallmentDto instalment;
+		Double tempAmount = amount;
+		Double odsetki, kapital = 0D;
+		for(int i=0; i<instalmentQuantity;i++){
+			diminishingRate = (amount/instalmentQuantity)*(1+(instalmentQuantity-(i+1)+1)*rateInPeriod);
+			diminishingRate = Math.round(diminishingRate * 100.0) / 100.0;
+			instalment = new CreditInstallmentDto();
+			instalment.setNumerRaty(i+1);
+			odsetki = tempAmount*rateInPeriod;
+			kapital = diminishingRate - odsetki;
+			instalment.setOdsetki(inGrosz(odsetki));
+			instalment.setKapital(inGrosz(diminishingRate) - instalment.getOdsetki());
+			instalments.add(instalment);
+			tempAmount = tempAmount - kapital;
+			System.out.println(instalment);
+		}
+		return instalments;
+	}
+
+	public CreditDto getCredit() {
+		return credit;
+	}
+
+	public void setCredit(CreditDto credit) {
+		this.credit = credit;
+	}
+
+	public CreditView getRatyWidok() {
+		return ratyWidok;
+	}
+
+	public void setRatyWidok(CreditView ratyWidok) {
+		this.ratyWidok = ratyWidok;
 	}
 	
 }
