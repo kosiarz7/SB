@@ -25,6 +25,7 @@ import systemy.bankowe.dto.card.Card;
 import systemy.bankowe.dto.card.CardHistory;
 import systemy.bankowe.dto.card.CardOperation;
 import systemy.bankowe.dto.card.CardOperationType;
+import systemy.bankowe.dto.card.ChargeCard;
 import systemy.bankowe.dto.card.DebitCard;
 import systemy.bankowe.dto.transfer.TransferType;
 import systemy.bankowe.dto.transfer.WaitingTransfer;
@@ -32,6 +33,7 @@ import systemy.bankowe.flows.card.CardData;
 import systemy.bankowe.flows.money.transfer.MoneyTransferResult;
 import systemy.bankowe.flows.paymentterminal.PaymentTerminalData;
 import systemy.bankowe.security.SpringSecurityContextUtil;
+import systemy.bankowe.services.user.IUserService;
 import systemy.bankowe.services.user.UserData;
 
 @Service
@@ -50,6 +52,7 @@ public class CardService implements ICardService, Serializable {
 	private IAccountDao accountDao;
 	private SpringSecurityContextUtil springSecurityUtil;
 	private WaitingTransferDao waitingTransferDao;
+	private IUserService userService;
 
 	@Override
 	@Transactional
@@ -68,6 +71,7 @@ public class CardService implements ICardService, Serializable {
 		account.setId(cd.getAccountId());
 		
 		DebitCard newCard = new DebitCard();
+		newCard.setLabel(cd.getLabel());
 		newCard.setAccount(account);
 		newCard.setActivationDate(new Date());
 		newCard.setExpirationDate(
@@ -93,7 +97,66 @@ public class CardService implements ICardService, Serializable {
 		return true;
 	}
 	
-	
+	@Override
+	@Transactional
+	public boolean addChargeCard(CardData cd) {
+		
+		if (cd.getPin() == null || cd.getCardOfferId() == null)
+			return false;
+		
+		ChargeCard cardOffer = cardDao.findChargeCardById(cd.getCardOfferId());
+		
+		if (cardOffer == null)
+			return false;
+		
+		AccountDto accountToCharge = new AccountDto();
+		accountToCharge.setId(cd.getAccountId());
+		
+		ChargeCard newCard = new ChargeCard();
+		newCard.setLabel(cd.getLabel());
+		newCard.setAccountToCharge(accountToCharge);
+		newCard.setActivationDate(new Date());
+		newCard.setExpirationDate(
+				Date.from(
+						LocalDateTime.now().plusYears(2)
+						.atZone(ZoneId.systemDefault()).toInstant())
+						);
+		newCard.setCashDialyMaxAmmount(cardOffer.getCashDialyMaxAmmount());
+		newCard.setLimit(cardOffer.getLimit());
+		newCard.setEnabled(cardOffer.isEnabled());
+		newCard.setLocked(cardOffer.isLocked());
+		newCard.setNoncashDailyMaxAmmount(cardOffer.getNoncashDailyMaxAmmount());
+		newCard.setPin(cd.getPin());
+		newCard.setProximityDialyMaxAmmount(cardOffer.getProximityDialyMaxAmmount());
+		newCard.setProximityDialyMaxOperations(cardOffer.getProximityDialyMaxOperations());
+		newCard.setSummaryDialyMaxAmmount(cardOffer.getSummaryDialyMaxAmmount());
+		newCard.setSecureCode(generateSecureCode());
+		newCard.setInterest(cardOffer.getInterest());
+		newCard.setReportingDayOfTheWeek(cardOffer.getReportingDayOfTheWeek());
+		String nextCardNumber = cardNumberService.nextCardNumber();
+		newCard.setNumber(nextCardNumber);
+		
+		Optional<UserData> loggedInUser = springSecurityUtil.getLoggedInUser();
+		if (loggedInUser.isPresent() == false)
+			return false;
+		
+		String newAccountName = "RACHUNEK KARTY (" + nextCardNumber + ")";
+		userService.addNextAccount(newAccountName, cardOffer.getLimit().doubleValue());
+		userService.getUserAccounts(loggedInUser.get());
+		
+		for (AccountDto a : loggedInUser.get().getUserDto().getAccounts()) {
+			if (a.getName().equals(newAccountName))
+			{
+				newCard.setAccount(a);
+				break;
+			}
+		}
+		
+		newCard.setOwner(loggedInUser.get().getUserDto());
+		commonCardDao.save(newCard);
+		
+		return true;
+	}
 	
 	
 	@Override
@@ -125,7 +188,8 @@ public class CardService implements ICardService, Serializable {
 		double summaryAmount = data.getAmount();
 		
 		// spr. czy sa dostepne srodki
-		if (card.getAccount().getSaldo() + card.getLimit().doubleValue() - summaryAmount < 0.0)
+		//if (card.getAccount().getSaldo() + card.getLimit().doubleValue() - summaryAmount < 0.0)
+		if (card.getAccount().getSaldo() - summaryAmount < 0.0)
 			return new Result("Brak dostępnych środków");
 		
 		// spr. czy nie przekroczono limitow
@@ -239,8 +303,12 @@ public class CardService implements ICardService, Serializable {
 		return cardDao.getUserDebitCards(loggedInUser.get().getUserDto());
 	}
 
-
-
+	@Override
+	public List<ChargeCard> loggedInUserChargeCards() {
+		
+		Optional<UserData> loggedInUser = springSecurityUtil.getLoggedInUser();
+		return cardDao.getUserChargeCards(loggedInUser.get().getUserDto());
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -275,6 +343,9 @@ public class CardService implements ICardService, Serializable {
 		this.springSecurityUtil = springSecurityUtil;
 	}
 
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
+	}
 
 	private String generateSecureCode(){
 		

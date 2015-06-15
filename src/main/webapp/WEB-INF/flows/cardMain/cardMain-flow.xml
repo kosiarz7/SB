@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
 	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	 start-state="debitCardMain">
+	 start-state="cardMain">
 
 	<!-- Zabezpieczenie flow przez Spring Security -->
 	<secured attributes="ROLE_USER" />
@@ -11,9 +11,11 @@
 	  <on-start>
         <evaluate expression="cardBean.getDebitCards()" 
                   result="flowScope.debitCards" />
+        <evaluate expression="cardBean.getChargeCards()" 
+                  result="flowScope.chargeCards" />
     </on-start>
 
-	<view-state id="debitCardMain">
+	<view-state id="cardMain">
 
 	</view-state>
 	

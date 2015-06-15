@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+			<div class="ui-grid ui-grid-responsive">
+			<h2>Karty debetowe
+			</h2>
+				<p:button value="Nowa karta debetowa" href="/app/debitCardAdd"/>
+				<br/>
+				<p:dataTable value="#{debitCards}" var="debitCard">
+					<p:column>
+						<f:facet name="header">Nazwa</f:facet>
+						<h:outputText value="#{debitCard.label}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Numer</f:facet>
+						<h:outputText value="#{debitCard.number}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Aktywacja</f:facet>
+						<h:outputText value="#{debitCard.activationDate}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Ważność</f:facet>
+						<h:outputText value="#{debitCard.expirationDate}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">CVV2</f:facet>
+						<h:outputText value="#{debitCard.secureCode}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Aktywna</f:facet>
+						<h:outputText value="#{debitCard.enabled}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Zablokowana</f:facet>
+						<h:outputText value="#{debitCard.locked}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Dzienny limit</f:facet>
+						<h:outputText value="#{debitCard.summaryDialyMaxAmmount} zł"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Op. gotówkowe</f:facet>
+						<h:outputText value="#{debitCard.cashDialyMaxAmmount} zł"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Op. bezgotówkowe</f:facet>
+						<h:outputText value="#{debitCard.noncashDailyMaxAmmount}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Op. zbliżeniowe</f:facet>
+						<h:outputText value="#{debitCard.proximityDialyMaxOperations} op., #{debitCard.proximityDialyMaxAmmount} zł"/>
+					</p:column>
+				</p:dataTable>
+				
+				<h2>Karty obciążeniowe</h2>
+				<p:button value="Nowa karta obciążeniowa" href="/app/chargeCardAdd"/>
+				<p:dataTable value="#{chargeCards}" var="chargeCard">
+					<p:column>
+						<f:facet name="header">Nazwa</f:facet>
+						<h:outputText value="#{chargeCard.label}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Numer</f:facet>
+						<h:outputText value="#{chargeCard.number}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Aktywacja</f:facet>
+						<h:outputText value="#{chargeCard.activationDate}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Ważność</f:facet>
+						<h:outputText value="#{chargeCard.expirationDate}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">CVV2</f:facet>
+						<h:outputText value="#{chargeCard.secureCode}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Aktywna</f:facet>
+						<h:outputText value="#{chargeCard.enabled}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Zablokowana</f:facet>
+						<h:outputText value="#{chargeCard.locked}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Łączny limit</f:facet>
+						<h:outputText value="#{chargeCard.limit}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Dzienny limit</f:facet>
+						<h:outputText value="#{chargeCard.summaryDialyMaxAmmount} zł"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Op. gotówkowe</f:facet>
+						<h:outputText value="#{chargeCard.cashDialyMaxAmmount} zł"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Op. bezgotówkowe</f:facet>
+						<h:outputText value="#{chargeCard.noncashDailyMaxAmmount}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Op. zbliżeniowe</f:facet>
+						<h:outputText value="#{chargeCard.proximityDialyMaxOperations} op., #{chargeCard.proximityDialyMaxAmmount} zł"/>
+					</p:column>
+					<p:column>
+					<f:facet name="header">Dzień rozliczeniowy</f:facet>
+						<h:outputText value="#{chargeCard.reportingDayOfTheWeek}"/>
+					</p:column>
+				</p:dataTable>
+			</div>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	 start-state="chargeCardAdd">
+
+	<!-- Zabezpieczenie flow przez Spring Security -->
+	<secured attributes="ROLE_USER" />
+	
+	<view-state id="chargeCardAdd">
+		<on-entry>
+			<evaluate expression="cardBean.getChargeCardsOffer()" 
+                  result="viewScope.chargeCards" />
+		</on-entry>
+		<transition on="details" to="chargeCardDetails"/>
+	</view-state>
+
+	<view-state id="chargeCardDetails">
+		<on-entry>
+			<evaluate expression="cardBean.getAccounts()" result="viewScope.accounts" />
+		</on-entry>
+		<transition on="save" to="chargeCardSave"/>
+	</view-state>
+	
+	<action-state id="chargeCardSave">
+		<evaluate expression="cardBean.addChargeCard(data)" />
+		<transition on="yes" to="success" />
+		<transition on="no" to="fail" />
+	</action-state>
+
+	<view-state id="success" />
+
+	<view-state id="fail" />
+	
+	<bean-import resource="flow-beans.xml" />
+</flow>

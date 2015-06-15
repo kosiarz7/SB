@@ -12,6 +12,7 @@ public class CardData implements Serializable{
 	private Integer cardOfferId;
 	private String pin;
 	private Integer accountId;
+	private String label;
 	
 	public Integer getCardOfferId() {
 		return cardOfferId;
@@ -33,6 +34,12 @@ public class CardData implements Serializable{
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
 	

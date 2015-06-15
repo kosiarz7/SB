@@ -95,13 +95,22 @@ public class UserService implements IUserService, Serializable {
      */
     @Override
     public boolean addNextAccount(String accountName) {
+       double initialAmount = new Random().nextDouble() * 5000.0 + 200.45;
+       return addNextAccount(accountName, initialAmount);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean addNextAccount(String accountName, double initialAmount) {
         Optional<UserData> user = springSecurityUtil.getLoggedInUser();
 
         if (user.isPresent()) {
             AccountDto accountDto = new AccountDto();
             accountDto.setNumber(accountNumberService.createNewAccountNumber());
             accountDto.setName(accountName);
-            accountDto.setSaldo(new Random().nextDouble() * 5000.0 + 200.45);
+            accountDto.setSaldo(initialAmount);
             accountDto.setSetupDate(new Date());
             accountDto.setEnabled(true);
             Set<UserDto> owners = new HashSet<>();
@@ -113,7 +122,6 @@ public class UserService implements IUserService, Serializable {
 
         return false;
     }
-
     /**
      * {@inheritDoc}
      */

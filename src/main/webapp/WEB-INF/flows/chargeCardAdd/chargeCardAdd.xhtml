@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+			<div class="ui-grid ui-grid-responsive">
+				
+				<p:dataTable value="#{chargeCards}" var="chargeCard">
+					<p:column>
+						<f:facet name="header">Limit operacji gotówkowych</f:facet>
+						<h:outputText value="#{chargeCard.cashDialyMaxAmmount} zł"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Dopuszczalny stan konta</f:facet>
+						<h:outputText value="#{chargeCard.limit} zł"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Limit operacji bezgotówkowych</f:facet>
+						<h:outputText value="#{chargeCard.noncashDailyMaxAmmount} zł"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Limit operacji zbliżeniowych</f:facet>
+						<h:outputText value="#{chargeCard.proximityDialyMaxAmmount} zł"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Limit operacji zbliżeniowych</f:facet>
+						<h:outputText value="#{chargeCard.proximityDialyMaxOperations} operacje"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Łączny dzienny limit</f:facet>
+						<h:outputText value="#{chargeCard.summaryDialyMaxAmmount} zł"/>
+					</p:column>
+					<p:column>
+						<p:commandButton action="details" value="Wybierz">
+							<f:setPropertyActionListener target="#{data.cardOfferId}" value="#{chargeCard.id}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</div>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

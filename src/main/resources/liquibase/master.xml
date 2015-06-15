@@ -103,4 +103,9 @@
 			splitStatements="true" />
 	</changeSet>
 	
+	<changeSet author="qbisiak" id="changelog-4.3">
+		<sqlFile path="classpath:liquibase/changelog-4.3.sql"
+			splitStatements="true" />
+	</changeSet>
+	
 </databaseChangeLog>

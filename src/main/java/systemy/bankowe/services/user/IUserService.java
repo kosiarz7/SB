@@ -39,6 +39,14 @@ public interface IUserService {
      */
     boolean addNextAccount(String accountName);
     /**
+     * Dodaje kolejne konto dla zalogowanego użytkownika.
+     * 
+     * @param accountName nazwa konta.
+     * @param initialAmount początkowa kwota.
+     * @return true - konto zostało dodane; false - wystąpiły błedy podczas próby dodania konta.
+     */
+    boolean addNextAccount(String accountName, double initialAmount);
+    /**
      * Zamyka żądany rachunek.
      * 
      * @param accountNumber numer rachunku do zamknięcia.

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import systemy.bankowe.dao.card.ICardDao;
 import systemy.bankowe.dto.AccountDto;
+import systemy.bankowe.dto.card.ChargeCard;
 import systemy.bankowe.dto.card.DebitCard;
 import systemy.bankowe.security.SpringSecurityContextUtil;
 import systemy.bankowe.services.card.ICardService;
@@ -32,10 +33,17 @@ public class CardBean implements Serializable{
 		return cardDao.getDebitCardOffer();
 	}
 	
+	public List<ChargeCard> getChargeCardsOffer() {
+		return cardDao.getChargeCardOffer();
+	}
+	
 	public List<DebitCard> getDebitCards() {
 		return cardService.loggedInUserDebitCards();
 	}
 	
+	public List<ChargeCard> getChargeCards() {
+		return cardService.loggedInUserChargeCards();
+	}
 	
     public List<AccountDto> getAccounts() {
         Optional<UserData> user = springSecurityUtil.getLoggedInUser();
@@ -45,7 +53,9 @@ public class CardBean implements Serializable{
     public boolean addDebitCard(CardData cd) {
     	return cardService.addDebitCard(cd);
     }
-    
+    public boolean addChargeCard(CardData cd) {
+    	return cardService.addChargeCard(cd);
+    }
 
 	public void setSpringSecurityUtil(SpringSecurityContextUtil springSecurityUtil) {
 		this.springSecurityUtil = springSecurityUtil;
