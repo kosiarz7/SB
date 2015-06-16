@@ -12,6 +12,7 @@ public class CardData implements Serializable{
 	private Integer cardId;
 	private Integer cardOfferId;
 	private String pin;
+	private String confirmedPin;
 	private Integer accountId;
 	private String label;
 	
@@ -32,6 +33,12 @@ public class CardData implements Serializable{
 	}
 	public void setPin(String pin) {
 		this.pin = pin;
+	}
+	public String getConfirmedPin() {
+		return confirmedPin;
+	}
+	public void setConfirmedPin(String confirmedPin) {
+		this.confirmedPin = confirmedPin;
 	}
 	public Integer getAccountId() {
 		return accountId;

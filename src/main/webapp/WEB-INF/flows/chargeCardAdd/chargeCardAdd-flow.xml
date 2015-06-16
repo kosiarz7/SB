@@ -20,7 +20,9 @@
 		<on-entry>
 			<evaluate expression="cardBean.getAccounts()" result="viewScope.accounts" />
 		</on-entry>
-		<transition on="save" to="chargeCardSave"/>
+		<transition on="save" to="chargeCardSave">
+			<evaluate expression="cardBean.validateCardData(data)"></evaluate>
+		</transition>
 	</view-state>
 	
 	<action-state id="chargeCardSave">

@@ -173,7 +173,7 @@ public class CardService implements ICardService, Serializable {
 			return new Result("Karta zablokowana");
 		
 		// spr. pin
-		if (card.getPin().equals(data.getPin()) == false)
+		if (data.getOperationType().equals(CardOperationType.PROXIMITY)==false && card.getPin().equals(data.getPin()) == false)
 			return new Result("Niepoprawny kod PIN");
 			//TODO: moze licznik niepoprawnego wprowadzenia kodu pin
 		
@@ -350,6 +350,7 @@ public class CardService implements ICardService, Serializable {
 	}
 
 	@Override
+	@Transactional
 	public Result deleteCard(int id) {
 		Card card = cardDao.findCardById(id);
 		if (card == null)
@@ -359,6 +360,8 @@ public class CardService implements ICardService, Serializable {
 			ChargeCard chargeCard = (ChargeCard) card;
 			if (chargeCard.getBalance().compareTo(BigDecimal.ZERO) < 0)
 				return new Result("Karta obciążeniowa musi mieć nieujemne saldo!");
+			
+			userService.closeAccount(card.getAccount().getNumber());
 		}
 		
 		card.setEnabled(false);

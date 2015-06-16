@@ -12,7 +12,6 @@
     </on-start>
 
 	<view-state id="paymentTerminal">
-
 		<transition on="pay" to="pay"></transition>
 	</view-state>
 	

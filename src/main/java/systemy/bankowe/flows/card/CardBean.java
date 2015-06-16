@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -108,6 +109,24 @@ public class CardBean implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+    public boolean validateCardData(final CardData cd) {
+        String pin = cd.getPin();
+        
+        if (pin== null || Pattern.matches("[0-9]{4}+", pin) == false) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd!", "Kod pin musi się składać z 4 cyfr"));
+            return false;
+        }
+        else if (pin.equals(cd.getConfirmedPin()) == false) {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd!",
+                            "Podane kody pin są różne."));
+            return false;
+        }
+        
+        return true;
+    }
 	
 }
