@@ -9,27 +9,45 @@
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 	<ui:define name="pageContent">
 		<h1>Historia przelewow</h1>
-		<h:form>
-			<table border="1">
-				<tr>
-					<th width="100">Nazwa</th>
-					<th width="200">Konto upoważnione</th>
-					<th width="200">Data początku</th>
-					<th width="200">Data końca</th>
-					<th>Maksymalna kwota</th>
-					<th>Opcje</th>
-				</tr>
-				<c:forEach items="${flowScope.orderToPays}" var="instance">
-					<tr>
-						<td>${instance.getName()}</td>
-						<td>${instance.getAccountEmpowered()}</td>
-						<td>${instance.getFromDate()}</td>
-						<td>${instance.getToDate()}</td>
-						<td>${instance.getMaxAmount()}</td>
-						<td>TO BE DONE</td>
-					</tr>
-				</c:forEach>
-			</table>
+		<h:form id="formId">
+		
+			<p>
+				Numer rachunku, ktorego przelewy są wyświetlane
+				<p:selectOneMenu id="accountNumber" value="#{accountNumberVar}"
+					required="true"
+					valueChangeListener="#{data.selectedAccountChanged}">
+					<f:selectItems
+						value="#{controllerVar.getAccountsStringList(springSecurityContextUtilBean.getLoggedInUser().get())}"
+						var="item" itemValue="#{item}" itemLabel="#{item}" />
+					<p:ajax event="valueChange" process="@this" update="@form"  onstart="showCurtain()" oncomplete="hideCurtain()" />
+				</p:selectOneMenu>
+			</p>
+
+
+			<p:dataTable var="instance" value="${data.realizedTransfers}"
+				paginator="true" rows="10"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				 id="tableOrderToPay"
+				rowKey="#{instance}"
+				emptyMessage="Historia przelewów jest pusta.">
+				
+				<p:column headerText="Typ" style="width:120px;">
+					${controllerVar.convertTypeToString(instance)}
+				</p:column>
+				<p:column headerText="Tytuł" style="width:30px;">
+					${instance.getTitle()}
+				</p:column>
+
+				<p:column headerText="Kwota" style="width:50px;">
+					${instance.getAmount()}
+				</p:column>
+
+				<p:column headerText="Data realizacji" style="width:60px;">
+					${controllerVar.convertDateToString(instance.getRealizationDate())}
+				</p:column>
+
+			</p:dataTable>
 			<br />
 		</h:form>
 	</ui:define>

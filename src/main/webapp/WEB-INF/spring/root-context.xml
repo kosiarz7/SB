@@ -122,6 +122,7 @@
 	 	
 	<bean id="orderToPayDao" class="systemy.bankowe.dao.transfer.OrderToPayDao" p:sessionFactory-ref="hibernateSessionFactory"/>	
 	<bean id="waitingTransferDao" class="systemy.bankowe.dao.transfer.WaitingTransferDao" p:sessionFactory-ref="hibernateSessionFactory"/>	
+	<bean id="realizedTransferDao" class="systemy.bankowe.dao.transfer.RealizedTransferDao" p:sessionFactory-ref="hibernateSessionFactory"/>	
 		
 	<!-- Wstrzykiwanie loggerów -->
 	<bean class="systemy.bankowe.annotations.LoggerPostProcessor">

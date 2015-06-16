@@ -48,6 +48,9 @@
 			path="classpath:liquibase/money/transfer/seq_przelew_wych_zrealizowany.sql"
 			splitStatements="true" />
 		<sqlFile
+			path="classpath:liquibase/money/transfer/seq_przelew_przychodzace.sql"
+			splitStatements="true" />
+		<sqlFile
 			path="classpath:liquibase/money/transfer/seq_przelew_wych_niezrealizowany.sql"
 			splitStatements="true" />
 		<sqlFile

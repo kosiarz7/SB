@@ -1,7 +1,6 @@
 package systemy.bankowe.flows.money.transfer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -9,10 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import systemy.bankowe.dao.transfer.WaitingTransferDao;
+import systemy.bankowe.dto.AccountDto;
 import systemy.bankowe.dto.DefinedRecipientDto;
-import systemy.bankowe.dto.transfer.OutcomingTransfer;
+import systemy.bankowe.dto.transfer.AbstractTransfer;
 import systemy.bankowe.dto.transfer.RealizedTransfer;
 import systemy.bankowe.dto.transfer.TransferType;
+import systemy.bankowe.dto.transfer.UnrealizedTransfer;
 import systemy.bankowe.dto.transfer.WaitingTransfer;
 import systemy.bankowe.security.SpringSecurityContextUtil;
 import systemy.bankowe.services.user.UserData;
@@ -60,20 +61,11 @@ public class MoneyTransferFlow extends AbstractFlowHelper implements Serializabl
         return new MoneyTransferResult(MoneyTransferResult.convertErrorCode(buf));
     }
 
-    public List<WaitingTransfer> getWaitingTransfers(UserData user) {
-        ArrayList<WaitingTransfer> list = new ArrayList<WaitingTransfer>();
-        return list;
+    public void loadTransfers(UserData user, MoneyTransferShowBean bean) {
+      AccountDto accountDto = user.getUserDto().getAccounts().iterator().next();
+      bean.loadTransfers(accountDto.getNumber());
     }
 
-    public List<RealizedTransfer> getRealizedTransfers(UserData user) {
-        ArrayList<RealizedTransfer> list = new ArrayList<RealizedTransfer>();
-        return list;
-    }
-
-    public List<OutcomingTransfer> getOutcomingTransfers(UserData user) {
-        ArrayList<OutcomingTransfer> list = new ArrayList<OutcomingTransfer>();
-        return list;
-    }
 
     public List<DefinedRecipientDto> getRecipients() {
         return recipients;
@@ -81,5 +73,22 @@ public class MoneyTransferFlow extends AbstractFlowHelper implements Serializabl
 
     public void setRecipients(List<DefinedRecipientDto> recipients) {
         this.recipients = recipients;
+    }
+    
+    public String convertTypeToString(AbstractTransfer transfer)
+    {
+    	if (transfer instanceof RealizedTransfer)
+    	{
+    		return "Zrealizowany";
+    	}
+    	else if (transfer instanceof UnrealizedTransfer)
+    	{
+    		UnrealizedTransfer unrealizedTransfer = (UnrealizedTransfer) transfer;
+    		return "Niezrealizowany: " + MoneyTransferResult.convertErrorCode(unrealizedTransfer.getErrorCode());
+    	}
+    	else 
+    	{
+    		return "Przychodzący";
+    	}
     }
 }

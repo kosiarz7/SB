@@ -6,7 +6,8 @@ PROCEDURE pr_przetwarzanie_przel_oczek(i_przetwarzany_dzien DATE DEFAULT SYSDATE
     
 	przelew_oczekujacy przelew_wych_oczekujacy%ROWTYPE;
 	blad INT := 0;
-  l_id_rachunek_odbiorcy INT;
+	l_id_rachunek_odbiorcy INT;
+  	l_zrodlo_nr_rachunku VARCHAR2(26);
 BEGIN
 	OPEN l_oczekujacy_kursor;
 	LOOP
@@ -46,6 +47,18 @@ BEGIN
 				przelew_oczekujacy.ID_TYP_PRZELEWU,
 				przelew_oczekujacy.ID_KLIENT_ZRODLO, 
 				przelew_oczekujacy.ID_RACHUNKU_ZRODLA
+				);
+			SELECT numer INTO l_zrodlo_nr_rachunku FROM rachunki WHERE id_rachunek = przelew_oczekujacy.ID_RACHUNKU_ZRODLA;
+			INSERT INTO przelew_przychodzacy VALUES (
+				seq_przelew_przychodzace.nextval,
+				l_zrodlo_nr_rachunku,
+				przelew_oczekujacy.NAZWA_ODBIORCY,
+				przelew_oczekujacy.TYTUL,
+				przelew_oczekujacy.ADRES,
+				przelew_oczekujacy.KWOTA,
+				l_id_rachunek_odbiorcy,
+				przelew_oczekujacy.ID_TYP_PRZELEWU,
+				i_przetwarzany_dzien
 				);
 		ELSE
 			INSERT INTO przelew_niezrealizowany VALUES(

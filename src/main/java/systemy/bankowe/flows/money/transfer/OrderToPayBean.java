@@ -73,7 +73,6 @@ public abstract class OrderToPayBean implements Serializable{
 	{
 		selectedOrderToPay.setToDate(new Date());
 		int senderId = springSecurityContextUtilBean.getLoggedInUser().get().getUserDto().getId();
-		System.err.println(selectedOrderToPay.toString());
 		selectedOrderToPay.setAccountNumber(accountNumber);
 		int res = orderToPayDao.updateOrderToPay(senderId, selectedOrderToPay);
 		editOrderToPayResult = new OrderToPayResult(OrderToPayResult.convertErrorCode(res));
@@ -84,7 +83,6 @@ public abstract class OrderToPayBean implements Serializable{
 	{
 		selectedOrderToPay.setAccountEmpowered(selectedEmpoweredAccountFormat);
 		int senderId = springSecurityContextUtilBean.getLoggedInUser().get().getUserDto().getId();
-		System.err.println(selectedOrderToPay.toString());
 		selectedOrderToPay.setAccountNumber(accountNumber);
 		int res = orderToPayDao.updateOrderToPay(senderId, selectedOrderToPay);
 		editOrderToPayResult = new OrderToPayResult(OrderToPayResult.convertErrorCode(res));

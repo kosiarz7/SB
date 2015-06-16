@@ -7,25 +7,15 @@
 	<secured attributes="ROLE_USER"/>
 	
 	<var name="controllerVar" class="systemy.bankowe.flows.money.transfer.MoneyTransferFlow"/>
-	
+		<var name="accountNumberVar" class="java.lang.String" />
+
 	<on-start>
-		<evaluate expression="controllerVar.getWaitingTransfers(springSecurityContextUtilBean.getLoggedInUser().get())"
+		<evaluate expression="controllerVar.loadTransfers(springSecurityContextUtilBean.getLoggedInUser().get(), data)"
 			result="flowScope.waitingTransfers" />
-		<evaluate expression="controllerVar.getRealizedTransfers(springSecurityContextUtilBean.getLoggedInUser().get())"
-			result="flowScope.realizedTransfer" />
-		<evaluate expression="controllerVar.getOutcomingTransfers(springSecurityContextUtilBean.getLoggedInUser().get())"
-			result="flowScope.outcomingTransfer" />
 	</on-start>
-	
+
 	<view-state id="moneyTransferShowView">
 		<transition on="moneyTransferShow" to="moneyTransferShow"/>
 	</view-state>
-<!-- 
-	<action-state id="Show">
-		<evaluate expression="controllerVar.submit(orderToPayVar)" result="flowScope.status" />
-		<transition to="orderToPayEnd" />
-	</action-state>
-
-		<view-state id="orderToPayEnd" />
-		 -->
+	<bean-import resource="flow-beans.xml"/>
 </flow>
