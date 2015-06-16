@@ -15,6 +15,15 @@
 					<h:panelGrid columns="2" cellpadding="10">
 						<h:outputLabel value="Rachunek karty :" />
 						<h:outputLabel value="#{chargeCard.account.number}" />
+												
+						<h:outputLabel value="Obiciążony rachunek :" />
+						<h:outputLabel value="#{chargeCard.accountToCharge.number}" />
+						
+						<h:outputLabel value="Saldo :" />
+						<h:outputLabel value="#{chargeCard.balance} zł" />
+						
+						<h:outputLabel value="Limit :" />
+						<h:outputLabel value="#{chargeCard.limit} zł" />
 					
 						<h:outputLabel value="Dostępne środki :" />
 						<h:outputLabel value="#{chargeCard.account.saldo} zł" />
@@ -29,7 +38,7 @@
 						<h:outputLabel value="#{chargeCard.secureCode}" />
 
 						<h:outputLabel value="Zablokowana :" />
-						<h:outputLabel value="#{chargeCard.locked ? 'NIE' : 'TAK'}" />
+						<h:outputLabel value="#{chargeCard.locked ? 'tak' : 'nie'}" />
 						
 						<h:outputLabel value="Dzień rozliczeniowy :" />
 						<h:outputLabel value="#{chargeCard.reportingDayOfTheWeek}" />

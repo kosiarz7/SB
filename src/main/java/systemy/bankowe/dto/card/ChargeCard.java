@@ -1,6 +1,7 @@
 package systemy.bankowe.dto.card;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -56,6 +57,10 @@ public class ChargeCard extends Card {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	public BigDecimal getBalance() {
+		return BigDecimal.valueOf(this.getAccount().getSaldo()).setScale(2, RoundingMode.HALF_UP).subtract(this.getLimit());
 	}
 
 	@Override

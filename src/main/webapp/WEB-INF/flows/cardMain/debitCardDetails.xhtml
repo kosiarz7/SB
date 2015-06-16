@@ -29,7 +29,7 @@
 						<h:outputLabel value="#{debitCard.secureCode}" />
 
 						<h:outputLabel value="Zablokowana :" />
-						<h:outputLabel value="#{debitCard.locked ? 'NIE' : 'TAK'}" />
+						<h:outputLabel value="#{debitCard.locked ? 'tak' : 'nie'}" />
 					</h:panelGrid>
 					<h3>Dzienne limity</h3>
 					<p:dataTable value="#{debitCard}" var="debitCard">

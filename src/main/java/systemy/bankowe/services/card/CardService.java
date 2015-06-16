@@ -275,7 +275,7 @@ public class CardService implements ICardService, Serializable {
 		waitingTransfer.setSenderAccountNumber(card.getAccount().getNumber());
 		waitingTransfer.setTransferType(new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER));
 				
-		int statusCode = waitingTransferDao.submit(card.getAccount().getId(), waitingTransfer);
+		int statusCode = waitingTransferDao.submit(card.getOwner().getId(), waitingTransfer);
 		MoneyTransferResult transferResult = new MoneyTransferResult(MoneyTransferResult.convertErrorCode(statusCode));
 		
 		if (transferResult.isError())
