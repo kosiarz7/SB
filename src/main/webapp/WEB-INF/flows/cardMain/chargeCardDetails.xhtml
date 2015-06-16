@@ -11,14 +11,19 @@
 		<h:form>
 				<p:panel
 					header="#{chargeCard.label} (nr. #{chargeCard.number})"
-					style="margin-bottom:20px">
-					
+					style="margin-bottom:20px">		
+					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+							
 					<div class="right">
 						<p:commandButton action="lock" value="Zablokuj" disabled="#{chargeCard.locked}"/>
 						<p:commandButton action="unlock" value="Odblokuj" disabled="#{not chargeCard.locked}"/>
 						<p:commandButton action="delete" value="Usuń kartę"/>
 					</div>
-					
+					<div>
+							<p:commandButton action="balance" value="Wyrównaj saldo karty"
+							disabled="#{chargeCard.balance.doubleValue() ge 0}"
+							onclick="jQuery(this).addClass('ui-state-disabled')"/>
+					</div>
 					<h:panelGrid columns="2" cellpadding="10">
 						<h:outputLabel value="Rachunek karty :" />
 						<h:outputLabel value="#{chargeCard.account.number}" />
@@ -28,7 +33,7 @@
 						
 						<h:outputLabel value="Saldo :" />
 						<h:outputLabel value="#{chargeCard.balance} zł" />
-						
+												
 						<h:outputLabel value="Limit :" />
 						<h:outputLabel value="#{chargeCard.limit} zł" />
 					

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import systemy.bankowe.dao.card.ICardDao;
@@ -13,6 +16,7 @@ import systemy.bankowe.dto.card.ChargeCard;
 import systemy.bankowe.dto.card.DebitCard;
 import systemy.bankowe.security.SpringSecurityContextUtil;
 import systemy.bankowe.services.card.ICardService;
+import systemy.bankowe.services.card.Result;
 import systemy.bankowe.services.user.UserData;
 
 public class CardBean implements Serializable{
@@ -64,6 +68,26 @@ public class CardBean implements Serializable{
     
     public void unlockCard(int id) {
     	cardService.unlockCard(id);
+    }
+    
+    public boolean payChargeCardBalance(int id) {
+    	Result result = cardService.payChargeCardBalance(id);
+    	if (result.isFail()) {
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd!", result.getCause()));
+    		return false;
+    	}
+    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Przelew w toku, poczkekaj na jego realizacje przed ponowieniem operacji."));
+    	return true;
+    }
+    
+    public boolean deleteCard(int id) {
+    	Result result = cardService.deleteCard(id);
+    	if (result.isFail()) {
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błąd!", result.getCause()));
+    		return false;
+    	}
+    	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Karta usunięta pomyślnie."));
+    	return true;
     }
     
     public boolean addDebitCard(CardData cd) {

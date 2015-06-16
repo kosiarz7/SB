@@ -24,7 +24,14 @@
 		<transition on="back" to="cardMain"/>
 		<transition on="lock" to="lockDebitCard"/>
 		<transition on="unlock" to="unlockDebitCard"/>
+		<transition on="delete" to="deleteDebitCard"/>
 	</view-state>
+	
+	<action-state id="deleteDebitCard">
+		<evaluate expression="cardBean.deleteCard(cardData.cardId)"/>
+		<transition on="yes" to="cardMain"/>
+		<transition on="no" to="debitCardDetails"/>
+	</action-state>
 	
 	<action-state id="lockDebitCard">
 		<evaluate expression="cardBean.lockCard(cardData.cardId)"></evaluate>
@@ -41,9 +48,22 @@
 			<evaluate expression="cardBean.getChargeCard(cardData.cardId)" result="viewScope.chargeCard"></evaluate>
 		</on-entry>
 		<transition on="back" to="cardMain"/>
+		<transition on="delete" to="deleteChargeCard"/>
 		<transition on="lock" to="lockChargeCard"/>
 		<transition on="unlock" to="unlockChargeCard"/>
+		<transition on="balance" to="payBalance"/>
 	</view-state>
+	
+	<action-state id="deleteChargeCard">
+		<evaluate expression="cardBean.deleteCard(cardData.cardId)"/>
+		<transition on="yes" to="cardMain"/>
+		<transition on="no" to="chargeCardDetails"/>
+	</action-state>
+	
+	<action-state id="payBalance">
+		<evaluate expression="cardBean.payChargeCardBalance(cardData.cardId)"/>
+		<transition to="chargeCardDetails"/>
+	</action-state>
 	
 	<action-state id="lockChargeCard">
 		<evaluate expression="cardBean.lockCard(cardData.cardId)"></evaluate>

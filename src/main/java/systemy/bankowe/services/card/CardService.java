@@ -275,7 +275,6 @@ public class CardService implements ICardService, Serializable {
 				new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER),
 				new Date());
 		
-		//waitingTransfer.setTargetName(targetUser.getSurname());
 		waitingTransfer.setSenderAccountNumber(card.getAccount().getNumber());
 		waitingTransfer.setTransferType(new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER));
 				
@@ -315,8 +314,7 @@ public class CardService implements ICardService, Serializable {
 				new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER),
 				new Date());
 		
-		//waitingTransfer.setTargetName(card.getOwner().getSurname());
-		waitingTransfer.setSenderAccountNumber(card.getAccount().getNumber());
+		waitingTransfer.setSenderAccountNumber(card.getAccountToCharge().getNumber());
 		waitingTransfer.setTransferType(new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER));
 				
 		int statusCode = waitingTransferDao.submit(card.getOwner().getId(), waitingTransfer);
