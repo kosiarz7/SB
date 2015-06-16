@@ -15,6 +15,7 @@ public interface ICardDao {
 	public List<ChargeCard> getChargeCardOffer();
 	public DebitCard findDebitCardById(int id);
 	public ChargeCard findChargeCardById(int id);
+	public Card findCardById(int id);
 	public List<DebitCard> getUserDebitCards(UserDto user);
 	public List<ChargeCard> getUserChargeCards(UserDto user);
 	public Card findCardByNumber(String number);

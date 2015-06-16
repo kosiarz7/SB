@@ -12,6 +12,13 @@
 				<p:panel
 					header="#{debitCard.label} (nr. #{debitCard.number})"
 					style="margin-bottom:20px">
+					
+					<div class="right">
+						<p:commandButton action="lock" value="Zablokuj" disabled="#{debitCard.locked}"/>
+						<p:commandButton action="unlock" value="Odblokuj" disabled="#{not debitCard.locked}"/>
+						<p:commandButton action="delete" value="Usuń kartę"/>
+					</div>
+					
 					<h:panelGrid columns="2" cellpadding="10">
 						<h:outputLabel value="Rachunek karty :" />
 						<h:outputLabel value="#{debitCard.account.number}" />

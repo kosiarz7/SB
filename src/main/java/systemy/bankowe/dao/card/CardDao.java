@@ -24,6 +24,7 @@ public class CardDao extends HibernateUtil implements ICardDao, Serializable {
 	private static final String GET_DEBIT_CARD_OFFER = "from DebitCard c where c.enabled = 'Y' and c.number is null";
 	private static final String GET_CHARGE_CARD_OFFER = "from ChargeCard c where c.enabled = 'Y' and c.number is null";
 	private static final String GET_DEBIT_CARD_BY_ID = "from DebitCard c where c.enabled = 'Y' and c.id = :id";
+	private static final String GET_CARD_BY_ID = "from Card c where c.enabled = 'Y' and c.id = :id";
 	private static final String GET_CHARGE_CARD_BY_ID = "from ChargeCard c where c.enabled = 'Y' and c.id = :id";
     private static final String GET_USERS_DEBIT_CARDS = "from DebitCard c where c.enabled = 'Y' and OWNER_ID_KLIENT = :user";
     private static final String GET_USERS_CHARGE_CARDS = "from ChargeCard c where c.enabled = 'Y' and OWNER_ID_KLIENT = :user";
@@ -228,6 +229,38 @@ public class CardDao extends HibernateUtil implements ICardDao, Serializable {
         try {
             tx = session.beginTransaction();
             cards = session.createQuery(GET_CHARGE_CARD_BY_ID).setParameter("id", id).setMaxResults(1).list();
+            tx.commit();
+        }
+        catch (RuntimeException e) {
+            if (null != tx) {
+                tx.rollback();
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        
+        if (cards.isEmpty()) {
+            return null;
+        }
+        else {
+            return cards.get(0);
+        }
+	}
+	
+	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Card findCardById(int id) {
+        Session session = openSession();
+        Transaction tx = null;
+        List<Card> cards = null;
+        
+        try {
+            tx = session.beginTransaction();
+            cards = session.createQuery(GET_CARD_BY_ID).setParameter("id", id).setMaxResults(1).list();
             tx.commit();
         }
         catch (RuntimeException e) {

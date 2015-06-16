@@ -58,6 +58,14 @@ public class CardBean implements Serializable{
         return user.isPresent() ? user.get().getUserDto().getAccounts() : new ArrayList<AccountDto>();
     }
     
+    public void lockCard(int id) {
+    	cardService.lockCard(id);
+    }
+    
+    public void unlockCard(int id) {
+    	cardService.unlockCard(id);
+    }
+    
     public boolean addDebitCard(CardData cd) {
     	return cardService.addDebitCard(cd);
     }

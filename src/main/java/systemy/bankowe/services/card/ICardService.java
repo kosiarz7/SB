@@ -16,4 +16,8 @@ public interface ICardService {
 	public List<DebitCard> loggedInUserDebitCards();
 	public List<ChargeCard> loggedInUserChargeCards();
 	public Result pay(PaymentTerminalData data);
+	public Result payChargeCardBalance(int id);
+	public boolean lockCard(int id);
+	public boolean unlockCard(int id);
+	public Result deleteCard(int id);
 }

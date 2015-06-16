@@ -168,6 +168,10 @@ public class CardService implements ICardService, Serializable {
 		if (card == null)
 			return new Result("Niepoprawny numer karty");
 		
+		// czy karta zablokowana
+		if (card.isLocked())
+			return new Result("Karta zablokowana");
+		
 		// spr. pin
 		if (card.getPin().equals(data.getPin()) == false)
 			return new Result("Niepoprawny kod PIN");
@@ -264,14 +268,14 @@ public class CardService implements ICardService, Serializable {
 		WaitingTransfer waitingTransfer = new WaitingTransfer(
 				0,
 				destinationAccount.getNumber(),
-				destinationAccount.getName(),
+				targetUser.getSurname(),
 				"Przelew kartą",
 				targetUser.getAddress(),
 				data.getAmount(),
 				new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER),
 				new Date());
 		
-		waitingTransfer.setTargetName(targetUser.getSurname());
+		//waitingTransfer.setTargetName(targetUser.getSurname());
 		waitingTransfer.setSenderAccountNumber(card.getAccount().getNumber());
 		waitingTransfer.setTransferType(new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER));
 				
@@ -289,6 +293,82 @@ public class CardService implements ICardService, Serializable {
 		return Result.OK;
 	}
 	
+	
+	
+	@Override
+	public Result payChargeCardBalance(int id) {
+		
+		ChargeCard card = cardDao.findChargeCardById(id);
+		if (card == null)
+			return new Result("Nie odnaleziono karty obciążeniowej");
+		
+		if (card.getBalance().compareTo(BigDecimal.ZERO) >= 0)
+			return new Result("Saldo karty jest nieujemne");
+		
+		WaitingTransfer waitingTransfer = new WaitingTransfer(
+				0,
+				card.getAccount().getNumber(),
+				card.getOwner().getSurname(),
+				"Wyrównanie rachunku karty obciążeniowej",
+				card.getOwner().getAddress(),
+				BigDecimal.ZERO.subtract(card.getBalance()).doubleValue(),
+				new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER),
+				new Date());
+		
+		//waitingTransfer.setTargetName(card.getOwner().getSurname());
+		waitingTransfer.setSenderAccountNumber(card.getAccount().getNumber());
+		waitingTransfer.setTransferType(new TransferType(TransferType.TransferTypeEnum.ONE_TIME_TRANSFER));
+				
+		int statusCode = waitingTransferDao.submit(card.getOwner().getId(), waitingTransfer);
+		MoneyTransferResult transferResult = new MoneyTransferResult(MoneyTransferResult.convertErrorCode(statusCode));
+		
+		if (transferResult.isError())
+			return new Result("Błąd w trakcie definiowania przelewu - " + transferResult.getErrorMessage());
+		
+		return Result.OK;
+	}
+
+	@Override
+	public boolean lockCard(int id) {
+		Card card = cardDao.findCardById(id);
+		if (card == null)
+			return false;
+		
+		card.setLocked(true);
+		commonCardDao.update(card);
+		return true;		
+	}
+
+	@Override
+	public boolean unlockCard(int id) {
+		Card card = cardDao.findCardById(id);
+		if (card == null)
+			return false;
+		
+		card.setLocked(false);
+		commonCardDao.update(card);
+		return true;
+		
+	}
+
+	@Override
+	public Result deleteCard(int id) {
+		Card card = cardDao.findCardById(id);
+		if (card == null)
+			return new Result("Nie odnaleziono karty");
+		
+		if (card instanceof ChargeCard) {
+			ChargeCard chargeCard = (ChargeCard) card;
+			if (chargeCard.getBalance().compareTo(BigDecimal.ZERO) < 0)
+				return new Result("Karta obciążeniowa musi mieć nieujemne saldo!");
+		}
+		
+		card.setEnabled(false);
+		commonCardDao.update(card);
+		
+		return Result.OK;
+	}
+
 	private static Date startOfDay() {
 
 		Instant instant = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();

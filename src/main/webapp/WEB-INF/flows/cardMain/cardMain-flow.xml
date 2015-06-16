@@ -22,14 +22,38 @@
 			<evaluate expression="cardBean.getDebitCard(cardData.cardId)" result="viewScope.debitCard"></evaluate>
 		</on-entry>
 		<transition on="back" to="cardMain"/>
+		<transition on="lock" to="lockDebitCard"/>
+		<transition on="unlock" to="unlockDebitCard"/>
 	</view-state>
+	
+	<action-state id="lockDebitCard">
+		<evaluate expression="cardBean.lockCard(cardData.cardId)"></evaluate>
+		<transition to="debitCardDetails"/>
+	</action-state>
+	
+	<action-state id="unlockDebitCard">
+		<evaluate expression="cardBean.unlockCard(cardData.cardId)"></evaluate>
+		<transition to="debitCardDetails"/>
+	</action-state>
 	
 	<view-state id="chargeCardDetails">
 		<on-entry>
 			<evaluate expression="cardBean.getChargeCard(cardData.cardId)" result="viewScope.chargeCard"></evaluate>
 		</on-entry>
 		<transition on="back" to="cardMain"/>
+		<transition on="lock" to="lockChargeCard"/>
+		<transition on="unlock" to="unlockChargeCard"/>
 	</view-state>
+	
+	<action-state id="lockChargeCard">
+		<evaluate expression="cardBean.lockCard(cardData.cardId)"></evaluate>
+		<transition to="chargeCardDetails"/>
+	</action-state>
+	
+	<action-state id="unlockChargeCard">
+		<evaluate expression="cardBean.unlockCard(cardData.cardId)"></evaluate>
+		<transition to="chargeCardDetails"/>
+	</action-state>
 
 	<bean-import resource="flow-beans.xml" />
 </flow>
