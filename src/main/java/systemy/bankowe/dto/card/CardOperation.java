@@ -2,6 +2,7 @@ package systemy.bankowe.dto.card;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -103,10 +104,13 @@ public class CardOperation implements Serializable{
 
 	@Override
 	public String toString() {
-		return "CardOperation [id=" + id + ", cardDiscriminator="
-				+ cardDiscriminator + ", cardOperationType="
-				+ cardOperationType + ", price=" + price + ", interest="
-				+ interest + ", history=" + history + "]";
+		
+        for (Map.Entry<String, String> entry : CardOperationType.getAllTypes().entrySet()) {
+            if (entry.getValue().equals(this.cardOperationType)) {
+                return entry.getKey();
+            }
+        }
+        return this.cardOperationType;
 	}
 
 	

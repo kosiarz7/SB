@@ -45,6 +45,14 @@ public class CardBean implements Serializable{
 		return cardService.loggedInUserChargeCards();
 	}
 	
+	public DebitCard getDebitCard(int id) {
+		return cardService.getDebitCardById(id);
+	}
+	
+	public ChargeCard getChargeCard(int id) {
+		return cardService.getChargeCardById(id);
+	}
+	
     public List<AccountDto> getAccounts() {
         Optional<UserData> user = springSecurityUtil.getLoggedInUser();
         return user.isPresent() ? user.get().getUserDto().getAccounts() : new ArrayList<AccountDto>();

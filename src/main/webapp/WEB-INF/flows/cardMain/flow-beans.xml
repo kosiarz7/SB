@@ -5,6 +5,8 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="cardData" class="systemy.bankowe.flows.card.CardData" scope="flow"/>
+
 	<bean id="cardBean" class="systemy.bankowe.flows.card.CardBean" scope="flow">
 		   <property name="springSecurityUtil" ref="springSecurityContextUtilBean"/>
 		   <property name="cardDao" ref="cardDao"/>

@@ -295,6 +295,18 @@ public class CardService implements ICardService, Serializable {
 		return Date.from(instant);
 	}
 
+	
+	
+
+	@Override
+	public DebitCard getDebitCardById(int id) {
+		return cardDao.findDebitCardById(id);
+	}
+
+	@Override
+	public ChargeCard getChargeCardById(int id) {
+		return cardDao.findChargeCardById(id);
+	}
 
 	@Override
 	public List<DebitCard> loggedInUserDebitCards() {

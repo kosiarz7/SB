@@ -40,7 +40,6 @@ public class CardHistory implements Serializable{
 	private CardOperation operation;
 
 	
-	
 	public CardHistory() {
 		super();
 	}
@@ -103,7 +102,17 @@ public class CardHistory implements Serializable{
 	public void setOperation(CardOperation operation) {
 		this.operation = operation;
 	}
-	
-	
 
+	public BigDecimal getProductPrice() {
+		return BigDecimal.valueOf(100)
+				.multiply(this.ammount.subtract(this.operation.getPrice()))
+				.divide(this.operation.getInterest().add(BigDecimal.valueOf(100)));
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
 }

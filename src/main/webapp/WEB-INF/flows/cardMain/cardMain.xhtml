@@ -9,6 +9,7 @@
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 	<ui:define name="pageContent">
 		<h:form>
+
 			<div class="ui-grid ui-grid-responsive">
 			<h2>Karty debetowe
 			</h2>
@@ -32,32 +33,13 @@
 						<h:outputText value="#{debitCard.expirationDate}"/>
 					</p:column>
 					<p:column>
-						<f:facet name="header">CVV2</f:facet>
-						<h:outputText value="#{debitCard.secureCode}"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">Aktywna</f:facet>
-						<h:outputText value="#{debitCard.enabled}"/>
-					</p:column>
-					<p:column>
 						<f:facet name="header">Zablokowana</f:facet>
-						<h:outputText value="#{debitCard.locked}"/>
+						<h:outputText value="#{debitCard.locked ? 'tak' : 'nie'}"/>
 					</p:column>
 					<p:column>
-						<f:facet name="header">Dzienny limit</f:facet>
-						<h:outputText value="#{debitCard.summaryDialyMaxAmmount} zł"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">Op. gotówkowe</f:facet>
-						<h:outputText value="#{debitCard.cashDialyMaxAmmount} zł"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">Op. bezgotówkowe</f:facet>
-						<h:outputText value="#{debitCard.noncashDailyMaxAmmount}"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">Op. zbliżeniowe</f:facet>
-						<h:outputText value="#{debitCard.proximityDialyMaxOperations} op., #{debitCard.proximityDialyMaxAmmount} zł"/>
+						<p:commandButton action="debitCardDetails" value="Szczegóły">
+							<f:setPropertyActionListener target="#{cardData.cardId}" value="#{debitCard.id}" />
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 				
@@ -81,40 +63,13 @@
 						<h:outputText value="#{chargeCard.expirationDate}"/>
 					</p:column>
 					<p:column>
-						<f:facet name="header">CVV2</f:facet>
-						<h:outputText value="#{chargeCard.secureCode}"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">Aktywna</f:facet>
-						<h:outputText value="#{chargeCard.enabled}"/>
-					</p:column>
-					<p:column>
 						<f:facet name="header">Zablokowana</f:facet>
-						<h:outputText value="#{chargeCard.locked}"/>
+						<h:outputText value="#{chargeCard.locked ? 'tak' : 'nie'}"/>
 					</p:column>
 					<p:column>
-						<f:facet name="header">Łączny limit</f:facet>
-						<h:outputText value="#{chargeCard.limit}"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">Dzienny limit</f:facet>
-						<h:outputText value="#{chargeCard.summaryDialyMaxAmmount} zł"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">Op. gotówkowe</f:facet>
-						<h:outputText value="#{chargeCard.cashDialyMaxAmmount} zł"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">Op. bezgotówkowe</f:facet>
-						<h:outputText value="#{chargeCard.noncashDailyMaxAmmount}"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">Op. zbliżeniowe</f:facet>
-						<h:outputText value="#{chargeCard.proximityDialyMaxOperations} op., #{chargeCard.proximityDialyMaxAmmount} zł"/>
-					</p:column>
-					<p:column>
-					<f:facet name="header">Dzień rozliczeniowy</f:facet>
-						<h:outputText value="#{chargeCard.reportingDayOfTheWeek}"/>
+						<p:commandButton action="chargeCardDetails" value="Szczegóły">
+							<f:setPropertyActionListener target="#{cardData.cardId}" value="#{chargeCard.id}" />
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</div>

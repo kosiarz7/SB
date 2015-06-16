@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pageContent">
+		<h:form>
+				<p:panel
+					header="#{debitCard.label} (nr. #{debitCard.number})"
+					style="margin-bottom:20px">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:outputLabel value="Rachunek karty :" />
+						<h:outputLabel value="#{debitCard.account.number}" />
+					
+						<h:outputLabel value="Dostępne środki :" />
+						<h:outputLabel value="#{debitCard.account.saldo} zł" />
+
+						<h:outputLabel value="Data aktywacji :" />
+						<h:outputLabel value="#{debitCard.activationDate}" />
+
+						<h:outputLabel value="Data ważności :" />
+						<h:outputLabel value="#{debitCard.activationDate}" />
+
+						<h:outputLabel value="CVV2 :" />
+						<h:outputLabel value="#{debitCard.secureCode}" />
+
+						<h:outputLabel value="Zablokowana :" />
+						<h:outputLabel value="#{debitCard.locked ? 'NIE' : 'TAK'}" />
+					</h:panelGrid>
+					<h3>Dzienne limity</h3>
+					<p:dataTable value="#{debitCard}" var="debitCard">
+						<p:column>
+							<f:facet name="header">Łączny</f:facet>
+							<h:outputText value="#{debitCard.summaryDialyMaxAmmount} zł" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">Operacje gotówkowe</f:facet>
+							<h:outputText value="#{debitCard.cashDialyMaxAmmount} zł" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">Operacje bezgotówkowe</f:facet>
+							<h:outputText value="#{debitCard.noncashDailyMaxAmmount} zł" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">Operacje zbliżeniowe</f:facet>
+							<h:outputText
+								value="#{debitCard.proximityDialyMaxOperations} op., #{debitCard.proximityDialyMaxAmmount} zł" />
+						</p:column>
+					</p:dataTable>
+					<h3>Historia operacji</h3>
+					<p:dataTable value="#{debitCard.history}" var="history" rows="10" paginator="true"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+						<p:column sortBy="#{history.id}">
+							<f:facet name="header">ID</f:facet>
+							<h:outputText value="#{history.id}"/>
+						</p:column>
+						<p:column sortBy="#{history.timestamp}">
+							<f:facet name="header">Data</f:facet>
+							<h:outputText value="#{history.timestamp}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Koszt</f:facet>
+							<h:outputText value="#{history.productPrice} zł"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Prowizja</f:facet>
+							<h:outputText value="#{history.productPrice * history.operation.interest + history.operation.price} zł"/>
+						</p:column>
+						<p:column sortBy="#{history.ammount}">
+							<f:facet name="header">Razem</f:facet>
+							<h:outputText value="#{history.ammount} zł"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Rodzaj operacji</f:facet>
+							<h:outputText value="#{history.operation}"/>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -9,11 +9,18 @@ public class CardData implements Serializable{
 	 */
 	private static final long serialVersionUID = 3384872190342752236L;
 	
+	private Integer cardId;
 	private Integer cardOfferId;
 	private String pin;
 	private Integer accountId;
 	private String label;
 	
+	public Integer getCardId() {
+		return cardId;
+	}
+	public void setCardId(Integer cardId) {
+		this.cardId = cardId;
+	}
 	public Integer getCardOfferId() {
 		return cardOfferId;
 	}

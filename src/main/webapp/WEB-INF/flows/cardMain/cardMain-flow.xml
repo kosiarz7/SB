@@ -8,16 +8,28 @@
 	<!-- Zabezpieczenie flow przez Spring Security -->
 	<secured attributes="ROLE_USER" />
 
-	  <on-start>
-        <evaluate expression="cardBean.getDebitCards()" 
-                  result="flowScope.debitCards" />
-        <evaluate expression="cardBean.getChargeCards()" 
-                  result="flowScope.chargeCards" />
-    </on-start>
-
 	<view-state id="cardMain">
-
+		<on-entry>
+			<evaluate expression="cardBean.getDebitCards()" result="flowScope.debitCards" />
+	        <evaluate expression="cardBean.getChargeCards()" result="flowScope.chargeCards" />
+		</on-entry>
+		<transition on="debitCardDetails" to="debitCardDetails"/>
+		<transition on="chargeCardDetails" to="chargeCardDetails"/>
 	</view-state>
 	
+	<view-state id="debitCardDetails">
+		<on-entry>
+			<evaluate expression="cardBean.getDebitCard(cardData.cardId)" result="viewScope.debitCard"></evaluate>
+		</on-entry>
+		<transition on="back" to="cardMain"/>
+	</view-state>
+	
+	<view-state id="chargeCardDetails">
+		<on-entry>
+			<evaluate expression="cardBean.getChargeCard(cardData.cardId)" result="viewScope.chargeCard"></evaluate>
+		</on-entry>
+		<transition on="back" to="cardMain"/>
+	</view-state>
+
 	<bean-import resource="flow-beans.xml" />
 </flow>

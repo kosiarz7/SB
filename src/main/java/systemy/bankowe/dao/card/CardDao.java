@@ -218,6 +218,7 @@ public class CardDao extends HibernateUtil implements ICardDao, Serializable {
 	
 	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ChargeCard findChargeCardById(int id) {
         Session session = openSession();
