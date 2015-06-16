@@ -15,7 +15,7 @@ BEGIN
             job_name => 'PRZET_PRZEL_OCZEK',
             job_type => 'STORED_PROCEDURE',
             job_action => 'PR_PRZETWARZANIE_PRZEL_OCZEK',
-            number_of_arguments => 1,
+            number_of_arguments => 0,
             start_date => NULL,
             repeat_interval => 'FREQ=MINUTELY;BYSECOND=0',
             end_date => NULL,
@@ -31,13 +31,7 @@ BEGIN
              name => 'PRZET_PRZEL_OCZEK',
              attribute => 'logging_level', value => DBMS_SCHEDULER.LOGGING_RUNS
     );
-
-    SYS.DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE(
-             job_name => 'PRZET_PRZEL_OCZEK',
-             argument_position => 1,
-             argument_value => ''
-    );
-            
+     
     SYS.DBMS_SCHEDULER.enable(name => 'PRZET_PRZEL_OCZEK');
 END;
 /
