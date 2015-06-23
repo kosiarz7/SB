@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.bean.ManagedProperty;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -38,10 +40,12 @@ public class CreditBean implements Serializable {
 	private static final long serialVersionUID = -899129693447271786L;
 	
 	SpringSecurityContextUtilBean springSecurityContextUtilBean;
-	
+	private CreditDto currentCredit;
 	private IUserDao userDao;
 	private ICreditDao creditDao;
 	private CommonDao<CreditDto> commonCreditDao;
+	@ManagedProperty("#{param['creditList:getById']}")
+	private Integer creditId;
 	
 	private UserDto user;
 	
@@ -106,6 +110,22 @@ public class CreditBean implements Serializable {
 
 	public void setUser(UserDto user) {
 		this.user = user;
+	}
+
+	public CreditDto getCurrentCredit() {
+		return currentCredit;
+	}
+
+	public void setCurrentCredit(CreditDto currentCredit) {
+		this.currentCredit = currentCredit;
+	}
+
+	public Integer getCreditId() {
+		return creditId;
+	}
+
+	public void setCreditId(Integer creditId) {
+		this.creditId = creditId;
 	}
 	
 }

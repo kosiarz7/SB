@@ -5,7 +5,12 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<bean id="data" class="systemy.bankowe.flows.credit.SimulationData" scope="flow" init-method="init" />
+	<bean id="data" class="systemy.bankowe.flows.credit.SimulationData" scope="flow" init-method="init">
+    	<property name="creditDao" ref="CreditDao" />
+    	<property name="commonCreditDao" ref="commonDao"/>
+    	<property name="commonCreditAccountDao" ref="commonDao"/>
+    	<property name="userDao" ref="userDao" />
+	</bean>
 	
 	<bean id="simulationController" class="systemy.bankowe.flows.credit.SimulationBean">
     	<property name="creditDao" ref="CreditDao" />

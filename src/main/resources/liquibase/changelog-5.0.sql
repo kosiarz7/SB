@@ -41,8 +41,8 @@ numer_raty INT NOT NULL,
 kapital INT NOT NULL,
 odsetki INT NOT NULL,
 data_planowa_wplaty DATE NOT NULL,
-data_wplaty_raty DATE NOT NULL,
-odsetki_karne INT NOT NULL,
+data_wplaty_raty DATE,
+odsetki_karne INT,
 id_kredytu INT NOT NULL,
 CONSTRAINT kredyt_raty_fk FOREIGN KEY (id_kredytu) REFERENCES kredyt(id_kredytu)
 );
@@ -63,3 +63,8 @@ CONSTRAINT kredyt_oprocentowanie_fk FOREIGN KEY (id_kredytu) REFERENCES kredyt(i
    
 --changeset lothrimondWDZ:8
 ALTER TABLE oprocentowanie ADD wartosc INT NOT NULL;
+
+--changeset lothrimondWDZ:88
+ALTER TABLE rachunek_kredytowy DROP COLUMN id_kredytu;
+ALTER TABLE kredyt ADD id_rachunek INT NOT NULL REFERENCES rachunek_kredytowy(id_rachunek);
+ALTER TABLE kredyt DROP COLUMN id_klient;

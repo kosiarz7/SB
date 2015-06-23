@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,6 +19,8 @@ public class CreditTypeDto implements Serializable {
 	private static final long serialVersionUID = 6256516386454396987L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CREDIT_TYPE_SEQ")
+    @SequenceGenerator(name = "CREDIT_TYPE_SEQ", sequenceName = "RODZAJ_KREDYTU_SEQ", allocationSize = 1)
     @Column(name = "id_rodzaju", nullable = false)
     private int id;
 

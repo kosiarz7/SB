@@ -15,8 +15,15 @@
 		<on-render>
 			<evaluate expression="data.createSimulation()" result="viewScope.credit"/>
 		</on-render>
-		<transition to="showInstalments" />
+		<transition on="addCredit" to="newCredit" />
 	</view-state>
+	
+	<action-state id="newCredit">
+		<evaluate expression="data.createCredit()" />
+		<transition to="endFlow" />
+	</action-state>
+	
+	<end-state id="endFlow" view="externalRedirect:/credit"/>
 	
 	<bean-import resource="flow-beans.xml" />
 </flow>

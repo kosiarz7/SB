@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.bean.ManagedProperty;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -42,7 +44,6 @@ public class SimulationBean implements Serializable {
 	private IUserDao userDao;
 	private ICreditDao creditDao;
 	private CommonDao<CreditDto> commonCreditDao;
-	
 	private UserDto user;
 	
 	public List<AccountDto> getUserAccounts() {

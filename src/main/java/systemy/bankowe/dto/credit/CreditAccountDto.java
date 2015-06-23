@@ -20,6 +20,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import systemy.bankowe.dto.RoleDto;
 import systemy.bankowe.dto.UserDto;
@@ -38,6 +40,7 @@ public class CreditAccountDto implements Serializable {
 	@JoinColumn(name="id_klient")
     private UserDto klient;
     
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="rachunek")
     private List<CreditDto> kredyty;
 //    @ManyToOne(fetch = FetchType.EAGER, targetEntity = CreditDto.class)

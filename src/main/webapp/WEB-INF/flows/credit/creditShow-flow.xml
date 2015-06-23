@@ -11,6 +11,14 @@
 		 <on-entry>
 			<evaluate expression="creditShowController.getCredits()" result="viewScope.credits" />
 		</on-entry>
+		<transition on="showHistory" to="history" />
+<!-- 		<on-exit> -->
+<!-- 			<set name="flowScope.idCredit" value="creditShowController.creditId"></set> -->
+<!-- 		</on-exit> -->
+	</view-state>
+	
+	<view-state id="history">
+		<transition on="showCredits" to="home"/>
 	</view-state>
 	
 	<bean-import resource="flow-beans.xml" />
